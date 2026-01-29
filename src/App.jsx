@@ -14,8 +14,35 @@ const App = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Nuovo stato per mobile
   const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false); // Per il dropdown
-  
+
+  const [scale, setScale] = useState(0.45);
   const cardRef = useRef(null);
+  // NUOVO: Calcolo dinamico della dimensione per adattarsi a OGNI schermo
+  useEffect(() => {
+    const calculateScale = () => {
+      const screenWidth = window.innerWidth;
+      // Se siamo su mobile (meno di 768px)
+      if (screenWidth < 768) {
+        // La card è larga 1080px.
+        // Vogliamo lasciare 40px di margine totale (20px a dx, 20px a sx).
+        // La formula è: (LarghezzaSchermo - Margine) / LarghezzaCard
+        const newScale = (screenWidth - 40) / 1080;
+        setScale(newScale);
+        setIsMobileMenuOpen(false); // Chiudiamo menu se si ridimensiona
+      } else {
+        // Su desktop scala fissa comoda
+        setScale(0.45);
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    // Calcola subito
+    calculateScale();
+    
+    // Ricalcola se l'utente ruota il telefono o ridimensiona
+    window.addEventListener('resize', calculateScale);
+    return () => window.removeEventListener('resize', calculateScale);
+  }, []);
 
   // Dati
   const [data, setData] = useState({
@@ -196,13 +223,18 @@ const App = () => {
         </div>
 
         {/* Canvas Scalabile */}
-        <div className="relative w-full h-full flex items-center justify-center p-6 md:p-10">
-          <div className="origin-center shadow-2xl transition-all duration-300 ease-out" 
-               style={{ 
-                   transform: window.innerWidth < 768 ? 'scale(0.28)' : 'scale(0.45)', // Scala dinamica base
-                   maxHeight: '100%',
-                   maxWidth: '100%'
-               }}>
+        <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+          {/* Il contenitore esterno gestisce il posizionamento.
+             Il div interno ha dimensione FISSA (1080x1350) ma viene scalato visivamente.
+          */}
+          <div 
+            className="origin-center shadow-2xl transition-transform duration-300 ease-out flex-shrink-0" 
+            style={{ 
+               width: '1080px',   // Forza larghezza reale
+               height: '1350px',  // Forza altezza reale
+               transform: `scale(${scale})`, // Usa la scala calcolata matematicamente
+            }}
+          >
              {ActiveTemplate && (
                <ActiveTemplate.Render 
                   data={data} 
