@@ -1,16 +1,70 @@
-# React + Vite
+# 🎨 DuoCanvas - Generatore Grafiche Sportive
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web App progettata per la squadra **Duo Ligones**. Permette di generare rapidamente grafiche social (Risultati, Prossimo Turno, ecc.) direttamente da browser o smartphone, mantenendo uno stile coerente e professionale.
 
-Currently, two official plugins are available:
+🔗 **Link Live:** [https://PtrTella.github.io/DuoCanvas/](https://PtrTella.github.io/DuoCanvas/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Funzionalità
 
-## React Compiler
+* **Export PNG Alta Qualità:** Genera immagini pronte per Instagram (1080x1350px).
+* **Mobile Experience Nativa:**
+    * Interfaccia ottimizzata per smartphone.
+    * Menu di modifica a comparsa ("Sheet") stile app.
+    * Nessun lag con la tastiera virtuale (logica resize intelligente).
+* **Sistema Modulare:** Facile aggiunta di nuovi template senza rompere il codice esistente.
+* **Gestione Sponsor:** I loghi sponsor sono applicati automaticamente a tutti i template.
+* **Temi Dinamici:** Cambio colore sociale (Arancione, Blu, Verde, Nero) istantaneo.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Tecnologia
 
-## Expanding the ESLint configuration
+* **Core:** React + Vite
+* **Styling:** Tailwind CSS (v4)
+* **Export:** html-to-image + downloadjs
+* **Icons:** Lucide React
+* **Hosting:** GitHub Pages
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🚀 Come iniziare (Sviluppo Locale)
+
+Se vuoi modificare il codice o aggiungere template sul tuo computer:
+
+1.  **Clona la repository:**
+    ```bash
+    git clone [https://github.com/PtrTella/DuoCanvas.git](https://github.com/PtrTella/DuoCanvas.git)
+    cd DuoCanvas
+    ```
+
+2.  **Installa le dipendenze:**
+    ```bash
+    npm install
+    ```
+
+3.  **Avvia il server di sviluppo:**
+    ```bash
+    npm run dev
+    ```
+    Visita il link mostrato (solitamente `http://localhost:5173/DuoCanvas/`).
+
+---
+
+## 📂 Struttura del Progetto
+
+Il progetto segue un'architettura modulare per facilitare la manutenzione.
+
+```text
+DuoCanvas/
+├── public/
+│   └── logos/           # Immagini statiche (Sponsor, Favicon)
+├── src/
+│   ├── components/
+│   │   ├── editor/      # Componenti dell'interfaccia (Pannello Controlli, Selettore)
+│   │   └── UI/          # Componenti grafici base (BaseCard, MobileSheet)
+│   ├── data/
+│   │   └── templateRegistry.js  # IL CERVELLO: Qui si registrano i nuovi template
+│   ├── templates/       # I LAYOUT: Qui vivono i file dei singoli template
+│   │   ├── MatchResult.jsx
+│   │   └── NextMatch.jsx
+│   ├── App.jsx          # Logica principale e gestione stati
+│   └── index.css        # Importazione Tailwind
+└── vite.config.js       # Configurazione path base per GitHub Pages
