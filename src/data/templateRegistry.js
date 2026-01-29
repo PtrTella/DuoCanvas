@@ -1,7 +1,9 @@
 import { MatchResult } from '../templates/MatchResult';
+import { NextMatch } from '../templates/NextMatch';
 
 export const TEMPLATES = [
   MatchResult,
+  NextMatch
 ];
 
 export const THEMES = {
