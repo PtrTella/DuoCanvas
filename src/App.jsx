@@ -22,17 +22,19 @@ const App = () => {
   const cardRef = useRef(null);
   const prevWidth = useRef(window.innerWidth);
 
-  const [data, setData] = useState({
+const [data, setData] = useState({
     homeTeam: "Duo Ligones",
     awayTeam: "Avversari",
     homeScore: 85,
     awayScore: 72,
-    matchDay: "1",
+    matchDay: "12", // Usato per la giornata
+    championship: "Serie B - Girone Silver",
     date: "Sab 21 Ott",
     time: "21:30",
-    arena: "PalaDuo",
+    arena: "Pala Penazzi",
+    arenaAddress: "Via dello Sport, 10", // <--- Aggiungiamo anche l'indirizzo se vuoi
     coach: "Coach Smith",
-    rosterList: "04 Rossi M.\n10 Bianchi L."
+    rosterList: "00 Rossi M.\n04 Bianchi L.\n09 Verdi G.\n11 Neri P.\n13 Gialli A.\n23 Jordan M.\n24 Bryant K.\n30 Curry S.\n34 O'Neal S.\n41 Nowitzki D.\n77 Doncic L.\n99 Wembanyama V."
   });
 
   const handleDataChange = (key, value) => {
