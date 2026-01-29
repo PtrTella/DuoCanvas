@@ -181,26 +181,36 @@ const App = () => {
   const CurrentTheme = THEMES[themeColor];
 
   // Calcolo Scala e Resize
+  // Calcolo Scala e Resize (CORRETTO PER MOBILE)
   useEffect(() => {
-    const calculateScale = () => {
+    const handleResize = () => {
       const screenWidth = window.innerWidth;
-      // Se mobile
+      
+      // 1. GESTIONE SCALA (Immagine al centro)
+      // Se siamo su mobile
       if (screenWidth < 768) {
-        // (Screen - Margine 40px) / LarghezzaCard 1080
+        // Calcola la scala basata sulla larghezza
         const newScale = (screenWidth - 40) / 1080;
         setScale(newScale);
-        setIsMobileMenuOpen(false); // Chiudi menu su resize
+      
       } else {
-        // Desktop fisso
+        // Se siamo su Desktop
         setScale(0.45);
-        if (screenWidth >= 768) setIsMobileMenuOpen(false);
+        
+        // Chiudi il menu mobile SOLO se l'utente allarga la finestra e diventa desktop
+        setIsMobileMenuOpen(false);
       }
     };
 
-    calculateScale();
-    window.addEventListener('resize', calculateScale);
-    return () => window.removeEventListener('resize', calculateScale);
-  }, []);
+    // Esegui subito all'avvio
+    handleResize();
+
+    // Ascolta i cambiamenti
+    window.addEventListener('resize', handleResize);
+    
+    // Pulizia
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Dipendenze vuote = si attiva al mount
 
   // Props condivise per i pannelli (per non riscriverle due volte)
   const sharedControlProps = {
