@@ -6,7 +6,7 @@ import { Layout, Download, Edit3 } from 'lucide-react';
 // Import Dati
 import { TEMPLATES, THEMES } from './data/templateRegistry';
 
-// Import Componenti Separati
+// Import Componenti Separati (ORA USIAMO SOLO QUESTI)
 import ControlsPanel from './components/editor/ControlsPanel';
 import MobileSheet from './components/UI/MobileSheet';
 
@@ -15,6 +15,7 @@ const App = () => {
   const [themeColor, setThemeColor] = useState('orange');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // isTemplateSelectorOpen serve a ControlsPanel, lo passiamo come prop
   const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false);
   const [scale, setScale] = useState(0.45);
   
@@ -55,15 +56,21 @@ const App = () => {
   const ActiveTemplate = TEMPLATES.find(t => t.id === activeTemplateId);
   const CurrentTheme = THEMES[themeColor];
 
-  // LOGICA "ANTI-LAG" RESIZE
+  // LOGICA "ANTI-LAG" RESIZE + PERCENTUALE
   useEffect(() => {
     const handleResize = () => {
       const currentWidth = window.innerWidth;
+      
+      // Blocca il ricalcolo se cambia solo l'altezza (es. tastiera mobile)
       if (currentWidth === prevWidth.current) return;
       prevWidth.current = currentWidth; 
 
       if (currentWidth < 768) {
-        const newScale = (currentWidth - 40) / 1080;
+        // === MODIFICA PERCENTUALE QUI ===
+        // 0.85 significa: l'immagine occupa l'85% della larghezza dello schermo.
+        // Il restante 15% diventa bordo laterale automaticamente.
+        const newScale = (currentWidth * 0.85) / 1080;
+        
         setScale(newScale);
       } else {
         setScale(0.45);
@@ -136,7 +143,7 @@ const App = () => {
         </button>
       )}
 
-      {/* MOBILE SHEET (Importato e Pulito) */}
+      {/* MOBILE SHEET (Componente Isolato) */}
       <MobileSheet 
         isOpen={isMobileMenuOpen} 
         onClose={() => setIsMobileMenuOpen(false)}
