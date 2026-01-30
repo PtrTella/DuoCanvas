@@ -9,7 +9,7 @@ const ControlsPanel = ({
   themeColor, setThemeColor, 
   activeTemplate, currentTheme,
   isGenerating, handleDownload,
-  // Props per lo stato del dropdown (passate da App o gestite qui, meglio passate da App se vuoi resettarle)
+  // Queste due props arrivano da App.jsx
   isTemplateSelectorOpen, setIsTemplateSelectorOpen 
 }) => {
   
@@ -20,9 +20,11 @@ const ControlsPanel = ({
       <TemplateSelector 
         activeTemplateId={activeTemplateId}
         setActiveTemplateId={setActiveTemplateId}
+        activeTemplate={activeTemplate}
+        // --- CORREZIONE QUI SOTTO: ---
+        // Prima mancavano queste righe, quindi il selettore non sapeva come aprirsi
         isOpen={isTemplateSelectorOpen}
         setIsOpen={setIsTemplateSelectorOpen}
-        activeTemplate={activeTemplate}
       />
 
       {/* 2. DATI COMUNI (Squadre) */}
@@ -61,7 +63,6 @@ const ControlsPanel = ({
       </div>
 
       {/* 5. DOWNLOAD (SOLO DESKTOP) */}
-      {/* Su mobile questo è nascosto perché c'è la barra flottante */}
       <div className="hidden md:block pt-6">
           <button 
               onClick={handleDownload}
