@@ -7,24 +7,25 @@ const ControlsPanel = ({
   data, handleDataChange, 
   activeTemplateId, setActiveTemplateId, 
   themeColor, setThemeColor, 
-  isTemplateSelectorOpen, setIsTemplateSelectorOpen,
   activeTemplate, currentTheme,
-  isGenerating, handleDownload, isDesktop 
+  isGenerating, handleDownload,
+  // Props per lo stato del dropdown (passate da App o gestite qui, meglio passate da App se vuoi resettarle)
+  isTemplateSelectorOpen, setIsTemplateSelectorOpen 
 }) => {
   
   return (
-    <div className="space-y-6 pb-20 md:pb-0">
+    <div className="space-y-6">
       
+      {/* 1. SELETTORE TEMPLATE */}
       <TemplateSelector 
         activeTemplateId={activeTemplateId}
         setActiveTemplateId={setActiveTemplateId}
         isOpen={isTemplateSelectorOpen}
         setIsOpen={setIsTemplateSelectorOpen}
-        currentTheme={currentTheme}
         activeTemplate={activeTemplate}
       />
 
-      {/* Dati Comuni */}
+      {/* 2. DATI COMUNI (Squadre) */}
       <div className="space-y-2 pt-2 border-t border-gray-100">
         <h3 className="text-xs font-bold uppercase text-gray-400 tracking-wider">Squadre</h3>
         <div className="grid grid-cols-2 gap-3">
@@ -37,12 +38,12 @@ const ControlsPanel = ({
         </div>
       </div>
 
-      {/* Controlli Specifici del Template */}
+      {/* 3. CONTROLLI SPECIFICI DEL TEMPLATE SCELTO */}
       <div className="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
         {activeTemplate && <activeTemplate.Controls data={data} onChange={handleDataChange} />}
       </div>
 
-      {/* Selettore Colore */}
+      {/* 4. SELETTORE COLORE */}
       <div className="space-y-2 pt-2 border-t border-gray-100">
         <h3 className="text-xs font-bold uppercase text-gray-400 tracking-wider flex items-center gap-2">
             <Palette size={14}/> Tema
@@ -59,9 +60,9 @@ const ControlsPanel = ({
         </div>
       </div>
 
-      {/* Bottone Download Desktop */}
-      {isDesktop && (
-        <div className="hidden md:block pt-6">
+      {/* 5. DOWNLOAD (SOLO DESKTOP) */}
+      {/* Su mobile questo è nascosto perché c'è la barra flottante */}
+      <div className="hidden md:block pt-6">
           <button 
               onClick={handleDownload}
               disabled={isGenerating}
@@ -69,8 +70,8 @@ const ControlsPanel = ({
             >
               {isGenerating ? 'Generazione...' : <><Download size={20} /> Scarica Immagine</>}
           </button>
-        </div>
-      )}
+      </div>
+
     </div>
   );
 };
