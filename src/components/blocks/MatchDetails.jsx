@@ -23,11 +23,11 @@ export const MatchDetails = ({ data, theme, className = "" }) => {
                 return (
                     <div key={idx} className="flex items-center gap-2">
                         <div className={`p-1.5 rounded-md bg-gradient-to-br ${theme?.primary || 'from-orange-500 to-red-600'} shadow-md`}>
-                             <Icon size={14} className="text-white"/>
+                             <Icon size={34} className="text-white"/>
                         </div>
                         <div className="flex flex-col">
                             {/* Etichetta piccola sopra */}
-                            <span className="text-[8px] text-white/50 font-bold uppercase tracking-widest leading-none mb-0.5">
+                            <span className="text-[18px] text-white/50 font-bold uppercase tracking-widest leading-none mb-0.5">
                                 {item.label}
                             </span>
                             {/* Valore grande sotto */}
