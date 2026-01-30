@@ -24,4 +24,25 @@ const TeamLogo = ({ src, alt = "Team Logo", fallbackText = "VS" }) => {
   );
 };
 
-export default TeamLogo;
+const TeamDisplay = ({ 
+  name, 
+  logoSrc, 
+  reverse = false, 
+  theme, 
+  logoSize = "w-32 h-32 md:w-40 md:h-40", // Default grande
+  textSize = "text-3xl" // Default grande
+}) => {
+  return (
+    <div className={`flex flex-col items-center justify-center gap-3 ${reverse ? 'order-last' : ''}`}>
+       <div className={`${logoSize} relative z-10`}> 
+           {/* Usa il componente TeamLogo esistente ma con classi passate */}
+           <TeamLogo src={logoSrc} alt={name} className="w-full h-full shadow-xl" />
+       </div>
+       <h2 className={`${textSize} font-black uppercase text-white leading-none tracking-tighter text-center drop-shadow-md max-w-[200px]`}>
+          {name}
+       </h2>
+    </div>
+  );
+};
+
+export default TeamDisplay;

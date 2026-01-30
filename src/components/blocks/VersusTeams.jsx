@@ -1,0 +1,47 @@
+import React from 'react';
+import TeamDisplay from '../UI/TeamDisplay';
+import ImageUploader from '../editor/ImageUploader';
+
+// --- LAYOUT ---
+export const VersusTeams = ({ data, theme }) => {
+  return (
+    <div className="flex items-center justify-between w-full px-2 mb-6">
+      {/* Home */}
+      <div className="w-[40%]">
+         <TeamDisplay 
+            name={data.homeTeam} 
+            logoSrc="/DuoCanvas/logos/duoligones.png" // O data.homeLogo se vuoi renderlo dinamico
+            theme={theme}
+         />
+      </div>
+
+      {/* VS */}
+      <div className="w-[20%] flex flex-col items-center justify-center">
+         <div className="text-7xl font-black italic text-transparent bg-clip-text bg-gradient-to-br from-white to-white/40 transform -skew-x-12">
+           VS
+         </div>
+      </div>
+
+      {/* Away */}
+      <div className="w-[40%]">
+         <TeamDisplay 
+            name={data.awayTeam} 
+            logoSrc={data.awayLogo} 
+            theme={theme} 
+         />
+      </div>
+    </div>
+  );
+};
+
+// --- CONTROLS ---
+export const VersusTeamsControls = ({ data, onChange }) => (
+  <div className="pb-2">
+     <ImageUploader 
+        value={data.awayLogo} 
+        onChange={(val) => onChange('awayLogo', val)} 
+        label="Logo Avversario" 
+     />
+     {/* Se volessi cambiare i nomi delle squadre al volo, aggiungeresti qui gli input */}
+  </div>
+);

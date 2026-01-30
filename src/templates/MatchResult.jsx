@@ -1,147 +1,63 @@
 import React from 'react';
-import { Trophy, Upload } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import BaseCard from '../components/UI/BaseCard';
-import TeamLogo from '../components/UI/TeamLogo'; // <--- Importa il nuovo componente
+import TeamDisplay from '../components/UI/TeamDisplay';
+import ImageUploader from '../components/editor/ImageUploader';
+import { MatchInfo, MatchInfoControls } from '../components/blocks/MatchInfo';
+import { MatchDetails, MatchDetailsControls } from '../components/blocks/MatchDetails';
 
 export const MatchResult = {
-  id: 'result',
+  id: 'result', // Deve corrispondere alla chiave in defaults.js
   name: 'Risultato',
   icon: Trophy,
 
   Render: ({ data, theme, cardRef }) => (
     <BaseCard theme={theme} ref={cardRef}>
-      <div className="flex flex-col items-center justify-center h-full w-full gap-8">
-        
-        {/* Header Giornata */}
-        <div className="text-xl font-bold uppercase tracking-[0.3em] text-white/60 border-b border-white/20 pb-2 mb-4">
-          Match Day {data.matchDay}
-        </div>
+      <div className="flex flex-col items-center h-full w-full relative z-10">
+        <MatchInfo data={data} theme={theme} className="w-full mb-8" />
 
-        {/* --- AREA PUNTEGGIO E LOGHI --- */}
-        <div className="flex items-center justify-between w-full px-4">
-          
-          {/* SQUADRA CASA */}
-          <div className="flex flex-col items-center gap-6 w-1/3">
-            <div className="w-40 h-40">
-                <TeamLogo src="/DuoCanvas/logos/duoligones.png" alt="Duo Ligones" />
-            </div>
-            <h2 className="text-2xl font-black uppercase text-center text-white leading-tight">
-              {data.homeTeam}
-            </h2>
+        <div className="flex-1 flex items-center justify-between w-full px-2">
+          <div className="w-1/3">
+             <TeamDisplay name={data.homeTeam} logoSrc="/DuoCanvas/logos/duoligones.png" theme={theme} />
           </div>
-
-          {/* PUNTEGGIO CENTRALE */}
-          <div className="flex flex-col items-center justify-center w-1/3 relative">
-             <div className="text-[140px] font-black leading-none text-white drop-shadow-2xl flex items-center gap-4">
+          <div className="flex flex-col items-center justify-center w-1/3">
+             <div className="text-[120px] md:text-[140px] font-black leading-none text-white drop-shadow-2xl flex items-center gap-2">
                 <span>{data.homeScore}</span>
-                <span className="text-white/40 text-8xl">:</span>
+                <span className="text-white/40 text-7xl mb-4">:</span>
                 <span>{data.awayScore}</span>
              </div>
-             <div className="mt-4 px-6 py-1 bg-white/20 rounded-full text-sm font-bold uppercase tracking-widest text-white backdrop-blur-md">
+             <div className="mt-2 px-6 py-1 bg-white/20 rounded-full text-sm font-bold uppercase tracking-widest text-white backdrop-blur-md">
                 Finale
              </div>
+             <div className="mt-6 text-white text-lg font-bold bg-black/20 px-4 py-1 rounded-lg">
+               {data.topScorer}
+             </div>
           </div>
-
-          {/* SQUADRA OSPITE */}
-          <div className="flex flex-col items-center gap-6 w-1/3">
-            <div className="w-40 h-40">
-                <TeamLogo src={data.awayLogo} fallbackText="VS" />
-            </div>
-            <h2 className="text-2xl font-black uppercase text-center text-white leading-tight">
-              {data.awayTeam}
-            </h2>
+          <div className="w-1/3">
+             <TeamDisplay name={data.awayTeam} logoSrc={data.awayLogo} theme={theme} />
           </div>
-
         </div>
 
-        {/* Footer/MVP */}
-        <div className="mt-12 text-center space-y-2">
-            <div className="text-white/50 text-sm font-bold uppercase tracking-wider">Top Scorer</div>
-            <div className="text-white text-xl font-bold bg-white/10 px-6 py-2 rounded-xl inline-block">
-               {data.topScorer || "Nome Giocatore"}
-            </div>
-        </div>
-
+        <MatchDetails data={data} theme={theme} />
       </div>
     </BaseCard>
   ),
 
   Controls: ({ data, onChange }) => (
-    <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
-      <h3 className="font-bold text-gray-700 border-b pb-2">Dettagli Partita</h3>
+    <div className="space-y-1 animate-in fade-in">
+      <MatchInfoControls data={data} onChange={onChange} />
       
-      {/* Input Giornata */}
-      <div>
-        <label className="text-xs font-bold text-gray-500">MATCH DAY</label>
-        <input 
-          type="text" 
-          value={data.matchDay} 
-          onChange={(e) => onChange('matchDay', e.target.value)} 
-          className="w-full p-2 bg-white border rounded-lg text-sm" 
-        />
+      <div className="bg-orange-50 p-3 rounded-xl border border-orange-100 mb-4">
+          <label className="text-xs font-bold text-orange-800 uppercase mb-2 block text-center">Punteggio</label>
+          <div className="grid grid-cols-2 gap-4">
+             <input type="number" value={data.homeScore} onChange={(e) => onChange('homeScore', e.target.value)} className="p-3 text-center text-2xl font-black border-2 border-white rounded-xl shadow-sm focus:border-orange-500" placeholder="0" />
+             <input type="number" value={data.awayScore} onChange={(e) => onChange('awayScore', e.target.value)} className="p-3 text-center text-2xl font-black border-2 border-white rounded-xl shadow-sm focus:border-orange-500" placeholder="0" />
+          </div>
+          <input type="text" value={data.topScorer} onChange={(e) => onChange('topScorer', e.target.value)} className="w-full mt-2 p-2 text-center text-sm border rounded bg-white" placeholder="MVP / Note" />
       </div>
 
-      {/* Input Punteggi */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-           <label className="text-xs font-bold text-gray-500 text-center block mb-1">PUNTI CASA</label>
-           <input 
-             type="number" 
-             value={data.homeScore} 
-             onChange={(e) => onChange('homeScore', e.target.value)} 
-             className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-center text-2xl font-black focus:border-orange-500 focus:ring-0" 
-           />
-        </div>
-        <div>
-           <label className="text-xs font-bold text-gray-500 text-center block mb-1">PUNTI OSPITI</label>
-           <input 
-             type="number" 
-             value={data.awayScore} 
-             onChange={(e) => onChange('awayScore', e.target.value)} 
-             className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-center text-2xl font-black focus:border-orange-500 focus:ring-0" 
-           />
-        </div>
-      </div>
-
-      {/* UPLOAD LOGO */}
-      <div className="pt-2">
-        <label className="text-xs font-bold text-gray-500 mb-2 block">LOGO AVVERSARIO</label>
-        <div className="flex items-center gap-3">
-          <label className="cursor-pointer flex items-center justify-center gap-2 w-full p-3 bg-blue-50 text-blue-600 border border-blue-200 rounded-xl hover:bg-blue-100 transition-colors font-bold text-sm">
-            <Upload size={18} />
-            {data.awayLogo ? 'Cambia Logo' : 'Carica Logo'}
-            <input 
-              type="file" 
-              accept="image/*" 
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  const url = URL.createObjectURL(file);
-                  onChange('awayLogo', url);
-                }
-              }} 
-            />
-          </label>
-          {data.awayLogo && (
-            <div className="w-12 h-12 border rounded-lg p-1 bg-white shrink-0">
-               <TeamLogo src={data.awayLogo} />
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div>
-        <label className="text-xs font-bold text-gray-500">TOP SCORER</label>
-        <input 
-          type="text" 
-          value={data.topScorer || ''} 
-          onChange={(e) => onChange('topScorer', e.target.value)} 
-          className="w-full p-2 bg-white border rounded-lg text-sm" 
-          placeholder="Es. Rossi (20pt)"
-        />
-      </div>
-
+      <ImageUploader value={data.awayLogo} onChange={(val) => onChange('awayLogo', val)} label="Logo Avversario" />
+      <MatchDetailsControls data={data} onChange={onChange} />
     </div>
   )
 };
