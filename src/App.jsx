@@ -1,12 +1,9 @@
 import React, { useState, useRef } from 'react';
-// import { toPng } from 'html-to-image'; <-- RIMUOVI QUESTO
-// import download from 'downloadjs';     <-- RIMUOVI QUESTO
 import { Layout, Download, Eye, Edit3 } from 'lucide-react';
 
 import { TEMPLATES, THEMES } from './data/templateRegistry';
 import { GLOBAL_DEFAULTS, TEMPLATE_DEFAULTS } from './data/defaults';
 import { useScale } from './hooks/useScale';
-// IMPORTA IL NUOVO HOOK
 import { useDownload } from './hooks/useDownload'; 
 
 import ControlsPanel from './components/editor/ControlsPanel';
@@ -15,8 +12,10 @@ const App = () => {
   // --- STATI ---
   const [activeTemplateId, setActiveTemplateId] = useState(TEMPLATES[0].id);
   const [themeColor, setThemeColor] = useState('orange');
-  const [isGenerating, setIsGenerating] = useState(false); // Puoi rimuoverlo se usi quello dell'hook, ma vedi sotto
   const [showMobilePreview, setShowMobilePreview] = useState(false);
+  
+  // STATO CHE MANCAVA: Gestisce l'apertura del menu a tendina
+  const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false);
 
   // Dati
   const [sessionData, setSessionData] = useState(GLOBAL_DEFAULTS);
@@ -27,8 +26,7 @@ const App = () => {
   const previewWrapperRef = useRef(null);
   const scale = useScale(previewWrapperRef, showMobilePreview);
 
-  // --- USA IL NUOVO HOOK ---
-  // Rinominiamo isGenerating dell'hook per non fare confusione
+  // --- HOOK DOWNLOAD ---
   const { downloadSnapshot, isGenerating: isProcessing } = useDownload(cardRef);
 
   // --- LOGICA ---
@@ -41,6 +39,7 @@ const App = () => {
     setActiveTemplateId(newId);
     setTemplateData(TEMPLATE_DEFAULTS[newId]);
     if (newTemplate.defaultTheme) setThemeColor(newTemplate.defaultTheme);
+    setIsTemplateSelectorOpen(false); // Chiude il menu dopo la scelta
   };
 
   const handleDataChange = (key, value) => {
@@ -48,14 +47,9 @@ const App = () => {
     else setTemplateData(prev => ({ ...prev, [key]: value }));
   };
 
-  // Funzione Wrapper Semplice
   const handleDownloadClick = () => {
-    // Se siamo su mobile e in modalità editor, l'anteprima è nascosta (display:none o hidden).
-    // html-to-image fallisce su elementi nascosti.
-    // FORZIAMO la visibilità prima di scattare se necessario.
     if (!showMobilePreview && window.innerWidth < 768) {
         setShowMobilePreview(true);
-        // Aspettiamo un attimo che il CSS applichi il 'flex' invece di 'hidden'
         setTimeout(() => {
             downloadSnapshot(`duocanvas-${activeTemplateId}`);
         }, 100);
@@ -107,10 +101,14 @@ const App = () => {
               setThemeColor={setThemeColor}
               activeTemplate={activeTemplate}
               currentTheme={currentTheme}
-              isTemplateSelectorOpen={false} // Props opzionali
-              setIsTemplateSelectorOpen={() => {}}
-              isGenerating={isProcessing} // Passiamo lo stato dell'hook
-              handleDownload={handleDownloadClick} // Passiamo il nuovo handler
+              
+              // --- CORREZIONE IMPORTANTE QUI ---
+              // Passiamo le variabili di stato vere, non 'false' statico!
+              isTemplateSelectorOpen={isTemplateSelectorOpen}
+              setIsTemplateSelectorOpen={setIsTemplateSelectorOpen}
+              
+              isGenerating={isProcessing} 
+              handleDownload={handleDownloadClick} 
               isDesktop={true}
            />
         </div>
