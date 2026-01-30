@@ -10,6 +10,7 @@ export const SoccerMatch = {
   id: 'soccer_formation',
   name: 'Calcio a 7',
   icon: Shield,
+  defaultTheme: 'green',
 
   initialData: {
      module: "3-2-1",

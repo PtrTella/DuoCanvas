@@ -11,6 +11,7 @@ export const NextMatch = {
   id: 'fixture', // Deve corrispondere alla chiave in defaults.js
   name: 'Convocazioni',
   icon: Users,
+  defaultTheme: 'orange',
 
   // NESSUN initialData QUI! Tutto è in defaults.js
 

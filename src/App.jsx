@@ -48,6 +48,10 @@ const App = () => {
     setActiveTemplateId(newId);
     // Carica i default specifici dal file esterno (resetta punteggi/roster)
     setTemplateData(TEMPLATE_DEFAULTS[newId] || {});
+    const newTemplate = TEMPLATES.find(t => t.id === newId);
+    if (newTemplate && newTemplate.defaultTheme) {
+        setThemeColor(newTemplate.defaultTheme);
+    }
     setIsTemplateSelectorOpen(false);
   };
 

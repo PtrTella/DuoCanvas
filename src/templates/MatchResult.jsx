@@ -10,6 +10,7 @@ export const MatchResult = {
   id: 'result', // Deve corrispondere alla chiave in defaults.js
   name: 'Risultato',
   icon: Trophy,
+  defaultTheme: 'orange',
 
   Render: ({ data, theme, cardRef }) => (
     <BaseCard theme={theme} ref={cardRef}>
