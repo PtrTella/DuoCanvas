@@ -1,30 +1,35 @@
 import React, { useState, useRef } from 'react';
-import { toPng } from 'html-to-image';
-import download from 'downloadjs';
+// import { toPng } from 'html-to-image'; <-- RIMUOVI QUESTO
+// import download from 'downloadjs';     <-- RIMUOVI QUESTO
 import { Layout, Download, Eye, Edit3 } from 'lucide-react';
 
 import { TEMPLATES, THEMES } from './data/templateRegistry';
 import { GLOBAL_DEFAULTS, TEMPLATE_DEFAULTS } from './data/defaults';
-import { useScale } from './hooks/useScale'; // Il tuo hook esistente
+import { useScale } from './hooks/useScale';
+// IMPORTA IL NUOVO HOOK
+import { useDownload } from './hooks/useDownload'; 
 
 import ControlsPanel from './components/editor/ControlsPanel';
 
 const App = () => {
-  // --- STATI DATI ---
+  // --- STATI ---
   const [activeTemplateId, setActiveTemplateId] = useState(TEMPLATES[0].id);
   const [themeColor, setThemeColor] = useState('orange');
+  const [isGenerating, setIsGenerating] = useState(false); // Puoi rimuoverlo se usi quello dell'hook, ma vedi sotto
+  const [showMobilePreview, setShowMobilePreview] = useState(false);
+
+  // Dati
   const [sessionData, setSessionData] = useState(GLOBAL_DEFAULTS);
   const [templateData, setTemplateData] = useState(TEMPLATE_DEFAULTS[activeTemplateId]);
 
-  // --- STATI UI ---
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [showMobilePreview, setShowMobilePreview] = useState(false); // TRUE = Vedo Anteprima, FALSE = Vedo Editor
-  const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false); // Stato dropdown
-
-  // --- REFS & HOOKS ---
+  // Refs
   const cardRef = useRef(null);
   const previewWrapperRef = useRef(null);
-  const scale = useScale(previewWrapperRef); // Il tuo hook lavora qui
+  const scale = useScale(previewWrapperRef, showMobilePreview);
+
+  // --- USA IL NUOVO HOOK ---
+  // Rinominiamo isGenerating dell'hook per non fare confusione
+  const { downloadSnapshot, isGenerating: isProcessing } = useDownload(cardRef);
 
   // --- LOGICA ---
   const activeTemplate = TEMPLATES.find(t => t.id === activeTemplateId);
@@ -36,7 +41,6 @@ const App = () => {
     setActiveTemplateId(newId);
     setTemplateData(TEMPLATE_DEFAULTS[newId]);
     if (newTemplate.defaultTheme) setThemeColor(newTemplate.defaultTheme);
-    setIsTemplateSelectorOpen(false); // Chiude il dropdown dopo la scelta
   };
 
   const handleDataChange = (key, value) => {
@@ -44,29 +48,26 @@ const App = () => {
     else setTemplateData(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleDownload = async () => {
-    if (!cardRef.current) return;
-    setIsGenerating(true);
-    // Nota: html-to-image a volte fa i capricci se l'elemento è "display: none".
-    // Ma React qui gestisce il DOM. Se hai problemi su mobile, forza showMobilePreview(true) prima.
-    try {
-        const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 });
-        download(dataUrl, `duocanvas-${activeTemplateId}.png`);
-    } catch (e) {
-        console.error(e);
-        alert("Errore. Prova ad andare in Anteprima prima di scaricare.");
+  // Funzione Wrapper Semplice
+  const handleDownloadClick = () => {
+    // Se siamo su mobile e in modalità editor, l'anteprima è nascosta (display:none o hidden).
+    // html-to-image fallisce su elementi nascosti.
+    // FORZIAMO la visibilità prima di scattare se necessario.
+    if (!showMobilePreview && window.innerWidth < 768) {
+        setShowMobilePreview(true);
+        // Aspettiamo un attimo che il CSS applichi il 'flex' invece di 'hidden'
+        setTimeout(() => {
+            downloadSnapshot(`duocanvas-${activeTemplateId}`);
+        }, 100);
+    } else {
+        downloadSnapshot(`duocanvas-${activeTemplateId}`);
     }
-    setIsGenerating(false);
   };
 
   return (
     <div className="flex flex-col md:flex-row h-[100dvh] bg-gray-100 overflow-hidden font-sans">
       
-      {/* =========================================================================
-          1. ZONA PREVIEW 
-          - Mobile: Visibile SOLO se showMobilePreview è TRUE.
-          - Desktop: SEMPRE visibile (md:flex).
-      ========================================================================== */}
+      {/* 1. AREA PREVIEW */}
       <div 
         ref={previewWrapperRef}
         className={`
@@ -74,12 +75,10 @@ const App = () => {
             ${showMobilePreview ? 'flex' : 'hidden md:flex'} 
         `}
       >
-        {/* Label Mobile */}
         <div className="md:hidden absolute top-4 text-gray-400 text-[10px] font-bold uppercase tracking-widest">
             Anteprima Finale
         </div>
 
-        {/* Canvas Scalato */}
         <div 
           style={{ width: 1080, height: 1350, transform: `scale(${scale})` }}
           className="shadow-2xl bg-white transition-transform duration-200 ease-out origin-center"
@@ -88,11 +87,7 @@ const App = () => {
         </div>
       </div>
 
-      {/* =========================================================================
-          2. ZONA CONTROLLI 
-          - Mobile: Visibile SOLO se showMobilePreview è FALSE.
-          - Desktop: SEMPRE visibile.
-      ========================================================================== */}
+      {/* 2. AREA CONTROLLI */}
       <div className={`
           w-full md:w-[400px] bg-white border-r border-gray-200 flex-col z-10 shadow-xl order-2 md:order-1 h-full
           ${!showMobilePreview ? 'flex' : 'hidden md:flex'}
@@ -102,7 +97,6 @@ const App = () => {
           <h1 className="font-black text-xl tracking-tight">DuoCanvas</h1>
         </div>
 
-        {/* Scrollable Panel (pb-32 per non coprire l'ultimo input con la barra flottante) */}
         <div className="flex-1 overflow-y-auto p-5 scrollbar-thin pb-32 md:pb-5">
            <ControlsPanel 
               data={data} 
@@ -113,46 +107,34 @@ const App = () => {
               setThemeColor={setThemeColor}
               activeTemplate={activeTemplate}
               currentTheme={currentTheme}
-              isTemplateSelectorOpen={isTemplateSelectorOpen}
-              setIsTemplateSelectorOpen={setIsTemplateSelectorOpen}
-              isGenerating={isGenerating}
-              handleDownload={handleDownload}
+              isTemplateSelectorOpen={false} // Props opzionali
+              setIsTemplateSelectorOpen={() => {}}
+              isGenerating={isProcessing} // Passiamo lo stato dell'hook
+              handleDownload={handleDownloadClick} // Passiamo il nuovo handler
+              isDesktop={true}
            />
         </div>
       </div>
 
-      {/* =========================================================================
-          3. BARRA FLOTTANTE MOBILE (Solo Mobile)
-      ========================================================================== */}
+      {/* 3. BARRA MOBILE */}
       <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-gray-900/95 backdrop-blur-md p-2 pl-3 rounded-full shadow-2xl border border-white/10 ring-1 ring-black/5">
-          
-          {/* Tasto Toggle (Edit / Preview) */}
           <button 
              onClick={() => setShowMobilePreview(!showMobilePreview)}
              className="flex items-center gap-2 px-5 py-3 rounded-full bg-white text-gray-900 font-bold text-sm transition-transform active:scale-95 shadow-sm"
           >
-              {showMobilePreview ? (
-                  <><Edit3 size={18} /> Modifica</>
-              ) : (
-                  <><Eye size={18} /> Anteprima</>
-              )}
+              {showMobilePreview ? <><Edit3 size={18} /> Modifica</> : <><Eye size={18} /> Anteprima</>}
           </button>
-
-          {/* Divisore */}
           <div className="w-px h-6 bg-white/20"></div>
-
-          {/* Tasto Download */}
           <button 
-             onClick={handleDownload}
-             disabled={isGenerating}
+             onClick={handleDownloadClick}
+             disabled={isProcessing}
              className={`
                 w-11 h-11 flex items-center justify-center rounded-full text-white transition-all active:scale-90
-                ${isGenerating ? 'bg-gray-700' : 'bg-gradient-to-r from-orange-500 to-red-600 shadow-lg shadow-orange-900/50'}
+                ${isProcessing ? 'bg-gray-700' : 'bg-gradient-to-r from-orange-500 to-red-600 shadow-lg shadow-orange-900/50'}
              `}
           >
-              {isGenerating ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/> : <Download size={20}/>}
+              {isProcessing ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/> : <Download size={20}/>}
           </button>
-
       </div>
 
     </div>
