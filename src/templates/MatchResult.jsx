@@ -7,7 +7,7 @@ import { MatchScore, MatchScoreControls } from '../components/blocks/MatchScore'
 import TeamControls from '../components/editor/TeamControls';
 
 export const MatchResult = {
-  id: 'result', // Deve corrispondere alla chiave in defaults.js
+  id: 'basket_result', // Deve corrispondere alla chiave in defaults.js
   name: 'Risultato Basket',
   icon: Trophy,
   defaultTheme: 'orange',
@@ -18,7 +18,7 @@ export const MatchResult = {
         <MatchInfo data={data} theme={theme} className="w-full mb-8" matchDayLabel="MATCH DAY" />
 
         <div className="flex-1 flex items-center w-full">
-          <MatchScore data={data} theme={theme}>
+          <MatchScore data={data} theme={theme} accentColor={MatchResult.defaultTheme}>
             <div className="mt-6 text-white text-lg font-bold bg-black/20 px-4 py-1 rounded-lg">
               {data.topScorer}
             </div>

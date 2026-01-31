@@ -8,7 +8,7 @@ import { MatchScore, MatchScoreControls } from '../components/blocks/MatchScore'
 import TeamControls from '../components/editor/TeamControls';
 
 export const FootballResult = {
-  id: 'football',
+  id: 'soccer_result', // Deve corrispondere alla chiave in defaults.js
   name: 'Risultato Calcio',
   icon: PartyPopper,
   defaultTheme: 'green',
@@ -20,7 +20,7 @@ export const FootballResult = {
 
         {/* Squadre e Punteggio */}
         <div className="flex-1 flex flex-col items-center justify-center w-full mb-4">
-          <MatchScore data={data} theme={theme} className="mb-6" />
+          <MatchScore data={data} theme={theme} className="mb-6" accentColor={FootballResult.defaultTheme} />
 
           {/* Goal Timeline - Centered */}
           <GoalTimeline data={data} theme={theme} className="w-full max-w-md" />

@@ -20,17 +20,17 @@ export const GLOBAL_DEFAULTS = {
 // Quando cambi grafica, questi vengono caricati (o resettati).
 export const TEMPLATE_DEFAULTS = {
   // ID del template (deve corrispondere a quello nel file del template)
-  result: {
+  basket_result: {
     homeScore: 0,
     awayScore: 0,
     topScorer: "MVP: Rossi (20pt)"
   },
   
-  fixture: {
+  basket_roster: {
     rosterList: "23 Jordan\n34 Bryant\n45 James\n50 Davis\n77 Doncic\n80 Curry\n71 Harden\n3 Irving\n11 Paul\n6 Antetokounmpo\n13 George\n2 Leonard",
   },
 
-  football: {
+  soccer_result: {
     homeScore: 0,
     awayScore: 0,
     homeGoals: "45' Rossi",
