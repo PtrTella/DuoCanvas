@@ -9,7 +9,7 @@ import TeamControls from '../components/editor/TeamControls';
 
 export const NextMatch = {
   id: 'fixture', // Deve corrispondere alla chiave in defaults.js
-  name: 'Convocazioni',
+  name: 'Convocazioni Basket',
   icon: Users,
   defaultTheme: 'orange',
 

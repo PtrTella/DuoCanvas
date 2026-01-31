@@ -8,7 +8,7 @@ import TeamControls from '../components/editor/TeamControls';
 
 export const MatchResult = {
   id: 'result', // Deve corrispondere alla chiave in defaults.js
-  name: 'Risultato',
+  name: 'Risultato Basket',
   icon: Trophy,
   defaultTheme: 'orange',
 

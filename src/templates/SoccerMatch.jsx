@@ -9,7 +9,7 @@ import TeamControls from '../components/editor/TeamControls';
 
 export const SoccerMatch = {
   id: 'soccer_formation',
-  name: 'Calcio a 7',
+  name: 'Formazione Calcio',
   icon: Shield,
   defaultTheme: 'green',
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users } from 'lucide-react';
+import { PartyPopper } from 'lucide-react';
 import BaseCard from '../components/UI/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../components/blocks/MatchInfo';
 import { MatchDetails, MatchDetailsControls } from '../components/blocks/MatchDetails';
@@ -9,8 +9,8 @@ import TeamControls from '../components/editor/TeamControls';
 
 export const FootballResult = {
   id: 'football',
-  name: 'Calcio',
-  icon: Users,
+  name: 'Risultato Calcio',
+  icon: PartyPopper,
   defaultTheme: 'green',
 
   Render: ({ data, theme, cardRef }) => (
