@@ -39,7 +39,7 @@ export const WeekRecap = {
           {/* Reuse MatchInfo controls but maybe we don't need Championship input? 
               MatchInfoControls has it hardcoded. 
               Ideally we should use a simplified control or just let it be unused. */}
-          <MatchInfoControls data={data} onChange={onChange} />
+          <MatchInfoControls data={data} onChange={onChange} hideChampionship={true} />
           <EventsListControls data={data} onChange={onChange} />
       </div>
   )

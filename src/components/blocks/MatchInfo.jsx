@@ -22,7 +22,7 @@ export const MatchInfo = ({ data, theme, className = "", matchDayLabel = "MATCH 
 };
 
 // --- CONTROLS (Pannello Editor) ---
-export const MatchInfoControls = ({ data, onChange }) => (
+export const MatchInfoControls = ({ data, onChange, hideChampionship = false }) => (
   <div className="pb-4 mb-4 border-b border-gray-100">
     <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Intestazione</h3>
     <div className="grid grid-cols-3 gap-2">
@@ -36,16 +36,18 @@ export const MatchInfoControls = ({ data, onChange }) => (
             placeholder="12"
         />
       </div>
-      <div className="col-span-2">
-        <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Campionato</label>
-        <input 
-            type="text" 
-            value={data.championship} 
-            onChange={(e) => onChange('championship', e.target.value)} 
-            className="w-full p-2 bg-white border rounded-lg text-sm" 
-            placeholder="Serie D"
-        />
-      </div>
+      {!hideChampionship && (
+        <div className="col-span-2">
+          <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Campionato</label>
+          <input 
+              type="text" 
+              value={data.championship} 
+              onChange={(e) => onChange('championship', e.target.value)} 
+              className="w-full p-2 bg-white border rounded-lg text-sm" 
+              placeholder="Serie D"
+          />
+        </div>
+      )}
     </div>
   </div>
 );
