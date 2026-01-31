@@ -15,7 +15,7 @@ export const MatchResult = {
   Render: ({ data, theme, cardRef }) => (
     <BaseCard theme={theme} ref={cardRef}>
       <div className="flex flex-col items-center h-full w-full relative z-10">
-        <MatchInfo data={data} theme={theme} className="w-full mb-8" />
+        <MatchInfo data={data} theme={theme} className="w-full mb-8" matchDayLabel="MATCH DAY" />
 
         <div className="flex-1 flex items-center w-full">
           <MatchScore data={data} theme={theme}>

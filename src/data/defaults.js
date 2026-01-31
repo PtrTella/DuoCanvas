@@ -27,7 +27,7 @@ export const TEMPLATE_DEFAULTS = {
   },
   
   fixture: {
-    rosterList: "00 Rossi\n01 Bianchi\n02 Verdi\n11 Neri\n23 Jordan"
+    rosterList: "23 Jordan\n34 Bryant\n45 James\n50 Davis\n77 Doncic\n80 Curry\n71 Harden\n3 Irving\n11 Paul\n6 Antetokounmpo\n13 George\n2 Leonard",
   },
 
   football: {
@@ -35,5 +35,11 @@ export const TEMPLATE_DEFAULTS = {
     awayScore: 0,
     homeGoals: "45' Rossi",
     awayGoals: ""
+  },
+
+  soccer_formation: {
+    module: "3-2-1",
+    rosterList: "1 Rossi (GK)\n5 Bianchi\n6 Verdi\n3 Neri\n8 Gialli\n4 Blu\n9 Bomber\n12 Riserva1\n13 Riserva2\n14 Riserva3\n15 Riserva4\n16 Riserva5"
   }
+
 };

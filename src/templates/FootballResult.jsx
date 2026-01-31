@@ -16,7 +16,7 @@ export const FootballResult = {
   Render: ({ data, theme, cardRef }) => (
     <BaseCard theme={theme} ref={cardRef}>
       <div className="flex flex-col items-center h-full w-full relative z-10">
-        <MatchInfo data={data} theme={theme} className="w-full mb-6" />
+        <MatchInfo data={data} theme={theme} className="w-full mb-6" matchDayLabel="GIORNATA" />
 
         {/* Squadre e Punteggio */}
         <div className="flex-1 flex flex-col items-center justify-center w-full mb-4">

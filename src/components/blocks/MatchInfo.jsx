@@ -2,12 +2,12 @@ import React from 'react';
 import { Trophy } from 'lucide-react';
 
 // --- LAYOUT (Visualizzazione Grafica) ---
-export const MatchInfo = ({ data, theme, className = "" }) => {
+export const MatchInfo = ({ data, theme, className = "", matchDayLabel = "MATCH DAY" }) => {
   return (
     <div className={`text-center border-b border-white/20 pb-4 ${className}`}>
         {/* Titolo Principale */}
         <h1 className="text-6xl font-black italic uppercase tracking-tighter text-white drop-shadow-lg transform -skew-x-6">
-            MATCH DAY <span className={theme?.accent || "text-orange-500"}>{data.matchDay}</span>
+            {matchDayLabel} <span className={theme?.accent || "text-orange-500"}>{data.matchDay}</span>
         </h1>
         
         {/* Sottotitolo Campionato */}

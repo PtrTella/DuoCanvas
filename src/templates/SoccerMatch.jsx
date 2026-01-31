@@ -13,17 +13,10 @@ export const SoccerMatch = {
   icon: Shield,
   defaultTheme: 'green',
 
-  initialData: {
-     module: "3-2-1",
-     // 7 Titolari + 5 Riserve
-     rosterList: "1 Rossi (GK)\n5 Bianchi\n6 Verdi\n3 Neri\n8 Gialli\n4 Blu\n9 Bomber\n12 Riserva1\n13 Riserva2\n14 Riserva3\n15 Riserva4\n16 Riserva5",
-     coach: "Mister Bianchi"
-  },
-
   Render: ({ data, theme, cardRef }) => (
     <BaseCard theme={theme} ref={cardRef}>
         <div className="flex flex-col h-full w-full relative z-10">
-            <MatchInfo data={data} theme={theme} className="mb-4" />
+            <MatchInfo data={data} theme={theme} className="mb-4" matchDayLabel="GIORNATA" />
             <VersusTeams data={data} theme={theme} />
             
             {/* Campo + Panchina */}
