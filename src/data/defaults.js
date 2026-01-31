@@ -27,5 +27,12 @@ export const TEMPLATE_DEFAULTS = {
   
   fixture: {
     rosterList: "00 Rossi\n01 Bianchi\n02 Verdi\n11 Neri\n23 Jordan"
+  },
+
+  football: {
+    homeScore: 0,
+    awayScore: 0,
+    homeGoals: "45' Rossi",
+    awayGoals: ""
   }
 };

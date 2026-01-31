@@ -1,11 +1,13 @@
 import { MatchResult } from '../templates/MatchResult';
 import { NextMatch } from '../templates/NextMatch';
 import { SoccerMatch } from '../templates/SoccerMatch';
+import { FootballResult } from '../templates/FootballResult';
 
 export const TEMPLATES = [
   MatchResult,
   NextMatch,
-  SoccerMatch
+  SoccerMatch,
+  FootballResult
 ];
 
 export const THEMES = {
