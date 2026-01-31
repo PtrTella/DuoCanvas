@@ -12,9 +12,9 @@ export const MatchDetails = ({ data, theme, className = "" }) => {
   ];
 
   return (
-    <div className={`mt-auto pt-4 border-t border-white/20 w-full ${className}`}>
-        {/* Layout a riga unica (flex) distribuito */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className={`mt-auto pt-4 pb-1 border-t border-white/20 w-full ${className}`}>
+        {/* Layout distribuito ma non agli estremi */}
+        <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-evenly gap-x-8 gap-y-3">
             {items.map((item, idx) => {
                 // Saltiamo se non c'è valore (es. indirizzo vuoto)
                 if (!item.value) return null;
