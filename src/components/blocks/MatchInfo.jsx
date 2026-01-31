@@ -2,7 +2,7 @@ import React from 'react';
 import { Trophy } from 'lucide-react';
 
 // --- LAYOUT (Visualizzazione Grafica) ---
-export const MatchInfo = ({ data, theme, className = "", matchDayLabel = "MATCH DAY" }) => {
+export const MatchInfo = ({ data, theme, className = "", matchDayLabel = "MATCH DAY", hideChampionship = false }) => {
   return (
     <div className={`text-center border-b border-white/20 pb-4 ${className}`}>
         {/* Titolo Principale */}
@@ -10,11 +10,13 @@ export const MatchInfo = ({ data, theme, className = "", matchDayLabel = "MATCH 
             {matchDayLabel} <span className={theme?.accent || "text-orange-500"}>{data.matchDay}</span>
         </h1>
         
-        {/* Sottotitolo Campionato */}
-        <div className="flex justify-center items-center gap-3 text-white/80 mt-1 font-bold uppercase tracking-[0.2em] text-sm">
-            <Trophy size={16} className={theme?.accent || "text-orange-500"} />
-            <span>{data.championship}</span>
-        </div>
+        {/* Sottotitolo Campionato (Opzionale) */}
+        {!hideChampionship && (
+            <div className="flex justify-center items-center gap-3 text-white/80 mt-1 font-bold uppercase tracking-[0.2em] text-sm">
+                <Trophy size={16} className={theme?.accent || "text-orange-500"} />
+                <span>{data.championship}</span>
+            </div>
+        )}
     </div>
   );
 };

@@ -40,6 +40,31 @@ export const TEMPLATE_DEFAULTS = {
   soccer_formation: {
     module: "3-2-1",
     rosterList: "1 Rossi (GK)\n5 Bianchi\n6 Verdi\n3 Neri\n8 Gialli\n4 Blu\n9 Bomber\n12 Riserva1\n13 Riserva2\n14 Riserva3\n15 Riserva4\n16 Riserva5"
+  },
+
+  week_recap: {
+    weekEvents: [
+       { 
+         sport: 'Basket', 
+         date: 'Sab 12', 
+         time: '21:00', 
+         location: 'Palazzetto', 
+         championship: 'Serie D',
+         homeTeam: 'Duo Ligones',
+         awayTeam: 'Virtus',
+         color: 'orange'
+       },
+       { 
+         sport: 'Calcio a 7', 
+         date: 'Lun 14', 
+         time: '20:30', 
+         location: 'Campo Sportivo', 
+         championship: 'CSI',
+         homeTeam: 'Atletico',
+         awayTeam: 'Duo Ligones',
+         color: 'green'
+       }
+    ]
   }
 
 };

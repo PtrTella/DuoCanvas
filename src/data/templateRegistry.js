@@ -2,12 +2,14 @@ import { MatchResult } from '../templates/MatchResult';
 import { NextMatch } from '../templates/NextMatch';
 import { SoccerMatch } from '../templates/SoccerMatch';
 import { FootballResult } from '../templates/FootballResult';
+import { WeekRecap } from '../templates/WeekRecap';
 
 export const TEMPLATES = [
   MatchResult,
   NextMatch,
   SoccerMatch,
-  FootballResult
+  FootballResult,
+  WeekRecap
 ];
 
 export const THEMES = {
