@@ -1,123 +1,114 @@
 import React from 'react';
 
-// --- ELEMENTO GIOCATORE (CARD) ---
-const PlayerCard = ({ number, name, theme, isCompact }) => (
+// --- COMPONENTE SCHEDA GIOCATORE ---
+const PlayerCard = ({ number, name, theme }) => (
   <div className={`
-      relative group flex items-center gap-4 
-      bg-gradient-to-r from-black/60 to-black/20 
-      backdrop-blur-md border-l-4 border-white/10
-      ${isCompact ? 'py-2 px-3' : 'py-4 px-6'}
+      relative group flex items-center 
+      bg-gradient-to-r from-black/40 via-black/20 to-transparent
+      backdrop-blur-sm border-l-[3px] 
+      py-2 px-3 gap-3
       transition-all duration-300
   `}
-  style={{ borderColor: theme?.accentColor || '#ea580c' }} // Usa il colore del tema se disponibile, default arancio
+  style={{ 
+      borderColor: theme?.accentColor || '#ea580c',
+  }} 
   >
-    {/* Numero: Grande, Font Impact/Heavy, Colore Accento */}
-    <div className={`
-        font-black italic tracking-tighter leading-tight text-transparent bg-clip-text bg-gradient-to-br from-white to-white/60
-        ${isCompact ? 'text-4xl w-16' : 'text-6xl w-28'} 
-        text-right pr-2 py-1
-    `}
-    style={{ fontFamily: 'Impact, sans-serif' }}
-    >
-      {number}
+    {/* Numero: Increased width and added right padding to fix italic clipping */}
+    <div className="flex-shrink-0 w-16 text-right flex justify-end pr-2">
+       <span className="font-black italic text-4xl leading-none text-transparent bg-clip-text bg-gradient-to-br from-white to-white/70 block transform translate-y-[2px] pr-1"
+             style={{ fontFamily: 'Impact, sans-serif' }}>
+         {number}
+       </span>
     </div>
 
-    {/* Separatore Verticale */}
-    <div className={`h-full w-px bg-white/20 ${isCompact ? 'h-8' : 'h-12'}`}></div>
+    {/* Vertical Separator */}
+    <div className="h-8 w-px bg-white/20 rounded-full"></div>
 
-    {/* Nome: Uppercase, Bold */}
-    <div className={`
-        font-bold uppercase tracking-tight text-white
-        ${isCompact ? 'text-lg' : 'text-3xl'}
-        truncate
-    `}>
-      {name}
+    {/* Nome: Truncate per evitare overflow orizzontale */}
+    <div className="flex-1 min-w-0">
+      <span className="block font-bold uppercase text-white text-lg truncate tracking-wider drop-shadow-sm">
+        {name}
+      </span>
     </div>
   </div>
 );
 
-// --- LAYOUT PRINCIPALE ---
+// --- COMPONENTE PRINCIPALE ---
 export const BasketRoster = ({ data, theme, className = "" }) => {
   
-  // Parser Giocatori
+  // 1. Parsing dei dati
   const parsePlayer = (line) => {
       const trimmed = line.trim();
       if (!trimmed) return null;
-      const firstSpaceIndex = trimmed.indexOf(' ');
-      if (firstSpaceIndex === -1) return { num: '', name: trimmed };
+      // Regex: cattura numero iniziale opzionale (es. "23") e il resto come nome
+      const match = trimmed.match(/^(\d+)?\s*(.*)$/);
+      if (!match) return { num: '', name: trimmed };
+      
       return {
-        num: trimmed.substring(0, firstSpaceIndex),
-        name: trimmed.substring(firstSpaceIndex + 1)
+        num: match[1] || '-',
+        name: match[2]
       };
   };
 
-  const players = data.rosterList ? data.rosterList.split('\n').map(parsePlayer).filter(Boolean) : [];
-
-  // --- LOGICA ELASTICA ---
-  // Se sono più di 6, usiamo 2 colonne. Altrimenti 1 colonna centrale massiccia.
-  const isGrid = players.length > 6;
+  const players = data.rosterList ? data.rosterList.split('\n').map(parsePlayer).filter(p => p && p.name) : [];
   
-  // Se sono tantissimi (es. > 10), riduciamo un po' il padding (isCompact)
-  const isCompact = players.length > 8;
+  // 2. Configurazione Layout (Target: 8-12 players)
+  const isSingleColumn = players.length > 0 && players.length <= 6;
+  const gridCols = isSingleColumn ? 'grid-cols-1 max-w-md mx-auto' : 'grid-cols-2';
 
   return (
-    <div className={`relative flex flex-col flex-1 overflow-hidden rounded-3xl border border-white/10 shadow-2xl ${className}`}>
+    <div className={`relative flex flex-col min-h-0 overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-[#0a0a0a] ${className}`}>
         
-        {/* SFONDO TECNICO */}
-        <div className="absolute inset-0 z-0 bg-gray-900">
-            {/* Pattern a righe diagonali sottili */}
-            <div className="absolute inset-0 opacity-20" 
-                 style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 10px)' }}>
+        {/* SFONDO CON GLOW (Restaurato stile originale) */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            {/* Texture diagonale tecnica */}
+             <div className="absolute inset-0 opacity-10" 
+                  style={{ backgroundImage: 'repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 10px)' }}>
             </div>
-            {/* Glow centrale colorato in base al tema */}
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r ${theme?.primary || 'from-orange-600 to-red-600'} opacity-20 blur-[100px] rounded-full`}></div>
+            {/* Glow centrale colorato sferico - come richiesto */}
+            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r ${theme?.primary || 'from-orange-600 to-red-600'} opacity-25 blur-[90px] rounded-full mix-blend-screen`}></div>
         </div>
 
-        {/* HEADER: ROSTER (SX) - COACH (DX) */}
-        <div className="relative z-20 flex items-center justify-between px-8 py-5 border-b border-white/10 bg-black/40 backdrop-blur-md">
+        {/* HEADER */}
+        <div className="relative z-20 flex items-center justify-between px-8 py-5 border-b border-white/10 bg-black/30 backdrop-blur-md shrink-0">
             <div className="flex items-center gap-3">
-                {/* Icona decorativa */}
                 <div className={`w-1.5 h-8 bg-gradient-to-b ${theme?.primary || 'from-orange-500 to-red-600'}`}></div>
-                <h2 className="text-3xl font-black italic uppercase tracking-widest text-white drop-shadow-md">
+                <h2 className="text-3xl font-black italic uppercase tracking-[0.15em] text-white drop-shadow-md">
                     Roster
                 </h2>
             </div>
             
-            <div className="flex flex-col items-end">
-                <span className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em] mb-0.5">Head Coach</span>
-                <span className="text-xl font-bold text-white uppercase tracking-wider">{data.coach}</span>
-            </div>
+            {data.coach && (
+                <div className="flex flex-col items-end">
+                    <span className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em]">Head Coach</span>
+                    <span className="text-xl font-bold text-white uppercase tracking-wider leading-none mt-1">{data.coach}</span>
+                </div>
+            )}
         </div>
 
-        {/* CORPO: LISTA GIOCATORI */}
-        <div className="relative z-10 flex-1 p-6 flex items-center justify-center">
-            
-            <div className={`
-                w-full grid gap-4
-                ${isGrid ? 'grid-cols-2 content-start' : 'grid-cols-1 max-w-2xl content-center'}
-            `}>
+        {/* CORPO LISTA */}
+        <div className={`relative z-10 flex-1 p-6 flex flex-col ${players.length > 8 ? 'justify-start overflow-y-auto' : 'justify-center overflow-hidden'}`}>
+             {/* Grid Container */}
+             <div className={`w-full grid ${gridCols} gap-x-8 gap-y-3 auto-rows-min`}>
                 {players.map((p, index) => (
                     <PlayerCard 
                         key={index} 
                         number={p.num} 
                         name={p.name} 
                         theme={theme} 
-                        isCompact={isCompact} 
                     />
                 ))}
 
                 {players.length === 0 && (
-                    <div className="col-span-2 text-center text-white/30 py-20 font-mono text-sm border-2 border-dashed border-white/10 rounded-xl">
-                        Inserisci la lista giocatori...
+                    <div className="col-span-full py-16 text-center border-2 border-dashed border-white/10 rounded-xl bg-white/5">
+                        <span className="text-white/40 text-sm font-mono uppercase tracking-widest">Inserisci lista</span>
                     </div>
                 )}
             </div>
-
         </div>
 
-        {/* FOOTER DECORATIVO (Opzionale, barra sottile) */}
-        <div className={`h-1.5 w-full bg-gradient-to-r ${theme?.primary || 'from-orange-600 to-red-600'}`}></div>
-
+         {/* FOOTER DECORATIVO (Stile originale) */}
+         <div className={`shrink-0 h-1.5 w-full bg-gradient-to-r ${theme?.primary || 'from-orange-600 to-red-600'}`}></div>
     </div>
   );
 };
@@ -132,12 +123,12 @@ export const BasketRosterControls = ({ data, onChange }) => (
     <textarea 
         value={data.rosterList || ''} 
         onChange={(e) => onChange('rosterList', e.target.value)} 
-        className="w-full p-3 bg-white border rounded-lg text-sm font-mono h-40 resize-none focus:ring-2 focus:ring-orange-500 outline-none leading-relaxed shadow-sm"
+        className="w-full p-3 bg-white border rounded-lg text-sm font-mono h-40 resize-none focus:ring-2 focus:ring-orange-500 outline-none leading-relaxed shadow-sm transition-all"
         placeholder={"23 Jordan\n33 Pippen\n91 Rodman"}
     />
      <div className="mt-2">
         <label className="text-[10px] font-bold text-gray-500 uppercase">Head Coach</label>
-        <input type="text" value={data.coach} onChange={(e) => onChange('coach', e.target.value)} className="w-full p-2 bg-white border rounded-lg text-sm" placeholder="Coach Phil" />
+        <input type="text" value={data.coach || ''} onChange={(e) => onChange('coach', e.target.value)} className="w-full p-2 bg-white border rounded-lg text-sm" placeholder="Coach Phil" />
      </div>
   </div>
 );

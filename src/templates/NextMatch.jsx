@@ -17,11 +17,13 @@ export const NextMatch = {
 
   Render: ({ data, theme, cardRef }) => (
     <BaseCard theme={theme} ref={cardRef}>
-        <div className="flex flex-col h-full w-full relative z-10">
-            <MatchInfo data={data} theme={theme} className="mb-4" matchDayLabel="MATCH DAY" />
+        <div className="flex flex-col h-full w-full relative z-10 gap-4">
+            <MatchInfo data={data} theme={theme} className="mb-0" matchDayLabel="MATCH DAY" />
             <VersusTeams data={data} theme={theme} />
-            <BasketRoster data={data} theme={theme} className="flex-1 my-4" />
-            <MatchDetails data={data} theme={theme} />
+            {/* BasketRoster is content-sized (no flex-1) */}
+            <BasketRoster data={data} theme={theme} className="w-full my-2" />
+            {/* MatchDetails pushed to bottom */}
+            <MatchDetails data={data} theme={theme} className="mt-auto" />
         </div>
     </BaseCard>
   ),
