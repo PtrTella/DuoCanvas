@@ -39,38 +39,35 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
       {/* 3. LAYER CONTENUTO (Dinamico) */}
       {/* flex-1 spinge questo div a occupare tutto lo spazio disponibile, 
           spingendo gli sponsor in basso */}
-      <div className="relative z-10 w-full flex-1 flex flex-col p-8">
+      <div className="relative z-10 w-full flex-1 flex flex-col p-8 pb-8">
         {children}
       </div>
 
-      {/* 4. LAYER SPONSOR (Fisso e Comune a tutti) */}
-      <div className="relative z-20 w-full px-12 py-6 flex flex-col items-center gap-4 bg-gradient-to-t from-black/60 to-transparent">
-        
-        {/* Linea separatrice sottile */}
-        <div className="w-full h-px bg-white/20 mb-2"></div>
-        
-        <div className="flex items-center justify-center gap-12 w-full">
-            {SPONSORS.map((logo, index) => (
-              <img 
-                key={index} 
-                src={logo} 
-                alt="Sponsor" 
-                className="h-16 object-contain opacity-90" 
-                /* NOTA SULLO STILE:
-                   - h-16: Altezza fissa (regolala tu)
-                   - object-contain: Mantiene le proporzioni
-                */
-              />
-            ))}
-        </div>
-      </div>
+      {/* 4. FOOTER (Clean, Dark, Impactful) */}
+      <div className="relative z-20 w-full bg-[#101010] flex items-center justify-between px-12 py-8 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
+          {/* Left: Brand Identity - Aligned with App Style */}
+          <div className="flex flex-col items-end">
+             <span className="text-3xl font-black uppercase text-white tracking-[0.15em] leading-none">
+               Duo Ligones
+             </span>
+             <span className="text-[10px] text-gray-400 font-bold tracking-[0.6em] uppercase mt-1">
+               Official
+             </span>
+          </div>
 
-      {/* 5. FOOTER UFFICIALE (La striscia nera in fondo) */}
-      <div className="relative w-full p-6 z-20 border-t border-white/10 flex justify-between items-center bg-black/90 backdrop-blur-md">
-          <span className="text-xl uppercase text-white/80 font-bold tracking-[0.2em]">Duo Ligones Official</span>
-          <div className="flex gap-3">
-              <div className="w-4 h-4 rounded-full bg-white/50"></div>
-              <div className="w-4 h-4 rounded-full bg-white/20"></div>
+          {/* Graphical Divider: Thin vertical line */}
+          <div className="h-14 w-px bg-white/10 mx-8"></div>
+
+          {/* Right: Sponsors - Big but balanced */}
+          <div className="flex items-center justify-start gap-12 flex-1">
+              {SPONSORS.map((logo, index) => (
+                <img 
+                  key={index} 
+                  src={logo} 
+                  alt="Sponsor" 
+                  className="h-24 object-contain" 
+                />
+              ))}
           </div>
       </div>
     </div>
