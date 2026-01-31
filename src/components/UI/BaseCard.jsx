@@ -33,6 +33,17 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
               backgroundSize: '40px 40px' 
             }}></div>
           <div className={`absolute top-0 left-0 w-96 h-96 bg-gradient-to-br ${theme.primary} opacity-30 blur-[100px] rounded-full -translate-x-1/2 -translate-y-1/2`}></div>
+          
+          {/* THEME DECORATION (Ball in lower right corner) */}
+          {theme.decoration && (
+            <div className="absolute bottom-[-10%] right-[-10%] w-[70%] aspect-square pointer-events-none z-0">
+               <img 
+                 src={theme.decoration} 
+                 alt="" 
+                 className="w-full h-full object-contain opacity-30 mix-blend-overlay"
+               />
+            </div>
+          )}
         </>
       )}
       
