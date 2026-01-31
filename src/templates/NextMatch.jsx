@@ -1,11 +1,11 @@
 import React from 'react';
 import { Users } from 'lucide-react';
 import BaseCard from '../components/UI/BaseCard';
-
 import { MatchInfo, MatchInfoControls } from '../components/blocks/MatchInfo';
 import { MatchDetails, MatchDetailsControls } from '../components/blocks/MatchDetails';
 import { BasketRoster, BasketRosterControls } from '../components/blocks/BasketRoster';
 import { VersusTeams, VersusTeamsControls } from '../components/blocks/VersusTeams';
+import TeamControls from '../components/editor/TeamControls';
 
 export const NextMatch = {
   id: 'fixture', // Deve corrispondere alla chiave in defaults.js
@@ -28,6 +28,7 @@ export const NextMatch = {
 
   Controls: ({ data, onChange }) => (
       <div className="space-y-1 animate-in fade-in">
+          <TeamControls data={data} onChange={onChange} />
           <MatchInfoControls data={data} onChange={onChange} />
           <VersusTeamsControls data={data} onChange={onChange} />
           <BasketRosterControls data={data} onChange={onChange} />

@@ -4,6 +4,7 @@
 export const GLOBAL_DEFAULTS = {
   homeTeam: "Duo Ligones",
   awayTeam: "Avversari",
+  homeLogo: "/DuoCanvas/logos/duoligones.png",
   awayLogo: null, 
   matchDay: "1",
   championship: "Serie D",

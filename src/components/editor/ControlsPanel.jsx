@@ -21,31 +21,16 @@ const ControlsPanel = ({
         activeTemplateId={activeTemplateId}
         setActiveTemplateId={setActiveTemplateId}
         activeTemplate={activeTemplate}
-        // --- CORREZIONE QUI SOTTO: ---
-        // Prima mancavano queste righe, quindi il selettore non sapeva come aprirsi
         isOpen={isTemplateSelectorOpen}
         setIsOpen={setIsTemplateSelectorOpen}
       />
 
-      {/* 2. DATI COMUNI (Squadre) */}
-      <div className="space-y-2 pt-2 border-t border-gray-100">
-        <h3 className="text-xs font-bold uppercase text-gray-400 tracking-wider">Squadre</h3>
-        <div className="grid grid-cols-2 gap-3">
-           <div className="space-y-1">
-             <input type="text" value={data.homeTeam} onChange={(e) => handleDataChange('homeTeam', e.target.value)} className="w-full p-3 bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-xl text-sm font-bold transition-all" placeholder="Casa" />
-           </div>
-           <div className="space-y-1">
-             <input type="text" value={data.awayTeam} onChange={(e) => handleDataChange('awayTeam', e.target.value)} className="w-full p-3 bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-xl text-sm font-bold transition-all" placeholder="Ospiti" />
-           </div>
-        </div>
-      </div>
-
-      {/* 3. CONTROLLI SPECIFICI DEL TEMPLATE SCELTO */}
+      {/* 2. CONTROLLI SPECIFICI DEL TEMPLATE SCELTO */}
       <div className="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
         {activeTemplate && <activeTemplate.Controls data={data} onChange={handleDataChange} />}
       </div>
 
-      {/* 4. SELETTORE COLORE */}
+      {/* 3. SELETTORE COLORE */}
       <div className="space-y-2 pt-2 border-t border-gray-100">
         <h3 className="text-xs font-bold uppercase text-gray-400 tracking-wider flex items-center gap-2">
             <Palette size={14}/> Tema
@@ -62,7 +47,7 @@ const ControlsPanel = ({
         </div>
       </div>
 
-      {/* 5. DOWNLOAD (SOLO DESKTOP) */}
+      {/* 5. DOWNLOAD */}
       <div className="hidden md:block pt-6">
           <button 
               onClick={handleDownload}

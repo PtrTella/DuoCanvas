@@ -5,6 +5,7 @@ import { MatchInfo, MatchInfoControls } from '../components/blocks/MatchInfo';
 import { MatchDetails, MatchDetailsControls } from '../components/blocks/MatchDetails';
 import { VersusTeams, VersusTeamsControls } from '../components/blocks/VersusTeams';
 import { SoccerFormation, SoccerFormationControls } from '../components/blocks/SoccerFormation';
+import TeamControls from '../components/editor/TeamControls';
 
 export const SoccerMatch = {
   id: 'soccer_formation',
@@ -35,6 +36,7 @@ export const SoccerMatch = {
 
   Controls: ({ data, onChange }) => (
       <div className="space-y-1 animate-in fade-in">
+          <TeamControls data={data} onChange={onChange} />
           <MatchInfoControls data={data} onChange={onChange} />
           <VersusTeamsControls data={data} onChange={onChange} />
           <SoccerFormationControls data={data} onChange={onChange} />
