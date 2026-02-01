@@ -12,10 +12,14 @@ const PROXY_URL = "https://corsproxy.io/?" + encodeURIComponent(CSI_DATA_URL);
 export const useClassifica = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(PROXY_URL)
-      .then(res => res.text())
+      .then(res => {
+        if (!res.ok) throw new Error("Errore network fetch");
+        return res.text();
+      })
       .then(jsContent => {
         // Passiamo il contenuto JS al parser
         const { teamsMap, rawMatches } = parseCsiData(jsContent);
@@ -26,21 +30,26 @@ export const useClassifica = () => {
       })
       .catch(err => {
         console.error("Errore fetch CSI:", err);
+        setError(err.message);
         setLoading(false);
       });
   }, []);
 
-  return { classifica: data, loading };
+  return { classifica: data, loading, error };
 };
 
 // --- HOOK 2: Partite Duo Ligones ---
 export const usePartiteDuoLigones = () => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(PROXY_URL)
-      .then(res => res.text())
+      .then(res => {
+        if (!res.ok) throw new Error("Errore network fetch");
+        return res.text();
+      })
       .then(jsContent => {
         const { teamsMap, rawMatches } = parseCsiData(jsContent);
         const teamMatches = getTeamMatches(teamsMap, rawMatches);
@@ -49,9 +58,10 @@ export const usePartiteDuoLigones = () => {
       })
       .catch(err => {
         console.error("Errore fetch CSI:", err);
+        setError(err.message);
         setLoading(false);
       });
   }, []);
 
-  return { partite: matches, loading };
+  return { partite: matches, loading, error };
 };

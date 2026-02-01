@@ -46,7 +46,7 @@ export const BasketRanking = {
   },
 
   Controls: ({ data, onChange }) => {
-    const { classifica, loading } = useClassifica();
+    const { classifica, loading, error } = useClassifica();
 
     // Funzione manuale per aggiornare i dati
     const handleSync = () => {
@@ -96,12 +96,14 @@ export const BasketRanking = {
                 {loading && <span className="text-[10px] font-bold text-blue-500 uppercase">Caricamento...</span>}
              </div>
              
-             <div className="text-xs text-blue-700 mb-4 bg-blue-100/50 p-2 rounded-lg">
+             <div className={`text-xs mb-4 p-2 rounded-lg ${error ? 'bg-red-100 text-red-700' : 'bg-blue-100/50 text-blue-700'}`}>
                 {loading 
                     ? "Connessione al portale CSI in corso..." 
-                    : classifica && classifica.length > 0 
-                        ? `✅ Trovate ${classifica.length} squadre nel database.` 
-                        : "⚠️ Nessun dato trovato. Controlla la connessione."}
+                    : error 
+                        ? `❌ Errore CSI: ${error}`
+                        : classifica && classifica.length > 0 
+                            ? `✅ Trovate ${classifica.length} squadre nel database.` 
+                            : "⚠️ Nessun dato trovato. Controlla la connessione."}
              </div>
 
              <button 
