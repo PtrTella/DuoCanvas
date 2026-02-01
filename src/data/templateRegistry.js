@@ -3,13 +3,15 @@ import { NextMatch } from '../templates/NextMatch';
 import { SoccerMatch } from '../templates/SoccerMatch';
 import { FootballResult } from '../templates/FootballResult';
 import { WeekRecap } from '../templates/WeekRecap';
+import { BasketRanking } from '../templates/BasketRanking';
 
 export const TEMPLATES = [
   MatchResult,
   NextMatch,
   SoccerMatch,
   FootballResult,
-  WeekRecap
+  WeekRecap,
+  BasketRanking
 ];
 
 export const THEMES = {

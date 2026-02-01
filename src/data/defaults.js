@@ -65,6 +65,13 @@ export const TEMPLATE_DEFAULTS = {
          color: 'green'
        }
     ]
+  },
+
+  basket_ranking: {
+    leagueName: "Camp. CSI Imola",
+    season: "Stagione 2024/25",
+    ranking: [],
+    highlightTeam: "Duo Ligones"
   }
 
 };
