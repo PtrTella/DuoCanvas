@@ -68,8 +68,8 @@ export const TEMPLATE_DEFAULTS = {
   },
 
   basket_ranking: {
-    leagueName: "Camp. CSI Imola",
-    season: "Stagione 2024/25",
+    leagueName: "Campionato CSI Imola, Girone Ovest",
+    season: "Stagione 2025/26",
     ranking: [],
     highlightTeam: "Duo Ligones"
   }
