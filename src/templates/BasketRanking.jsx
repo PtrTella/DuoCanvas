@@ -16,7 +16,6 @@ export const BasketRanking = {
     // matchDay -> "CLASSIFICA"
     // championship -> leagueName + season
     const headerData = {
-        matchDay: "CLASSIFICA", 
         championship: `${data.leagueName} - ${data.season}`
     };
 
@@ -28,7 +27,7 @@ export const BasketRanking = {
           <MatchInfo 
                 data={headerData} 
                 theme={theme} 
-                matchDayLabel="" 
+                matchDayLabel="CLASSIFICA" 
             /> 
 
           <div className="flex-1 w-full relative px-6 pb-6 pt-2">
