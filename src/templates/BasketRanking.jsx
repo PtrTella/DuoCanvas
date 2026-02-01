@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ListOrdered, RefreshCw } from 'lucide-react';
 import BaseCard from '../components/UI/BaseCard';
+import { MatchInfo } from '../components/blocks/MatchInfo';
 import { useClassifica } from '../hooks/useCsi';
 
 export const BasketRanking = {
@@ -10,84 +11,103 @@ export const BasketRanking = {
   defaultTheme: 'orange',
 
   Render: ({ data, theme, cardRef }) => {
+    // Adattiamo i dati per MatchInfo: 
+    // matchDay -> "CLASSIFICA"
+    // championship -> leagueName + season
+    const headerData = {
+        matchDay: "CLASSIFICA", // Scritta fissa grande
+        championship: `${data.leagueName} - ${data.season}` // Sottotitolo
+    };
+
     return (
       <BaseCard theme={theme} ref={cardRef}>
-        <div className="flex flex-col h-full w-full px-8 py-10 relative z-10 text-white">
-          <div className="text-center mb-8">
-            <h2 className={`text-5xl font-black italic tracking-tighter uppercase mb-2 bg-gradient-to-r ${theme.primary} bg-clip-text text-transparent filter drop-shadow-sm`}>
-              {data.leagueName}
-            </h2>
-            <div className={`inline-block px-4 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-lg font-medium`}>
-              {data.season}
-            </div>
-          </div>
-
-          <div className="flex-1 w-full relative">
-            {/* Background decoration */}
-            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-2xl -z-10" />
+        <div className="flex flex-col h-full w-full relative z-10 gap-4">
             
-            <div className="h-full overflow-hidden rounded-2xl border border-white/10 backdrop-blur-sm bg-black/20">
-              <table className="w-full text-sm border-collapse">
-                <thead>
-                  <tr className={`text-white bg-white/10 border-b border-white/10`}>
-                    <th className="p-4 text-center w-14 font-bold text-lg">#</th>
-                    <th className="p-4 text-left font-bold text-lg">SQUADRA</th>
-                    <th className="p-4 text-center font-bold text-lg w-20 bg-white/10">PT</th>
-                    <th className="p-4 text-center font-bold w-14 opacity-80">G</th>
-                    <th className="p-4 text-center font-bold w-14 opacity-80">V</th>
-                    <th className="p-4 text-center font-bold w-14 opacity-80">P</th>
-                    <th className="p-4 text-center font-bold w-14 opacity-80">S</th>
-                  </tr>
-                </thead>
-                <tbody className="">
-                  {data.ranking && data.ranking.length > 0 ? (
+          {/* Header standard MatchInfo */}
+          <MatchInfo 
+                data={headerData} 
+                theme={theme} 
+                matchDayLabel="" // Nascondiamo "MATCH DAY" sopra il titolo grande
+            /> 
+
+          <div className="flex-1 w-full relative px-6 py-4">
+            {/* Table Container con effetto Glassmorphism più spinto */}
+            <div className={`h-full overflow-hidden rounded-3xl border border-white/20 shadow-2xl backdrop-blur-xl relative flex flex-col ${theme.bg === 'bg-white' ? 'bg-black/80' : 'bg-black/40'}`}>
+              
+              {/* Table Header Styles */}
+              <div className={`grid grid-cols-[3.5rem_1fr_4rem_3rem_3rem_3rem_3rem] gap-2 p-4 text-xs font-black tracking-widest uppercase opacity-80 border-b border-white/10 bg-white/5`}>
+                 <div className="text-center">#</div>
+                 <div className="text-left pl-2">Team</div>
+                 <div className="text-center bg-white/20 rounded">PT</div>
+                 <div className="text-center opacity-60">G</div>
+                 <div className="text-center opacity-60">V</div>
+                 <div className="text-center opacity-60">P</div>
+                 <div className="text-center opacity-60">S</div>
+              </div>
+
+              {/* Table Body */}
+              <div className="overflow-y-auto flex-1 remove-scrollbar">
+                {data.ranking && data.ranking.length > 0 ? (
                     data.ranking.map((team, index) => {
                       const isHighlighted = data.highlightTeam === team.name;
+                      const isTop3 = index < 3;
+                      
                       return (
-                        <tr 
+                        <div 
                           key={team.id} 
                           className={`
-                            border-b border-white/5 last:border-0 transition-colors
-                            ${isHighlighted ? 'bg-white/20' : index % 2 === 0 ? 'bg-transparent' : 'bg-white/5'}
+                            grid grid-cols-[3.5rem_1fr_4rem_3rem_3rem_3rem_3rem] gap-2 items-center 
+                            py-3 px-4 border-b border-white/5 transition-all
+                            ${isHighlighted 
+                                ? `bg-gradient-to-r ${theme.primary} text-white font-bold scale-[1.02] shadow-lg border-y border-white/30 relative z-10` 
+                                : 'hover:bg-white/5'
+                            }
                           `}
                         >
-                          <td className={`p-3 text-center font-mono text-lg ${index < 3 ? 'text-yellow-400 font-bold' : 'opacity-70'}`}>
+                          <div className={`
+                            flex items-center justify-center w-8 h-8 rounded-full mx-auto font-mono text-lg font-bold
+                            ${isTop3 && !isHighlighted ? 'bg-white text-black' : isHighlighted ? 'bg-white text-black' : 'bg-white/10 text-white/70'}
+                          `}>
                             {index + 1}
-                          </td>
-                          <td className="p-3 font-semibold uppercase tracking-wide text-base truncate max-w-[280px]">
-                            {team.name}
-                          </td>
-                          <td className={`p-3 text-center font-black text-2xl ${isHighlighted ? 'text-white' : 'text-white'}`}>
+                          </div>
+                          
+                          <div className="pl-2 pr-2 font-bold uppercase tracking-wide text-lg truncate flex items-center gap-2">
+                             {team.name}
+                             {isTop3 && !isHighlighted && <span className="text-[10px] bg-yellow-400 text-black px-1.5 py-0.5 rounded font-black">TOP</span>}
+                          </div>
+
+                          <div className={`text-center font-black text-2xl tracking-tighter ${isHighlighted ? 'scale-110' : ''}`}>
                             {team.points}
-                          </td>
-                          <td className="p-3 text-center text-lg opacity-80 font-mono">{team.played}</td>
-                          <td className="p-3 text-center text-lg opacity-60 font-mono">{team.won}</td>
-                          <td className="p-3 text-center text-lg opacity-60 font-mono">{team.drawn}</td>
-                          <td className="p-3 text-center text-lg opacity-60 font-mono">{team.lost}</td>
-                        </tr>
+                          </div>
+
+                          <div className="text-center font-mono opacity-80 text-lg">{team.played}</div>
+                          <div className="text-center font-mono opacity-60">{team.won}</div>
+                          <div className="text-center font-mono opacity-60">{team.drawn}</div>
+                          <div className="text-center font-mono opacity-60">{team.lost}</div>
+                        </div>
                       );
                     })
                   ) : (
-                    <tr>
-                      <td colSpan="7" className="p-12 text-center opacity-50 text-xl">
-                        Nessun dato disponibile.<br/>
-                        <span className="text-sm mt-2 block">Usa i controlli per importare la classifica CSI.</span>
-                      </td>
-                    </tr>
+                    <div className="flex flex-col items-center justify-center h-full opacity-50 p-10 text-center gap-4">
+                        <ListOrdered size={48} className="opacity-20" />
+                        <div>
+                            <p className="text-xl font-bold">Nessun dato</p>
+                            <p className="text-sm">Usa il bottone "Importa" nei controlli</p>
+                        </div>
+                    </div>
                   )}
-                </tbody>
-              </table>
+              </div>
             </div>
           </div>
           
-          <div className="mt-6 flex justify-between items-end opacity-70">
-             <div className="text-xs space-y-1">
-               <p>Legenda: PT=Punti, G=Giocate, V=Vinte, P=Pari, S=Perse</p>
-               <p>Dati ufficiali CSI</p>
+          <div className="mb-6 px-10 flex justify-between items-center opacity-60 mt-2">
+             <div className="flex gap-4 text-[10px] uppercase tracking-wider font-semibold">
+               <span>V • Vittorie (3/2pt)</span>
+               <span>S • Sconfitte (1/0pt)</span> 
+               <span>P • Pari (1pt)</span>
              </div>
              <div className="text-right">
-                <p className="font-bold text-sm">Duo Ligones</p>
-                <p className="text-xs">duoligones.it</p>
+                <p className="font-bold text-xs uppercase tracking-widest">{data.season}</p>
              </div>
           </div>
         </div>
@@ -112,28 +132,28 @@ export const BasketRanking = {
 
     return (
       <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+        
+        {/* Controls Intestazione riadattati */}
         <div className="p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
-          <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 block">Intestazione</label>
-          <div className="space-y-3">
-            <div>
-                <label className="text-xs text-gray-500 mb-1 block">Nome Campionato</label>
-                <input 
-                    value={data.leagueName}
-                    onChange={(e) => onChange('leagueName', e.target.value)}
-                    className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-lg transition-all"
-                    placeholder="Es. CAMPIONATO CSI"
-                />
-            </div>
-            <div>
-                <label className="text-xs text-gray-500 mb-1 block">Sottotitolo / Stagione</label>
-                <input 
-                    value={data.season}
-                    onChange={(e) => onChange('season', e.target.value)}
-                    className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-lg transition-all"
-                    placeholder="Es. Stagione 2024/25"
-                />
-            </div>
-          </div>
+             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Intestazione</h3>
+             <div className="space-y-3">
+                <div>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Nome Campionato (es. Serie D)</label>
+                    <input 
+                        value={data.leagueName}
+                        onChange={(e) => onChange('leagueName', e.target.value)}
+                        className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-lg transition-all"
+                    />
+                </div>
+                <div>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Stagione (es. 2024/25)</label>
+                    <input 
+                        value={data.season}
+                        onChange={(e) => onChange('season', e.target.value)}
+                        className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-lg transition-all"
+                    />
+                </div>
+             </div>
         </div>
 
         <div className="p-4 bg-blue-50/50 border border-blue-100 rounded-xl">

@@ -4,29 +4,11 @@
 const MY_TEAM_ID = 32; 
 const MY_GIRONE_ID = "3"; // Girone 3 (Silver Ovest)
 
-// Logica Punti Basket CSI (Aggiornata per Faenza: 3p Vinta, 1p Persa)
-// Controllo: Di solito per il basket CSI Faenza è 2 punti vittoria, 0 sconfitta? 
-// Dal file HTML allegato: "v=3, p=0, s=1" ? No, aspetta.
-// HTML: "if (sport=='basket') { pu_vin=3;pu_per=0;pu_par=1 }"
-// Però guardando il codice HTML loop:
-// classi[i][7]=(classi[i][2]*pu_vin)+(classi[i][3]*pu_par)+(classi[i][4]*pu_per)
-// 2=Vinte, 3=Pari, 4=Perse.
-// E poi: classi[i][7]=classi[i][7]+(classi[i][10]*2)+classi[i][11] (se basket speciali?)
-// MA il tuo HTML ha anche: 
-// if (sport=='basket') pu_vin=3; pu_per=0; pu_par=1;
-// Quindi Vinta=3, Pari=1, Persa=0.
-// NOTA: Nel basket il pareggio è raro, ma forse assegnano 1 punto alla sconfitta?
-// C'è un commento nel JS: "// si dà per contato che i punti in questo caso sono 2 per chi vince e 1 per il perdente"
-// Ma è in un blocco commentato o attivo? È attivo: `classi[i][7]=...`
-// Aspetta, il codice JS nell'HTML sovrascrive i punti?
-// "si dà per contato che i punti in questo caso sono 2 per chi vince e 1 per il perdente"
-// Questo commento è strano se `pu_vin` è 3.
-// Seguiamo la logica delle variabili: pu_vin=3, pu_per=0.
-// Se uso 3 per vittoria, 0 sconfitta.
-
+// Logica Punti Basket CSI Faenza
 const POINTS_WIN = 3; 
-const POINTS_DRAW = 1; // Teorico
-const POINTS_LOSS = 0; // O forse 1?
+const POINTS_WIN_OT = 2;
+const POINTS_LOSS_OT = 1;
+const POINTS_LOSS = 0;
 
 // Aggiorniamo la logica di parsing per il file JS
 export const parseCsiData = (jsContent) => {
@@ -56,12 +38,13 @@ export const calculateClassifica = (teamsMap, rawMatches, targetGironeId = MY_GI
   const ranking = {};
 
   rawMatches.forEach(m => {
-    // Indici Listapar: 6=Girone, 8=Casa, 9=Fuori, 10=PuntiCasa, 11=PuntiFuori
+    // Indici Listapar: 6=Girone, 8=Casa, 9=Fuori, 10=PuntiCasa, 11=PuntiFuori, 15=Note/Overtime (s=supplementari)
     const gironeId = m[6];
     const idHome = parseInt(m[8]);
     const idAway = parseInt(m[9]);
     const scoreHome = parseInt(m[10]);
     const scoreAway = parseInt(m[11]);
+    const isOvertime = m[15] === 's'; // Controlla il flag dei supplementari
     
     // Controlla se la partita è del girone e se è stata giocata (punteggi validi)
     if (gironeId === targetGironeId && !isNaN(scoreHome) && !isNaN(scoreAway)) {
@@ -83,20 +66,47 @@ export const calculateClassifica = (teamsMap, rawMatches, targetGironeId = MY_GI
       ranking[idAway].played++;
 
       if (scoreHome > scoreAway) {
-        ranking[idHome].points += POINTS_WIN; 
-        ranking[idHome].won++;
-        ranking[idAway].points += POINTS_LOSS; 
-        ranking[idAway].lost++;
+        // VITTORIA CASA
+        if (isOvertime) {
+             ranking[idHome].points += POINTS_WIN_OT; 
+             ranking[idHome].won++; // Vinta (anche se ai supplementari conta come Vinta?)
+        } else {
+             ranking[idHome].points += POINTS_WIN; 
+             ranking[idHome].won++;
+        }
+
+        // SCONFITTA FUORI
+        if (isOvertime) {
+             ranking[idAway].points += POINTS_LOSS_OT;
+             ranking[idAway].lost++; // Persa
+        } else {
+             ranking[idAway].points += POINTS_LOSS;
+             ranking[idAway].lost++;
+        }
+
       } else if (scoreAway > scoreHome) {
-        ranking[idAway].points += POINTS_WIN; 
-        ranking[idAway].won++;
-        ranking[idHome].points += POINTS_LOSS; 
-        ranking[idHome].lost++;
+        // VITTORIA FUORI
+        if (isOvertime) {
+             ranking[idAway].points += POINTS_WIN_OT;
+             ranking[idAway].won++;
+        } else {
+             ranking[idAway].points += POINTS_WIN;
+             ranking[idAway].won++;
+        }
+
+        // SCONFITTA CASA
+        if (isOvertime) {
+             ranking[idHome].points += POINTS_LOSS_OT;
+             ranking[idHome].lost++;
+        } else {
+             ranking[idHome].points += POINTS_LOSS;
+             ranking[idHome].lost++;
+        }
       } else {
-        // Pareggio (Raro nel basket, ma codice CSI lo prevede)
-        ranking[idHome].points += POINTS_DRAW; 
+        // PAREGGIO (Caso raro/impossibile nel basket CSI Faenza, ma per sicurezza)
+        ranking[idHome].points += 1; 
         ranking[idHome].drawn++;
-        ranking[idAway].points += POINTS_DRAW; 
+        ranking[idAway].points += 1; 
         ranking[idAway].drawn++;
       }
     }
@@ -104,7 +114,7 @@ export const calculateClassifica = (teamsMap, rawMatches, targetGironeId = MY_GI
 
   return Object.values(ranking).sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points;
-    // Differenza canestri o scontri diretti qui sarebbe ideale, ma per ora basta punti
+    // Differenza canestri o scontri diretti qui sarebbe ideale
     return 0; 
   });
 };
