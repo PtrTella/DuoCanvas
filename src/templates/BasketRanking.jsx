@@ -68,7 +68,7 @@ export const BasketRanking = {
              <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Intestazione</h3>
              <div className="space-y-3">
                 <div>
-                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Nome Campionato (es. Serie D)</label>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Nome Campionato</label>
                     <input 
                         value={data.leagueName}
                         onChange={(e) => onChange('leagueName', e.target.value)}
@@ -76,7 +76,7 @@ export const BasketRanking = {
                     />
                 </div>
                 <div>
-                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Stagione (es. 2024/25)</label>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Stagione</label>
                     <input 
                         value={data.season}
                         onChange={(e) => onChange('season', e.target.value)}
