@@ -57,13 +57,20 @@ export const calculateClassifica = (teamsMap, rawMatches, targetGironeId = MY_GI
             name: teamsMap[id] || `Team ${id}`, 
             points: 0, 
             played: 0, 
-            won: 0, lost: 0, drawn: 0 
+            won: 0, lost: 0, drawn: 0,
+            scored: 0, conceded: 0 
           };
         }
       });
 
       ranking[idHome].played++;
       ranking[idAway].played++;
+      
+      ranking[idHome].scored += scoreHome;
+      ranking[idHome].conceded += scoreAway;
+      
+      ranking[idAway].scored += scoreAway;
+      ranking[idAway].conceded += scoreHome;
 
       if (scoreHome > scoreAway) {
         // VITTORIA CASA
