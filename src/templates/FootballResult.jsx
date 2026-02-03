@@ -19,11 +19,13 @@ export const FootballResult = {
         <MatchInfo data={data} theme={theme} className="w-full mb-6" matchDayLabel="GIORNATA" />
 
         {/* Squadre e Punteggio */}
-        <div className="flex-1 flex flex-col items-center justify-center w-full mb-4">
-          <MatchScore data={data} theme={theme} className="mb-6" accentColor={FootballResult.defaultTheme} />
+        <div className="flex-1 flex flex-col items-center justify-start pt-16 w-full mb-4">
+          <MatchScore data={data} theme={theme} className="mb-8" accentColor={FootballResult.defaultTheme} />
 
           {/* Goal Timeline - Centered */}
-          <GoalTimeline data={data} theme={theme} className="w-full max-w-md" />
+          <div className="w-full flex justify-center mt-6">
+            <GoalTimeline data={data} theme={theme} className="w-full max-w-xl scale-110" />
+          </div>
         </div>
 
         <MatchDetails data={data} theme={theme} />

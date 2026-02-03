@@ -5,24 +5,26 @@ import { CONTROL_THEMES } from '../../data/templateRegistry';
 // --- LAYOUT ---
 export const MatchScore = ({ data, theme, className = "", children }) => {
   return (
-    <div className={`flex items-center justify-between w-full px-2 ${className}`}>
+    <div className={`flex items-center justify-between w-full px-6 ${className}`}>
       {/* Team Left */}
       <div className="w-[35%]">
          <TeamDisplay 
             name={data.homeTeam} 
             logoSrc={data.homeLogo}
             theme={theme}
+            logoSize="w-40 h-40 md:w-48 md:h-48"
+            textSize="text-4xl"
          />
       </div>
 
       {/* Score Center */}
       <div className="w-[30%] flex flex-col items-center justify-center">
-         <div className="text-[120px] font-black leading-none text-white drop-shadow-2xl flex items-center gap-3">
+         <div className="text-[140px] font-black leading-none text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] flex items-center gap-3">
             <span>{data.homeScore}</span>
-            <span className="text-white/40 text-7xl">:</span>
+            <span className="text-white/30 text-7xl">:</span>
             <span>{data.awayScore}</span>
          </div>
-         <div className="mt-3 px-4 py-1 bg-white/20 rounded-full text-xs font-bold uppercase tracking-widest text-white backdrop-blur-md">
+         <div className={`mt-4 px-6 py-1.5 bg-gradient-to-r ${theme?.primary || 'from-emerald-600 to-green-600'} rounded-full text-sm font-black uppercase tracking-[0.2em] text-white shadow-lg border border-white/20 backdrop-blur-sm`}>
             Finale
          </div>
          {/* Optional children (e.g., topScorer) */}
@@ -35,6 +37,8 @@ export const MatchScore = ({ data, theme, className = "", children }) => {
             name={data.awayTeam} 
             logoSrc={data.awayLogo} 
             theme={theme} 
+            logoSize="w-40 h-40 md:w-48 md:h-48"
+            textSize="text-4xl"
          />
       </div>
     </div>
