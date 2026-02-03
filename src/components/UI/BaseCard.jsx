@@ -22,6 +22,17 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
         backgroundPosition: 'center'
       }}
     >
+      {/* 0. LAYER THEME IMAGE (Solo se no user background) */}
+      {!backgroundUrl && theme.bgImage && (
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={theme.bgImage} 
+            alt="" 
+            className="w-full h-full object-cover opacity-15 mix-blend-luminosity grayscale"
+          />
+        </div>
+      )}
+
       {/* 1. LAYER SFONDO (Overlay Sfumato) */}
       <div className={`absolute inset-0 bg-gradient-to-b ${theme.primary} opacity-40 mix-blend-multiply pointer-events-none`}></div>
 
