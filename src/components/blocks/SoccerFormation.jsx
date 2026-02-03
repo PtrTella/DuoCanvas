@@ -83,10 +83,10 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
   });
 
   return (
-    <div className={`relative flex flex-col flex-1 overflow-hidden rounded-3xl border border-white/10 shadow-2xl ${className}`}>
+    <div className={`relative flex flex-col flex-1 overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-white/5 backdrop-blur-md ${className}`}>
         
         {/* HEADER */}
-        <div className="relative z-20 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-black/90 to-black/40 border-b border-white/10">
+        <div className="relative z-20 flex items-center justify-between px-6 py-4 bg-black/40 border-b border-white/10 backdrop-blur-md">
              <div className="flex items-center gap-3">
                 <div className={`px-3 py-1 rounded bg-gradient-to-r ${theme?.primary || 'from-emerald-600 to-green-600'} text-white font-black italic text-xl shadow-lg border border-white/20`}>
                     {currentModule}
@@ -106,17 +106,17 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
             {/* --- COLONNA SX: CAMPO (75%) --- */}
             <div className="flex-1 relative border-r border-white/10">
                 {/* Sfondo Campo */}
-                <div className="absolute inset-0 z-0 bg-emerald-950">
-                    <div className="absolute inset-0 opacity-30" 
+                <div className="absolute inset-0 z-0 bg-emerald-950/20">
+                    <div className="absolute inset-0 opacity-20" 
                         style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(255,255,255,0.05) 49px, rgba(255,255,255,0.05) 50px)` }}>
                     </div>
                     {/* Linee Tattiche */}
-                    <div className="absolute inset-2 border-2 border-white/10 rounded-lg"></div>
-                    <div className="absolute top-1/2 left-2 right-2 h-0.5 bg-white/10"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white/10 rounded-full"></div>
+                    <div className="absolute inset-2 border-2 border-white/20 rounded-lg"></div>
+                    <div className="absolute top-1/2 left-2 right-2 h-0.5 bg-white/20"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white/20 rounded-full"></div>
                     
                     {/* Vignetta */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20"></div>
                 </div>
 
                 {/* Griglia Giocatori */}

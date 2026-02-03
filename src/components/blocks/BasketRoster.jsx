@@ -4,7 +4,7 @@ import React from 'react';
 const PlayerCard = ({ number, name, theme }) => (
   <div className={`
       relative group flex items-center 
-      bg-gradient-to-r from-black/40 via-black/20 to-transparent
+      bg-gradient-to-r from-white/10 via-white/5 to-transparent
       backdrop-blur-sm border-l-[3px] 
       py-2 px-3 gap-3
       transition-all duration-300
@@ -57,16 +57,16 @@ export const BasketRoster = ({ data, theme, className = "" }) => {
   const gridCols = isSingleColumn ? 'grid-cols-1 max-w-md mx-auto' : 'grid-cols-2';
 
   return (
-    <div className={`relative flex flex-col min-h-0 overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-[#0a0a0a] ${className}`}>
+    <div className={`relative flex flex-col min-h-0 overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-white/5 backdrop-blur-md ${className}`}>
         
         {/* SFONDO CON GLOW (Restaurato stile originale) */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             {/* Texture diagonale tecnica */}
-             <div className="absolute inset-0 opacity-10" 
+             <div className="absolute inset-0 opacity-5" 
                   style={{ backgroundImage: 'repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 10px)' }}>
             </div>
             {/* Glow centrale colorato sferico - come richiesto */}
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r ${theme?.primary || 'from-orange-600 to-red-600'} opacity-25 blur-[90px] rounded-full mix-blend-screen`}></div>
+            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r ${theme?.primary || 'from-orange-600 to-red-600'} opacity-15 blur-[90px] rounded-full mix-blend-screen`}></div>
         </div>
 
         {/* HEADER */}
