@@ -15,19 +15,19 @@ const FieldPlayer = ({ number, name, theme }) => (
   <div className="flex flex-col items-center justify-center group relative z-10">
     {/* Cerchio/Card */}
     <div 
-      className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-2xl border-l-4 shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md bg-gradient-to-br from-gray-900/90 to-gray-800/60 transition-transform hover:scale-110"
+      className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-2xl border-l-4 shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md bg-gradient-to-br from-gray-900/90 to-gray-800/60 transition-transform hover:scale-110"
       style={{ borderColor: theme?.accentColor || '#10b981' }} 
     >
-        <span className="text-2xl md:text-3xl font-black italic text-white tracking-tighter" style={{ fontFamily: 'Impact, sans-serif' }}>
+        <span className="text-3xl md:text-4xl font-black italic text-white tracking-tighter" style={{ fontFamily: 'Impact, sans-serif' }}>
             {number}
         </span>
     </div>
     
     {/* Nome - MODIFICATO PER ESSERE PIÙ GRANDE */}
-    {/* max-w aumentato a 140px per far stare nomi più lunghi */}
-    <div className="mt-1 px-3 py-1 bg-black/70 backdrop-blur-sm border border-white/10 rounded text-center max-w-[140px] shadow-sm">
-        {/* Font passato da text-[10px] a text-xs (12px) su mobile e text-sm (14px) su desktop */}
-        <span className="text-xs md:text-sm font-bold text-white uppercase tracking-wider block truncate leading-tight">
+    {/* max-w aumentato a 170px per far stare nomi più lunghi */}
+    <div className="mt-2 px-4 py-1.5 bg-black/70 backdrop-blur-sm border border-white/10 rounded text-center max-w-[170px] shadow-sm">
+        {/* Font passato da text-xs (12px) a text-sm (14px) e text-sm (14px) a text-base (16px) */}
+        <span className="text-sm md:text-base font-bold text-white uppercase tracking-wider block truncate leading-tight">
             {name}
         </span>
     </div>
@@ -103,7 +103,7 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
         {/* CORPO: CAMPO + PANCHINA */}
         <div className="relative z-10 flex-1 flex">
             
-            {/* --- COLONNA SX: CAMPO (70%) --- */}
+            {/* --- COLONNA SX: CAMPO (75%) --- */}
             <div className="flex-1 relative border-r border-white/10">
                 {/* Sfondo Campo */}
                 <div className="absolute inset-0 z-0 bg-emerald-950">
@@ -111,8 +111,8 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
                         style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(255,255,255,0.05) 49px, rgba(255,255,255,0.05) 50px)` }}>
                     </div>
                     {/* Linee Tattiche */}
-                    <div className="absolute inset-4 border-2 border-white/10 rounded-lg"></div>
-                    <div className="absolute top-1/2 left-4 right-4 h-0.5 bg-white/10"></div>
+                    <div className="absolute inset-2 border-2 border-white/10 rounded-lg"></div>
+                    <div className="absolute top-1/2 left-2 right-2 h-0.5 bg-white/10"></div>
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white/10 rounded-full"></div>
                     
                     {/* Vignetta */}
@@ -120,7 +120,7 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
                 </div>
 
                 {/* Griglia Giocatori */}
-                <div className="relative z-10 h-full flex flex-col-reverse justify-between py-6 px-2">
+                <div className="relative z-10 h-full flex flex-col-reverse justify-between py-10 px-6">
                     {/* Portiere */}
                     <div className="flex justify-center w-full">
                         {gk ? <FieldPlayer number={gk.num} name={gk.name} theme={theme} /> : <span className="text-xs text-white/20">GK...</span>}
@@ -138,8 +138,8 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
                 </div>
             </div>
 
-            {/* --- COLONNA DX: PANCHINA (30%) --- */}
-            <div className="w-1/3 max-w-[250px] bg-black/40 backdrop-blur-xl flex flex-col">
+            {/* --- COLONNA DX: PANCHINA (25%) --- */}
+            <div className="w-1/4 max-w-[250px] bg-black/40 backdrop-blur-xl flex flex-col">
                 <div className="px-4 py-3 bg-white/5 border-b border-white/10">
                     <span className="text-xs font-black uppercase tracking-[0.2em] text-white/60">Bench</span>
                 </div>
