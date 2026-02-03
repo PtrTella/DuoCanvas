@@ -7,56 +7,92 @@ const EventItem = ({ event, theme, index }) => {
   // Se l'evento ha un colore personalizzato, usalo. Altrimenti usa il tema globale.
   const eventTheme = event.color && THEMES[event.color] ? THEMES[event.color] : theme;
 
+  // Check which team is "Duo Ligones" (or variation) to apply color
+  const isDuo = (name) => name && (name.toLowerCase().includes('duo') || name.toLowerCase().includes('ligones'));
+
   return (
-    <div className="relative overflow-hidden bg-black/40 border border-white/10 rounded-2xl p-5 backdrop-blur-sm flex flex-col gap-3 group">
-        
-        {/* Barra decorativa laterale */}
-        <div className={`absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b ${eventTheme.primary || 'from-gray-500 to-gray-700'}`}></div>
+    <div className="relative group w-full">
+        {/* Card Body */}
+        <div className="relative overflow-hidden bg-[#0f0f0f] border border-white/10 rounded-3xl flex items-stretch shadow-2xl">
+            
+            {/* Left: Date Block + Vertical Sport Bar */}
+            <div className="w-48 flex items-stretch border-r border-white/10 bg-white/5 relative shrink-0">
+                 
+                 {/* Vertical Sport Bar (Thicker & Colored) */}
+                 <div className={`w-14 flex items-center justify-center bg-gradient-to-b ${eventTheme.primary} relative overflow-hidden`}>
+                     <div className="absolute inset-0 bg-black/10"></div>
+                     <span className="-rotate-180 [writing-mode:vertical-rl] text-lg font-black uppercase text-white tracking-[0.3em] whitespace-nowrap py-4 shrink-0 drop-shadow-md opacity-90">
+                        {event.sport}
+                     </span>
+                 </div>
 
-        {/* Header: Sport & Data */}
-        <div className="flex justify-between items-start pl-3 mb-1">
-            <span className="text-2xl font-black italic uppercase text-white tracking-widest drop-shadow-md">
-              {event.sport}
-            </span>
-            <div className="flex flex-col items-end text-right">
-                <span className={`text-lg font-bold ${eventTheme.accent} uppercase tracking-tight`}>
-                  {event.date}
-                </span>
-                <span className="text-white/90 font-medium text-base tracking-wider">
-                  {event.time}
-                </span>
+                 {/* Date Info */}
+                 <div className="flex-1 flex flex-col items-center justify-center p-2">
+                     <span className="text-3xl font-black uppercase text-white/50 tracking-widest mb-0 leading-none">
+                        {event.date.split(' ')[0]} 
+                     </span>
+                     <span className={`text-[70px] font-black italic text-white leading-[0.8] tracking-tighter drop-shadow-xl my-1`}>
+                        {event.date.split(' ')[1] || event.date.slice(0,2)} 
+                     </span>
+                     <span className="text-lg font-bold uppercase text-white/40 tracking-[0.2em] leading-none">
+                        {event.date.split(' ').slice(2).join(' ')}
+                     </span>
+                     
+                     <div className={`mt-3 px-3 py-1 rounded bg-white/10 text-2xl font-black text-white tracking-widest`}>
+                        {event.time}
+                     </div>
+                 </div>
             </div>
-        </div>
 
-        {/* VERSUS: Home vs Away (Solo Nomi) */}
-        <div className="pl-3 py-2 border-t border-b border-white/5 flex items-center justify-between gap-4">
-             <div className="flex-1 text-right">
-                <span className="font-bold uppercase text-white tracking-wide text-lg leading-tight">
-                  {event.homeTeam || 'Home'}
-                </span>
-             </div>
-             
-             <div className={`font-black italic text-sm text-white/40 px-2`}>VS</div>
-             
-             <div className="flex-1 text-left">
-                <span className="font-bold uppercase text-white tracking-wide text-lg leading-tight">
-                  {event.awayTeam || 'Guest'}
-                </span>
-             </div>
-        </div>
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col justify-center py-6 px-8 relative z-10">
+                
+                {/* Row 2: Teams - Massive & Stacked */}
+                <div className="flex flex-col gap-1 w-full">
+                    {/* Team 1 */}
+                    <div className="flex items-center relative">
+                        <span className={`text-6xl font-black uppercase leading-[0.85] tracking-tight truncate ${
+                            isDuo(event.homeTeam) ? eventTheme.accent : 'text-white'
+                        }`}>
+                            {event.homeTeam}
+                        </span>
+                    </div>
 
-        {/* Dettagli: Luogo + Campionato */}
-        <div className="flex items-center justify-between gap-2 pl-3 pt-1 text-white/50">
-            <div className="flex items-center gap-1.5">
-                <MapPin size={14} className="text-white/40" />
-                <span className="font-bold uppercase tracking-wider text-[10px]">{event.location}</span>
+                    {/* Subtle Divider */}
+                    <div className="w-full h-px bg-white/10 my-1"></div>
+
+                    {/* Team 2 */}
+                     <div className="flex items-center relative">
+                        <span className={`text-6xl font-black uppercase leading-[0.85] tracking-tight truncate ${
+                            isDuo(event.awayTeam) ? eventTheme.accent : 'text-white'
+                        }`}>
+                            {event.awayTeam}
+                        </span>
+                    </div>
+                </div>
+
+                 {/* Row 3: Footer - Location + Championship (Combined & Bigger) */}
+                <div className="flex items-center gap-5 mt-5 pt-3 border-t border-white/10 opacity-90">
+                    <div className="flex items-center gap-2 min-w-0 shrink-0">
+                        <MapPin size={22} className={eventTheme.accent || "text-white"} />
+                        <span className="font-extrabold uppercase tracking-tight text-xl text-white truncate max-w-[320px]">
+                            {event.location}
+                        </span>
+                    </div>
+
+                    {event.championship && (
+                        <>
+                             <div className="h-5 w-0.5 bg-white/20 rounded-full shrink-0"></div>
+                             <span className="font-bold uppercase tracking-wide text-xl text-white/70 whitespace-nowrap truncate">
+                                {event.championship}
+                             </span>
+                        </>
+                    )}
+                 </div>
             </div>
-            {event.championship && (
-               <div className="flex items-center gap-1.5">
-                  <Trophy size={14} className={eventTheme.accent} />
-                  <span className="font-medium uppercase tracking-wide text-[10px]">{event.championship}</span>
-              </div>
-            )}
+            
+            {/* Background Texture Effect */}
+             <div className="absolute inset-0 opacity-5 bg-[url('/noise.png')] pointer-events-none mix-blend-overlay"></div>
         </div>
     </div>
   );
