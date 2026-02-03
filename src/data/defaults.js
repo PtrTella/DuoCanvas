@@ -49,7 +49,7 @@ export const TEMPLATE_DEFAULTS = {
          date: 'Ven 12', 
          time: '21:30', 
          location: 'Pala Penazzi', 
-         championship: 'Serie D',
+         championship: 'Serie B Ovest',
          homeTeam: 'Duo Ligones',
          awayTeam: 'Avversari',
          color: 'orange'
@@ -59,7 +59,7 @@ export const TEMPLATE_DEFAULTS = {
          date: 'Ven 14',
          time: '20:30', 
          location: 'Casa del Fanciullo', 
-         championship: 'CSI',
+         championship: 'Coppa CSI Imola',
          homeTeam: 'Atletico',
          awayTeam: 'Duo Ligones',
          color: 'green'
