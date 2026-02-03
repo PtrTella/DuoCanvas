@@ -3,7 +3,7 @@ import { Users } from 'lucide-react';
 import BaseCard from '../components/UI/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../components/blocks/MatchInfo';
 import { MatchDetails, MatchDetailsControls } from '../components/blocks/MatchDetails';
-import { BasketRoster, BasketRosterControls } from '../components/blocks/BasketRoster';
+import { BasketRosterVisual, BasketRosterVisualControls } from '../components/blocks/BasketRosterVisual';
 import { VersusTeams, VersusTeamsControls } from '../components/blocks/VersusTeams';
 import TeamControls from '../components/editor/TeamControls';
 
@@ -20,10 +20,10 @@ export const NextMatch = {
         <div className="flex flex-col h-full w-full relative z-10 gap-4">
             <MatchInfo data={data} theme={theme} className="mb-0" matchDayLabel="MATCH DAY" />
             <VersusTeams data={data} theme={theme} />
-            {/* BasketRoster is content-sized (no flex-1) */}
-            <BasketRoster data={data} theme={theme} className="w-full my-2" />
+            {/* BasketRosterVisual fills space */}
+            <BasketRosterVisual data={data} theme={theme} className="flex-1 w-full my-2 min-h-0" />
             {/* MatchDetails pushed to bottom */}
-            <MatchDetails data={data} theme={theme} className="mt-auto" />
+            <MatchDetails data={data} theme={theme} className="mt-auto shrink-0" />
         </div>
     </BaseCard>
   ),
@@ -33,7 +33,7 @@ export const NextMatch = {
           <TeamControls data={data} onChange={onChange} />
           <MatchInfoControls data={data} onChange={onChange} />
           <VersusTeamsControls data={data} onChange={onChange} />
-          <BasketRosterControls data={data} onChange={onChange} />
+          <BasketRosterVisualControls data={data} onChange={onChange} />
           <MatchDetailsControls data={data} onChange={onChange} />
       </div>
   )
