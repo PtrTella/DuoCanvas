@@ -28,7 +28,7 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
           <img 
             src={theme.bgImage} 
             alt="" 
-            className="w-full h-full object-cover opacity-15 mix-blend-luminosity grayscale"
+            className="w-full h-full object-cover object-[center_30%] opacity-15 mix-blend-luminosity grayscale"
           />
         </div>
       )}
