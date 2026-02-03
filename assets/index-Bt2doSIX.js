@@ -42,7 +42,7 @@ Error generating stack: `+a.message+`
 11 Paul
 6 Antetokounmpo
 13 George
-2 Leonard`},soccer_result:{homeScore:0,awayScore:0,homeGoals:"45' Rossi",awayGoals:""},soccer_formation:{module:"3-2-1",rosterList:`1 Rossi (GK)
+2 Leonard`},soccer_result:{homeScore:0,awayScore:0,homeGoals:"",awayGoals:""},soccer_formation:{module:"3-2-1",rosterList:`1 Rossi (GK)
 5 Bianchi
 6 Verdi
 3 Neri
