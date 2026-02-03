@@ -27,7 +27,7 @@ export const TEMPLATE_DEFAULTS = {
   },
   
   basket_roster: {
-    rosterList: "1 Martini\n12 Camaggi\n 5 Dino\n6 Ricci Lucchi\n7 Tellarini\n 4 Rubbi Alfi \n8 Gardenghi\n9 Lambertucci\n10 Pieri\n14 Bonifazio\n15 Cavini\n16 Monti\n18 Tassoni\n20 Gamez\n21 Piani Gentile\n22 Biavati\n25 Ferrante\n27 Lancieri",
+    rosterList: "1 Martini\n 4 Rubbi Alfi\n 5 Dino\n6 Ricci Lucchi\n7 Tellarini\n8 Gardenghi\n9 Lambertucci\n10 Pieri\n12 Camaggi\n14 Bonifazio\n15 Cavini\n16 Monti\n18 Tassoni\n20 Gamez\n21 Piani Gentile\n22 Biavati\n25 Ferrante\n27 Lancieri",
   },
 
   soccer_result: {
