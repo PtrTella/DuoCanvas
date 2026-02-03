@@ -12,7 +12,7 @@ export const GLOBAL_DEFAULTS = {
   time: "21:30",
   arena: "PalaDuo",
   arenaAddress: "Via dello Sport 10",
-  coach: "Coach Smith"
+  coach: "Coach"
 };
 
 // --- 2. DATI SPECIFICI (Template) ---
@@ -27,7 +27,7 @@ export const TEMPLATE_DEFAULTS = {
   },
   
   basket_roster: {
-    rosterList: "23 Jordan\n34 Bryant\n45 James\n50 Davis\n77 Doncic\n80 Curry\n71 Harden\n3 Irving\n11 Paul\n6 Antetokounmpo\n13 George\n2 Leonard",
+    rosterList: "1 Martini\n 4 Rubbi Alfi\n 5 Dino\n6 Ricci Lucchi\n7 Tellarini\n8 Gardenghi\n9 Lambertucci\n10 Pieri\n12 Camaggi\n14 Bonifazio\n15 Cavini\n16 Monti\n18 Tassoni\n20 Gamez\n21 Piani Gentile\n22 Biavati\n25 Ferrante\n27 Lancieri",
   },
 
   soccer_result: {
@@ -39,26 +39,26 @@ export const TEMPLATE_DEFAULTS = {
 
   soccer_formation: {
     module: "3-2-1",
-    rosterList: "1 Rossi (GK)\n5 Bianchi\n6 Verdi\n3 Neri\n8 Gialli\n4 Blu\n9 Bomber\n12 Riserva1\n13 Riserva2\n14 Riserva3\n15 Riserva4\n16 Riserva5"
+    rosterList: "1 Voda\n 4 Gentilini\n 5 Ceroni\n 6 Neri\n 7 Costa\n 8 Mondini\n 9 Alpi\n 10 Forti\n12 Poli\n15 Sarro A.\n17 Carbone\n20 Collina\n21 Dalle Fabbriche\n22 Tomba\n23 Sarro M."
   },
 
   week_recap: {
     weekEvents: [
        { 
          sport: 'Basket', 
-         date: 'Sab 12', 
-         time: '21:00', 
-         location: 'Palazzetto', 
+         date: 'Ven 12', 
+         time: '21:30', 
+         location: 'Pala Penazzi', 
          championship: 'Serie D',
          homeTeam: 'Duo Ligones',
-         awayTeam: 'Virtus',
+         awayTeam: 'Avversari',
          color: 'orange'
        },
        { 
          sport: 'Calcio a 7', 
-         date: 'Lun 14', 
+         date: 'Ven 14',
          time: '20:30', 
-         location: 'Campo Sportivo', 
+         location: 'Casa del Fanciullo', 
          championship: 'CSI',
          homeTeam: 'Atletico',
          awayTeam: 'Duo Ligones',
