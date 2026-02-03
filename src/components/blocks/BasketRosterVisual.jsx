@@ -91,9 +91,6 @@ const HalfCourt = ({ children, theme }) => {
                  <div className="absolute bottom-[20%] left-0 right-0 h-[2px] bg-white/10"></div>
             </div>
 
-            {/* Free Throw Circle */}
-            <div className="absolute top-[48%] left-[22%] right-[22%] h-[18%] border-b-[3px] border-dashed border-white/10 rounded-b-full"></div>
-            
              {/* Basket / Rim - Neon Style */}
             <div className="absolute top-[8%] left-[38%] right-[38%] h-2 bg-white/90 shadow-[0_0_20px_white] z-10 rounded-full"></div>
             <div className="absolute top-[10%] left-[44%] right-[44%] h-8 border-[4px] border-orange-500 rounded-full shadow-[0_0_25px_orange] z-10"></div>
@@ -104,12 +101,19 @@ const HalfCourt = ({ children, theme }) => {
 };
 
 // --- STAFF BOX COMPONENT ---
-const StaffBox = ({ label, name }) => (
-  <div className="px-6 py-2 bg-black/70 backdrop-blur-2xl border border-white/20 rounded-[20px] shadow-2xl flex flex-col items-center min-w-[160px] max-w-[200px]">
-    <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] leading-none mb-1.5">{label}</span>
-    <span className="text-lg font-black italic text-white uppercase tracking-tight truncate w-full text-center drop-shadow-sm">
+// Stile "Broadcast Tag" per Coach e DS
+const StaffBox = ({ label, name, theme }) => (
+  <div className="flex flex-col items-center min-w-[220px] relative px-4">
+    {/* Label Badge (Skewed) */}
+    <div className={`px-5 py-px bg-gradient-to-r ${theme?.primary || 'from-orange-600 to-red-700'} skew-x-[-12deg] mb-1.5 shadow-xl border border-white/20`}>
+      <span className="skew-x-[12deg] block text-[11px] font-black text-white uppercase tracking-[0.25em] leading-tight">
+        {label}
+      </span>
+    </div>
+    {/* Name Text */}
+    <div className="text-3xl md:text-4xl font-black italic text-white uppercase tracking-tighter drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]" style={{ fontFamily: 'Impact, sans-serif' }}>
       {name}
-    </span>
+    </div>
   </div>
 );
 
@@ -154,10 +158,10 @@ export const BasketRosterVisual = ({ data, theme, className = "" }) => {
                 ))}
             </HalfCourt>
 
-            {/* Staff Boxes */}
-            <div className="absolute bottom-8 inset-x-0 z-30 flex justify-center gap-4">
-                 <StaffBox label="Coach" name={data.coach || '---'} />
-                 {data.director && <StaffBox label="Dir. Sportivo" name={data.director} />}
+            {/* Staff Section - Omogenous bar at the bottom */}
+            <div className="absolute bottom-0 inset-x-0 z-30 bg-[#0a0a0a] border-t-2 border-white/5 py-4 flex justify-center gap-16 items-center shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
+                 <StaffBox label="Coach" name={data.coach || '---'} theme={theme} />
+                 {data.director && <StaffBox label="Dir. Sportivo" name={data.director} theme={theme} />}
             </div>
         </div>
 
