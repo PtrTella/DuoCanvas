@@ -23,7 +23,7 @@ export const TEMPLATE_DEFAULTS = {
   basket_result: {
     homeScore: 0,
     awayScore: 0,
-    topScorer: "MVP: Rossi (20pt)"
+    topScorer: ""
   },
   
   basket_roster: {

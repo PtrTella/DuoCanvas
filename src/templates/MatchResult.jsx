@@ -19,9 +19,11 @@ export const MatchResult = {
 
         <div className="flex-1 flex items-start pt-20 w-full">
           <MatchScore data={data} theme={theme} accentColor={MatchResult.defaultTheme}>
-            <div className="mt-8 text-white text-xl font-black bg-black/40 px-6 py-2 rounded-xl backdrop-blur-md border border-white/10 uppercase tracking-widest shadow-xl">
-              {data.topScorer}
-            </div>
+            {data.topScorer && (
+              <div className="mt-8 text-white text-xl font-black bg-black/40 px-6 py-2 rounded-xl backdrop-blur-md border border-white/10 uppercase tracking-widest shadow-xl text-center">
+                {data.topScorer}
+              </div>
+            )}
           </MatchScore>
         </div>
 
