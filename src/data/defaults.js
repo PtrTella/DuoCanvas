@@ -33,7 +33,7 @@ export const TEMPLATE_DEFAULTS = {
   soccer_result: {
     homeScore: 0,
     awayScore: 0,
-    homeGoals: "45' Rossi",
+    homeGoals: "",
     awayGoals: ""
   },
 
