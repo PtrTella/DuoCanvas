@@ -27,7 +27,7 @@ const ControlsPanel = ({
 
       {/* 2. CONTROLLI SPECIFICI DEL TEMPLATE SCELTO */}
       <div className="bg-gray-50/80 p-4 rounded-2xl border border-gray-100">
-        {activeTemplate && <activeTemplate.Controls data={data} onChange={handleDataChange} />}
+        {activeTemplate && <activeTemplate.Controls data={data} onChange={handleDataChange} themeColor={themeColor} />}
       </div>
 
       {/* 3. SELETTORE COLORE */}
@@ -41,7 +41,7 @@ const ControlsPanel = ({
                 key={color}
                 onClick={() => setThemeColor(color)}
                 className={`flex-shrink-0 w-10 h-10 rounded-full border-[3px] transition-all duration-200 ${themeColor === color ? 'border-gray-900 scale-110 shadow-md' : 'border-transparent hover:scale-105'}`}
-                style={{ backgroundColor: color === 'black' ? '#222' : color }}
+                style={{ backgroundColor: THEMES[color].preview }}
               />
            ))}
         </div>

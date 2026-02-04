@@ -28,7 +28,7 @@ export const NextMatch = {
     </BaseCard>
   ),
 
-  Controls: ({ data, onChange }) => (
+  Controls: ({ data, onChange, themeColor }) => (
       <div className="space-y-1 animate-in fade-in">
           <TeamControls data={data} onChange={onChange} />
           <MatchInfoControls data={data} onChange={onChange} />

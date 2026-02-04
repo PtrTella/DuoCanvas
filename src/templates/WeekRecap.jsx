@@ -34,7 +34,7 @@ export const WeekRecap = {
     </BaseCard>
   ),
 
-  Controls: ({ data, onChange }) => (
+  Controls: ({ data, onChange, themeColor }) => (
       <div className="space-y-1 animate-in fade-in">
           {/* Reuse MatchInfo controls but maybe we don't need Championship input? 
               MatchInfoControls has it hardcoded. 

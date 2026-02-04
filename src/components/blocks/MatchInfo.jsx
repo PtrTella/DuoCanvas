@@ -7,7 +7,7 @@ export const MatchInfo = ({ data, theme, className = "", matchDayLabel = "MATCH 
     <div className={`text-center border-b border-white/20 pb-4 ${className}`}>
         {/* Titolo Principale */}
         <h1 className="text-6xl font-black italic uppercase tracking-tighter text-white drop-shadow-lg transform -skew-x-6">
-            {matchDayLabel} <span className={theme?.accent || "text-orange-500"}>{data.matchDay}</span>
+            {matchDayLabel} {data.matchDay && <span className={theme?.accent || "text-orange-500"}>{data.matchDay}</span>}
         </h1>
         
         {/* Sottotitolo Campionato (Opzionale) */}

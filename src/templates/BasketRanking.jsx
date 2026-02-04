@@ -4,6 +4,7 @@ import BaseCard from '../components/UI/BaseCard';
 import { MatchInfo } from '../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../components/blocks/TeamsRanking';
 import { useClassifica } from '../hooks/useCsi';
+import { parseManualRanking } from '../utils/rankingUtils';
 
 export const BasketRanking = {
   id: 'basket_ranking',
@@ -49,7 +50,7 @@ export const BasketRanking = {
     );
   },
 
-  Controls: ({ data, onChange }) => {
+  Controls: ({ data, onChange, themeColor }) => {
     const { classifica, loading, error } = useClassifica();
     const [mode, setMode] = useState('manual'); // 'csi' | 'manual'. Default to manual as requested or 'csi'? 'csi' was default. Let's start with 'csi'.
     const [manualText, setManualText] = useState('');
@@ -74,67 +75,13 @@ export const BasketRanking = {
 
     const handleManualParse = () => {
         if (!manualText) return;
-        const lines = manualText.split('\n').filter(l => l.trim().length > 0);
         
-        let hasStatsFound = false;
-        let hasAveragesFound = false;
+        const { ranking, hasStats, hasAverages } = parseManualRanking(manualText, { showDraws: false });
 
-        const parsedRanking = lines.map((line) => {
-             // Basic parser: Name Pts G V S (optional: MPF MPS)
-             const cleanLine = line.replace(/,/g, '.'); 
-             const parts = cleanLine.trim().split(/[\s\t]+/);
-             const numbers = [];
-             
-             let i = parts.length - 1;
-             while (i >= 0) {
-                 const num = parseFloat(parts[i]);
-                 if (!isNaN(num)) {
-                     numbers.unshift(num);
-                     i--;
-                 } else {
-                     break; 
-                 }
-             }
-             
-             let name = parts.slice(0, i + 1).join(' ');
-             name = name.replace(/^(\d+)[.)]?\s*/, '');
-
-             let stats = {
-                 points: 0, played: 0, won: 0, lost: 0, drawn: 0
-             };
-             
-             const n = numbers.length;
-             
-             if (n >= 6) {
-                 stats.points = numbers[n-6];
-                 stats.played = numbers[n-5];
-                 stats.won = numbers[n-4];
-                 stats.lost = numbers[n-3];
-                 stats.avgScored = numbers[n-2];
-                 stats.avgConceded = numbers[n-1];
-                 hasStatsFound = true;
-                 hasAveragesFound = true;
-             } else if (n >= 4) {
-                 stats.points = numbers[n-4];
-                 stats.played = numbers[n-3];
-                 stats.won = numbers[n-2];
-                 stats.lost = numbers[n-1];
-                 hasStatsFound = true;
-             } else if (n >= 1) {
-                 stats.points = numbers[n-1];
-             }
-             
-             return {
-                 id: name + Math.random(),
-                 name: name || "Team",
-                 ...stats
-             };
-        });
-
-        if (parsedRanking.length > 0) {
-            onChange('ranking', parsedRanking);
-            onChange('showStats', hasStatsFound);
-            onChange('showAverages', hasAveragesFound);
+        if (ranking.length > 0) {
+            onChange('ranking', ranking);
+            onChange('showStats', hasStats);
+            onChange('showAverages', hasAverages);
             setManualText(''); 
         }
     };

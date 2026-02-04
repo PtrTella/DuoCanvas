@@ -20,7 +20,7 @@ export const FootballResult = {
 
         {/* Squadre e Punteggio */}
         <div className="flex-1 flex flex-col items-center justify-start pt-16 w-full mb-4">
-          <MatchScore data={data} theme={theme} className="mb-8" accentColor={FootballResult.defaultTheme} />
+          <MatchScore data={data} theme={theme} className="mb-8" />
 
           {/* Goal Timeline - Centered */}
           <div className="w-full flex justify-center mt-6">
@@ -33,13 +33,13 @@ export const FootballResult = {
     </BaseCard>
   ),
 
-  Controls: ({ data, onChange }) => (
+  Controls: ({ data, onChange, themeColor }) => (
     <div className="space-y-1 animate-in fade-in">
       <TeamControls data={data} onChange={onChange} />
       <MatchInfoControls data={data} onChange={onChange} />
 
       {/* Punteggio */}
-      <MatchScoreControls data={data} onChange={onChange} accentColor="green" />
+      <MatchScoreControls data={data} onChange={onChange} accentColor={themeColor} />
 
       {/* Goal Timeline Controls */}
       <GoalTimelineControls data={data} onChange={onChange} />

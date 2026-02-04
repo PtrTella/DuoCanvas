@@ -18,7 +18,7 @@ export const MatchResult = {
         <MatchInfo data={data} theme={theme} className="w-full mb-8" matchDayLabel="MATCH DAY" />
 
         <div className="flex-1 flex items-start pt-20 w-full">
-          <MatchScore data={data} theme={theme} accentColor={MatchResult.defaultTheme}>
+          <MatchScore data={data} theme={theme}>
             {data.topScorer && (
               <div className="mt-8 text-white text-xl font-black bg-black/40 px-6 py-2 rounded-xl backdrop-blur-md border border-white/10 uppercase tracking-widest shadow-xl text-center">
                 {data.topScorer}
@@ -32,13 +32,13 @@ export const MatchResult = {
     </BaseCard>
   ),
 
-  Controls: ({ data, onChange }) => (
+  Controls: ({ data, onChange, themeColor }) => (
     <div className="space-y-1 animate-in fade-in">
       <TeamControls data={data} onChange={onChange} />
       <MatchInfoControls data={data} onChange={onChange} />
       
       {/* Punteggio */}
-      <MatchScoreControls data={data} onChange={onChange} accentColor="orange" />
+      <MatchScoreControls data={data} onChange={onChange} accentColor={themeColor} />
       
       {/* Top Scorer / MVP */}
       <div className="pb-3 mb-3 border-b border-gray-100">

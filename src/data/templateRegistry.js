@@ -17,11 +17,11 @@ export const TEMPLATES = [
 ];
 
 export const THEMES = {
-  orange: { primary: "from-orange-600 to-red-600", bg: "bg-orange-950", accent: "text-orange-400", bgImage: "/DuoCanvas/themes/basketTeam.jpeg" },
-  blue:   { primary: "from-blue-600 to-cyan-600", bg: "bg-blue-950", accent: "text-blue-400", decoration: "/DuoCanvas/themes/volleyball.png" },
-  green:  { primary: "from-green-600 to-emerald-600", bg: "bg-green-950", accent: "text-green-400", bgImage: "/DuoCanvas/themes/soccerTeam.jpeg" },
-  purple: { primary: "from-purple-600 to-indigo-600", bg: "bg-purple-950", accent: "text-purple-400", bgImage: "/DuoCanvas/themes/imola.jpeg" },
-  black:  { primary: "from-gray-700 to-black", bg: "bg-gray-900", accent: "text-gray-400" }
+  orange: { preview: "#ea580c", primary: "from-orange-600 to-red-600", bg: "bg-orange-950", accent: "text-orange-400", bgImage: "/DuoCanvas/themes/basketTeam.jpeg" },
+  blue:   { preview: "#2563eb", primary: "from-blue-600 to-cyan-600", bg: "bg-blue-950", accent: "text-blue-400", decoration: "/DuoCanvas/themes/volleyball.png" },
+  green:  { preview: "#16a34a", primary: "from-green-600 to-emerald-600", bg: "bg-green-950", accent: "text-green-400", bgImage: "/DuoCanvas/themes/soccerTeam.jpeg" },
+  purple: { preview: "#9333ea", primary: "from-purple-600 to-indigo-600", bg: "bg-purple-950", accent: "text-purple-400", bgImage: "/DuoCanvas/themes/imola.jpeg" },
+  black:  { preview: "#111827", primary: "from-gray-700 to-black", bg: "bg-gray-900", accent: "text-gray-400" }
 };
 
 // Tailwind class map for controls (must be static strings to compile)

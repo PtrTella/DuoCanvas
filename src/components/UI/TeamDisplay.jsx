@@ -1,16 +1,13 @@
 import React from 'react';
 
-const TeamLogo = ({ src, alt = "Team Logo", fallbackText = "VS" }) => {
+const TeamLogo = ({ src, alt = "Team Logo", fallbackText = "VS", className = "" }) => {
   return (
-    <div className="w-full h-full rounded-full overflow-hidden bg-white/10 flex items-center justify-center relative shadow-lg border border-white/10 backdrop-blur-sm">
+    <div className={`rounded-full overflow-hidden bg-white/10 flex items-center justify-center relative shadow-lg border border-white/10 backdrop-blur-sm ${className}`}>
       {src ? (
         <img 
           src={src} 
           alt={alt} 
           className="w-full h-full object-cover object-center" 
-          /* object-cover: Riempie tutto il cerchio (croppa gli eccessi)
-             object-center: Mantiene il centro dell'immagine visibile
-          */
         />
       ) : (
         // Placeholder se non c'è immagine
@@ -35,7 +32,6 @@ const TeamDisplay = ({
   return (
     <div className={`flex flex-col items-center justify-center gap-3 ${reverse ? 'order-last' : ''}`}>
        <div className={`${logoSize} relative z-10`}> 
-           {/* Usa il componente TeamLogo esistente ma con classi passate */}
            <TeamLogo src={logoSrc} alt={name} className="w-full h-full shadow-xl" />
        </div>
        <h2 className={`${textSize} font-black uppercase text-white leading-none tracking-tighter text-center drop-shadow-md max-w-[200px]`}>

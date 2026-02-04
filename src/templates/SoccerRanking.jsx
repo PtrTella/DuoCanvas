@@ -3,6 +3,7 @@ import { Trophy, RefreshCw } from 'lucide-react';
 import BaseCard from '../components/UI/BaseCard';
 import { MatchInfo } from '../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../components/blocks/TeamsRanking';
+import { parseManualRanking } from '../utils/rankingUtils';
 
 // Hook Placeholder per Classifica Calcio
 // In futuro questo hook userà un URL diverso e un parser specifico per il calcio
@@ -69,7 +70,7 @@ export const SoccerRanking = {
     );
   },
 
-  Controls: ({ data, onChange }) => {
+  Controls: ({ data, onChange, themeColor }) => {
     const { classifica, loading, error } = useSoccerClassifica();
     const [mode, setMode] = useState('manual');
     const [manualText, setManualText] = useState('');
@@ -90,72 +91,13 @@ export const SoccerRanking = {
 
     const handleManualParse = () => {
         if (!manualText) return;
-        const lines = manualText.split('\n').filter(l => l.trim().length > 0);
-        
-        let hasStatsFound = false;
-        let hasAveragesFound = false;
 
-        const parsedRanking = lines.map((line) => {
-             // Parser Calcio: Name Pt G V N P (optional: GF GS)
-             const cleanLine = line.replace(/,/g, '.'); 
-             const parts = cleanLine.trim().split(/[\s\t]+/);
-             const numbers = [];
-             
-             let i = parts.length - 1;
-             while (i >= 0) {
-                 const num = parseFloat(parts[i]);
-                 if (!isNaN(num)) {
-                     numbers.unshift(num);
-                     i--;
-                 } else {
-                     break; 
-                 }
-             }
-             
-             let name = parts.slice(0, i + 1).join(' ');
-             name = name.replace(/^(\d+)[.)]?\s*/, '');
+        const { ranking, hasStats, hasAverages } = parseManualRanking(manualText, { showDraws: true });
 
-             let stats = {
-                 points: 0, played: 0, won: 0, drawn: 0, lost: 0
-             };
-             
-             const n = numbers.length;
-             
-             // Esempio Calcio Completo: Pt G V N P GF GS (7 numeri)
-             // Esempio Calcio Base: Pt G V N P (5 numeri)
-             
-             if (n >= 7) {
-                 stats.points = numbers[n-7];
-                 stats.played = numbers[n-6];
-                 stats.won = numbers[n-5];
-                 stats.drawn = numbers[n-4];
-                 stats.lost = numbers[n-3];
-                 stats.avgScored = numbers[n-2];   // Usa avgScored per GF
-                 stats.avgConceded = numbers[n-1]; // Usa avgConceded per GS
-                 hasStatsFound = true;
-                 hasAveragesFound = true;
-             } else if (n >= 5) {
-                 stats.points = numbers[n-5];
-                 stats.played = numbers[n-4];
-                 stats.won = numbers[n-3];
-                 stats.drawn = numbers[n-2];
-                 stats.lost = numbers[n-1];
-                 hasStatsFound = true;
-             } else if (n >= 1) {
-                 stats.points = numbers[n-1];
-             }
-             
-             return {
-                 id: name + Math.random(),
-                 name: name || "Team",
-                 ...stats
-             };
-        });
-
-        if (parsedRanking.length > 0) {
-            onChange('ranking', parsedRanking);
-            onChange('showStats', hasStatsFound);
-            onChange('showAverages', hasAveragesFound);
+        if (ranking.length > 0) {
+            onChange('ranking', ranking);
+            onChange('showStats', hasStats);
+            onChange('showAverages', hasAverages);
             setManualText(''); 
         }
     };
