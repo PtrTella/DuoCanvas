@@ -42,5 +42,30 @@ export const WeekRecap = {
           <MatchInfoControls data={data} onChange={onChange} hideChampionship={true} />
           <EventsListControls data={data} onChange={onChange} />
       </div>
-  )
+  ),
+
+  defaultData: {
+    weekEvents: [
+       { 
+         sport: 'Basket', 
+         date: 'Ven 12', 
+         time: '21:30', 
+         location: 'Pala Penazzi', 
+         championship: 'Serie B Ovest',
+         homeTeam: 'Duo Ligones',
+         awayTeam: 'Avversari',
+         color: 'orange'
+       },
+       { 
+         sport: 'Calcio a 7', 
+         date: 'Ven 14',
+         time: '20:30', 
+         location: 'Casa del Fanciullo', 
+         championship: 'Coppa CSI Imola',
+         homeTeam: 'Atletico',
+         awayTeam: 'Duo Ligones',
+         color: 'green'
+       }
+    ]
+  }
 };

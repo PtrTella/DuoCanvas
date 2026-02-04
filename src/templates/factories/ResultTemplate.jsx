@@ -8,6 +8,7 @@ import { SPORTS } from '../../config/sportsRegistry';
 
 export const createResultTemplate = (sportKey) => {
   const sport = SPORTS[sportKey];
+  const block = sport.templates.result.blocks.extra;
   
   return {
     Render: ({ data, theme, cardRef }) => (
@@ -17,19 +18,17 @@ export const createResultTemplate = (sportKey) => {
             data={data} 
             theme={theme} 
             className="w-full mb-8" 
-            matchDayLabel={sport.labels.matchDay} 
+            labels={sport.labels}
           />
 
           <div className="flex-1 flex flex-col items-center justify-start pt-16 w-full">
             <MatchScore data={data} theme={theme} className="mb-8" />
-            
-            {/* Sport Specific Extra (MVP or Goal Timeline) */}
-            {sport.blocks.resultExtra && (
-              <sport.blocks.resultExtra.Render data={data} theme={theme} />
-            )}
+
+            {/* Configured Block */}
+            <block.Render data={data} theme={theme} labels={sport.labels} />
           </div>
 
-          <MatchDetails data={data} theme={theme} />
+          <MatchDetails data={data} theme={theme} labels={sport.labels} />
         </div>
       </BaseCard>
     ),
@@ -37,17 +36,17 @@ export const createResultTemplate = (sportKey) => {
     Controls: ({ data, onChange, themeColor }) => (
       <div className="space-y-1 animate-in fade-in">
         <TeamControls data={data} onChange={onChange} />
-        <MatchInfoControls data={data} onChange={onChange} />
+        <MatchInfoControls data={data} onChange={onChange} labels={sport.labels} />
         
         <MatchScoreControls data={data} onChange={onChange} accentColor={themeColor} />
         
-        {/* Sport Specific Extra Controls */}
-        {sport.blocks.resultExtra && (
-          <sport.blocks.resultExtra.Controls data={data} onChange={onChange} />
-        )}
+        {/* Configured Block Controls */}
+        <block.Controls data={data} onChange={onChange} />
         
-        <MatchDetailsControls data={data} onChange={onChange} />
+        <MatchDetailsControls data={data} onChange={onChange} labels={sport.labels} />
       </div>
-    )
+    ),
+
+    defaultData: sport.templates.result.defaults
   };
 };

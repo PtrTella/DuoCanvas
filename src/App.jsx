@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Layout, Download, Eye, Edit3 } from 'lucide-react';
 
 import { TEMPLATES, THEMES } from './config/templateRegistry';
-import { GLOBAL_DEFAULTS, TEMPLATE_DEFAULTS } from './config/defaults';
+import { GLOBAL_DEFAULTS } from './config/defaults';
 import { useScale } from './hooks/useScale';
 import { useDownload } from './hooks/useDownload'; 
 
@@ -19,7 +19,7 @@ const App = () => {
 
   // Dati
   const [sessionData, setSessionData] = useState(GLOBAL_DEFAULTS);
-  const [templateData, setTemplateData] = useState(TEMPLATE_DEFAULTS[activeTemplateId]);
+  const [templateData, setTemplateData] = useState(TEMPLATES[0].defaultData || {});
 
   // Refs
   const cardRef = useRef(null);
@@ -37,7 +37,7 @@ const App = () => {
   const handleTemplateChange = (newId) => {
     const newTemplate = TEMPLATES.find(t => t.id === newId);
     setActiveTemplateId(newId);
-    setTemplateData(TEMPLATE_DEFAULTS[newId]);
+    setTemplateData(newTemplate.defaultData || {});
     if (newTemplate.defaultTheme) setThemeColor(newTemplate.defaultTheme);
     setIsTemplateSelectorOpen(false); // Chiude il menu dopo la scelta
   };

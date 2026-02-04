@@ -2,12 +2,13 @@ import React from 'react';
 import BaseCard from '../../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo';
 import { MatchDetails, MatchDetailsControls } from '../../components/blocks/MatchDetails';
-import { VersusTeams, VersusTeamsControls } from '../../components/blocks/VersusTeams';
+import { TeamMatchup, TeamMatchupControls } from '../../components/blocks/TeamMatchup';
 import TeamControls from '../../components/editor/TeamControls';
 import { SPORTS } from '../../config/sportsRegistry';
 
 export const createLineupTemplate = (sportKey) => {
   const sport = SPORTS[sportKey];
+  const block = sport.templates.lineup.blocks.extra;
 
   return {
     Render: ({ data, theme, cardRef }) => (
@@ -17,19 +18,21 @@ export const createLineupTemplate = (sportKey) => {
                 data={data} 
                 theme={theme} 
                 className="mb-4" 
-                matchDayLabel={sport.labels.matchDay} 
+                labels={sport.labels}
               />
               
-              <VersusTeams data={data} theme={theme} />
+              <TeamMatchup data={data} theme={theme} />
               
               {/* Sport Specific Lineup/Formation */}
-              <sport.blocks.lineupExtra.Render 
-                data={data} 
-                theme={theme} 
-                className="flex-1 w-full my-4 min-h-0" 
-              />
+              <div className="flex-1 w-full my-4 min-h-0">
+                <block.Render 
+                  data={data} 
+                  theme={theme} 
+                  labels={sport.labels}
+                />
+              </div>
               
-              <MatchDetails data={data} theme={theme} className="mt-auto shrink-0" />
+              <MatchDetails data={data} theme={theme} labels={sport.labels} className="mt-auto shrink-0" />
           </div>
       </BaseCard>
     ),
@@ -37,14 +40,16 @@ export const createLineupTemplate = (sportKey) => {
     Controls: ({ data, onChange, themeColor }) => (
       <div className="space-y-1 animate-in fade-in">
         <TeamControls data={data} onChange={onChange} />
-        <MatchInfoControls data={data} onChange={onChange} />
-        <VersusTeamsControls data={data} onChange={onChange} />
+        <MatchInfoControls data={data} onChange={onChange} labels={sport.labels} />
+        <TeamMatchupControls data={data} onChange={onChange} />
 
         {/* Sport Specific Lineup Controls */}
-        <sport.blocks.lineupExtra.Controls data={data} onChange={onChange} />
+        <block.Controls data={data} onChange={onChange} />
         
-        <MatchDetailsControls data={data} onChange={onChange} />
+        <MatchDetailsControls data={data} onChange={onChange} labels={sport.labels} />
       </div>
-    )
+    ),
+    
+    defaultData: sport.templates.lineup.defaults
   };
 };

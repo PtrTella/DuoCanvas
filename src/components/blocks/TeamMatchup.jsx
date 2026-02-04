@@ -2,7 +2,7 @@ import React from 'react';
 import TeamDisplay from '../ui/TeamDisplay';
 
 // --- LAYOUT ---
-export const VersusTeams = ({ data, theme }) => {
+export const TeamMatchup = ({ data, theme }) => {
   return (
     <div className="flex items-center justify-between w-full px-2 mb-6">
       {/* Home */}
@@ -34,7 +34,7 @@ export const VersusTeams = ({ data, theme }) => {
 };
 
 // --- CONTROLS ---
-export const VersusTeamsControls = ({ data, onChange }) => (
+export const TeamMatchupControls = ({ data, onChange }) => (
   <div className="pb-2">
      {/* Logo uploaders now in common controls section */}
   </div>

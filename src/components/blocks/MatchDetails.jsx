@@ -2,13 +2,20 @@ import React from 'react';
 import { Calendar, Clock, MapPin, Navigation } from 'lucide-react';
 
 // --- LAYOUT ---
-export const MatchDetails = ({ data, theme, className = "" }) => {
+export const MatchDetails = ({ data, theme, className = "", labels = {} }) => {
+  const {
+      date = "Data",
+      time = "Ora",
+      arena = "Arena",
+      address = "Indirizzo"
+  } = labels;
+
   // Configurazione icone
   const items = [
-      { icon: Calendar, label: "Data", value: data.date },
-      { icon: Clock, label: "Ora", value: data.time },
-      { icon: MapPin, label: "Arena", value: data.arena },
-      { icon: Navigation, label: "Indirizzo", value: data.arenaAddress }
+      { icon: Calendar, label: date, value: data.date },
+      { icon: Clock, label: time, value: data.time },
+      { icon: MapPin, label: arena, value: data.arena },
+      { icon: Navigation, label: address, value: data.arenaAddress }
   ];
 
   return (
@@ -44,42 +51,52 @@ export const MatchDetails = ({ data, theme, className = "" }) => {
 };
 
 // --- CONTROLS ---
-export const MatchDetailsControls = ({ data, onChange }) => (
-  <div className="pt-4 border-t border-gray-100">
-    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Info Evento</h3>
-    <div className="grid grid-cols-2 gap-2">
-      <div>
-        <label className="text-[10px] font-bold text-gray-500 uppercase">Data</label>
-        <input 
-            type="text" value={data.date} 
-            onChange={(e) => onChange('date', e.target.value)} 
-            className="w-full p-2 bg-gray-50 border rounded-lg text-sm" 
-        />
-      </div>
-      <div>
-        <label className="text-[10px] font-bold text-gray-500 uppercase">Ora</label>
-        <input 
-            type="text" value={data.time} 
-            onChange={(e) => onChange('time', e.target.value)} 
-            className="w-full p-2 bg-gray-50 border rounded-lg text-sm" 
-        />
-      </div>
-      <div>
-        <label className="text-[10px] font-bold text-gray-500 uppercase">Arena</label>
-        <input 
-            type="text" value={data.arena} 
-            onChange={(e) => onChange('arena', e.target.value)} 
-            className="w-full p-2 bg-gray-50 border rounded-lg text-sm" 
-        />
-      </div>
-      <div>
-        <label className="text-[10px] font-bold text-gray-500 uppercase">Indirizzo</label>
-        <input 
-            type="text" value={data.arenaAddress || ''} 
-            onChange={(e) => onChange('arenaAddress', e.target.value)} 
-            className="w-full p-2 bg-gray-50 border rounded-lg text-sm" 
-        />
+export const MatchDetailsControls = ({ data, onChange, labels = {} }) => {
+  const {
+      sectionTitle = "Info Evento",
+      date = "Data",
+      time = "Ora",
+      arena = "Arena",
+      address = "Indirizzo"
+  } = labels;
+
+  return (
+    <div className="pt-4 border-t border-gray-100">
+      <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{sectionTitle}</h3>
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label className="text-[10px] font-bold text-gray-500 uppercase">{date}</label>
+          <input 
+              type="text" value={data.date} 
+              onChange={(e) => onChange('date', e.target.value)} 
+              className="w-full p-2 bg-gray-50 border rounded-lg text-sm" 
+          />
+        </div>
+        <div>
+          <label className="text-[10px] font-bold text-gray-500 uppercase">{time}</label>
+          <input 
+              type="text" value={data.time} 
+              onChange={(e) => onChange('time', e.target.value)} 
+              className="w-full p-2 bg-gray-50 border rounded-lg text-sm" 
+          />
+        </div>
+        <div>
+          <label className="text-[10px] font-bold text-gray-500 uppercase">{arena}</label>
+          <input 
+              type="text" value={data.arena} 
+              onChange={(e) => onChange('arena', e.target.value)} 
+              className="w-full p-2 bg-gray-50 border rounded-lg text-sm" 
+          />
+        </div>
+        <div>
+          <label className="text-[10px] font-bold text-gray-500 uppercase">{address}</label>
+          <input 
+              type="text" value={data.arenaAddress || ''} 
+              onChange={(e) => onChange('arenaAddress', e.target.value)} 
+              className="w-full p-2 bg-gray-50 border rounded-lg text-sm" 
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

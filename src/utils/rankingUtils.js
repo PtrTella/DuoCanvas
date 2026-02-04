@@ -33,7 +33,8 @@ export const parseManualRanking = (text, options = { showDraws: false }) => {
         name = name.replace(/^(\d+)[.)]?\s*/, '');
 
         let stats = {
-            points: 0, played: 0, won: 0, lost: 0, drawn: 0
+            points: 0, played: 0, won: 0, lost: 0, drawn: 0,
+            scored: 0, conceded: 0, avgScored: 0, avgConceded: 0
         };
         
         const n = numbers.length;

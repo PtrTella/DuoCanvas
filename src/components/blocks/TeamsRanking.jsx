@@ -34,6 +34,15 @@ export const TeamsRanking = ({
 
   // Determine Grid Columns Logic
   // Base: Rank(4rem) Team(1fr) Points(5rem)
+
+  // Decide whether to really show extra stats/averages if data is missing or zero
+  const hasAveragesContent = data.ranking?.some(t => {
+      const s = t.avgScored || t.scored;
+      const c = t.avgConceded || t.conceded;
+      return (s !== undefined && s !== 0 && !isNaN(s)) || (c !== undefined && c !== 0 && !isNaN(c));
+  });
+
+  const effectiveShowAverages = showAverages && hasAveragesContent;
   
   // Let's build the grid template string dynamically
   let gridCols = "4rem 1fr 5rem"; // # Team PT
@@ -42,7 +51,7 @@ export const TeamsRanking = ({
       if (showDraws) gridCols += " 3rem"; // P
       gridCols += " 3rem"; // S (Lost) is standard
   }
-  if (showAverages) gridCols += " 4rem 4rem"; // PF PS (larger for decimals/hundreds)
+  if (effectiveShowAverages) gridCols += " 4rem 4rem"; // PF PS (larger for decimals/hundreds)
 
   return (
     <div className={`flex flex-col h-full w-full relative ${className}`}>
@@ -68,7 +77,7 @@ export const TeamsRanking = ({
                   </>
                 )}
                 
-                {showAverages && (
+                {effectiveShowAverages && (
                 <>
                   <div className="text-center opacity-60 text-cyan-400 text-lg">{L.scored}</div>
                   <div className="text-center opacity-60 text-orange-400 text-lg">{L.conceded}</div>
@@ -85,11 +94,11 @@ export const TeamsRanking = ({
               const isTop3 = index < 3;
               
               // Calcolo medie se necessario (solo se giocate > 0)
-              const avgScored = showAverages 
-                    ? (team.avgScored !== undefined ? team.avgScored : (team.played > 0 ? (team.scored / team.played).toFixed(1) : "0.0"))
+              const avgScored = effectiveShowAverages 
+                    ? (team.avgScored !== undefined && team.avgScored !== 0 ? team.avgScored : (team.played > 0 && team.scored !== undefined ? (team.scored / team.played).toFixed(1) : "0.0"))
                     : "0.0";
-              const avgConceded = showAverages 
-                    ? (team.avgConceded !== undefined ? team.avgConceded : (team.played > 0 ? (team.conceded / team.played).toFixed(1) : "0.0"))
+              const avgConceded = effectiveShowAverages 
+                    ? (team.avgConceded !== undefined && team.avgConceded !== 0 ? team.avgConceded : (team.played > 0 && team.conceded !== undefined ? (team.conceded / team.played).toFixed(1) : "0.0"))
                     : "0.0";
 
               return (
@@ -146,7 +155,7 @@ export const TeamsRanking = ({
                   )}
 
                   {/* Averages */}
-                  {showAverages && (
+                  {effectiveShowAverages && (
                     <>
                        <div className="text-center font-mono font-bold text-lg tracking-tight">{avgScored}</div>
                        <div className="text-center font-mono opacity-80 text-lg tracking-tight">{avgConceded}</div>

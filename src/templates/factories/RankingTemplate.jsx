@@ -8,7 +8,8 @@ import { SPORTS } from '../../config/sportsRegistry';
 
 export const createRankingTemplate = (sportKey) => {
   const sport = SPORTS[sportKey];
-  const config = sport.blocks.rankingConfig;
+  const block = sport.templates.ranking.blocks.config;
+  const config = block.options; // Access the closure options exposed by factory
 
   return {
     Render: ({ data, theme, cardRef }) => {
@@ -22,18 +23,18 @@ export const createRankingTemplate = (sportKey) => {
             <MatchInfo 
                   data={headerData} 
                   theme={theme} 
+                  labels={sport.labels}
                   matchDayLabel={sport.labels.ranking} 
               /> 
 
             <div className="flex-1 w-full relative px-6 pb-6 pt-2">
-               <TeamsRanking 
+               {/* Use the Configured Render Block */}
+               <block.Render 
                   data={data} 
                   theme={theme}
-                  columnsString={config.columnsString}
-                  showDraws={config.showDraws}
+                  // Override specific visual toggles from data if present
                   showStats={data.showStats ?? true}
                   showAverages={data.showAverages ?? config.showAverages}
-                  labels={config.labels}
                />
             </div>
           </div>
@@ -58,7 +59,13 @@ export const createRankingTemplate = (sportKey) => {
           showDraws: config.showDraws,
           sport: sportKey
         });
-        onChange('ranking', parsed);
+        
+        // Extract only the ranking array from the parser results
+        onChange('ranking', parsed.ranking);
+        
+        // Auto-update toggles based on detected columns in text
+        onChange('showStats', parsed.hasStats);
+        onChange('showAverages', parsed.hasAverages);
       };
 
       return (
@@ -122,6 +129,8 @@ export const createRankingTemplate = (sportKey) => {
           <TeamsRankingControls data={data} onChange={onChange} showAveragesOption={config.showAverages} />
         </div>
       );
-    }
+    },
+
+    defaultData: sport.templates.ranking.defaults
   };
 };

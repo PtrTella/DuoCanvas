@@ -118,7 +118,7 @@ const StaffBox = ({ label, name, theme }) => (
 );
 
 // --- COMPONENTE PRINCIPALE ---
-export const BasketRosterVisual = ({ data, theme, className = "" }) => {
+export const BasketRoster = ({ data, theme, className = "" }) => {
   const parsePlayer = (line) => {
       const trimmed = line.trim();
       if (!trimmed) return null;
@@ -142,7 +142,7 @@ export const BasketRosterVisual = ({ data, theme, className = "" }) => {
   ];
 
   return (
-    <div className={`relative flex w-full gap-8 p-5 rounded-2xl bg-black/20 ${className}`}>
+    <div className={`relative flex w-full h-full gap-8 p-5 rounded-2xl bg-black/20 ${className}`}>
         
         {/* -- SECTION 1: FIELD -- */}
         <div className="relative w-[65%] h-full border border-white/15 rounded-[50px] overflow-hidden shadow-2xl bg-black">
@@ -160,7 +160,7 @@ export const BasketRosterVisual = ({ data, theme, className = "" }) => {
 
             {/* Staff Section - Omogenous bar at the bottom */}
             <div className="absolute bottom-0 inset-x-0 z-30 bg-[#0a0a0a] border-t-2 border-white/5 py-4 flex justify-center gap-16 items-center shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
-                 <StaffBox label="Coach" name={data.coach || '---'} theme={theme} />
+                 <StaffBox label="Allenatore" name={data.coach || '---'} theme={theme} />
                  {data.director && <StaffBox label="Dir. Sportivo" name={data.director} theme={theme} />}
             </div>
         </div>
@@ -170,7 +170,7 @@ export const BasketRosterVisual = ({ data, theme, className = "" }) => {
             <div className="mb-5 pl-4 relative">
                 <div className={`absolute left-0 top-1.5 bottom-1.5 w-1.5 bg-gradient-to-b ${theme.primary} rounded-full`}></div>
                 <h3 className="text-5xl font-black italic text-white uppercase tracking-tighter leading-none">
-                    Bench
+                    Panchina
                 </h3>
             </div>
             
@@ -185,7 +185,7 @@ export const BasketRosterVisual = ({ data, theme, className = "" }) => {
 };
 
 // -- CONTROLS (Reused Reuse simplified version of BasketRosterControls or pure text area) --
-export const BasketRosterVisualControls = ({ data, onChange }) => {
+export const BasketRosterControls = ({ data, onChange }) => {
     return (
         <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
