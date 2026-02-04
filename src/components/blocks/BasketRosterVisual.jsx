@@ -142,7 +142,7 @@ export const BasketRosterVisual = ({ data, theme, className = "" }) => {
   ];
 
   return (
-    <div className={`relative flex w-full h-[540px] gap-8 p-5 ${className} rounded-2xl bg-black/20`}>
+    <div className={`relative flex w-full gap-8 p-5 rounded-2xl bg-black/20 ${className}`}>
         
         {/* -- SECTION 1: FIELD -- */}
         <div className="relative w-[65%] h-full border border-white/15 rounded-[50px] overflow-hidden shadow-2xl bg-black">

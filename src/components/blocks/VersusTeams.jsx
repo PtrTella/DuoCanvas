@@ -1,5 +1,5 @@
 import React from 'react';
-import TeamDisplay from '../UI/TeamDisplay';
+import TeamDisplay from '../ui/TeamDisplay';
 
 // --- LAYOUT ---
 export const VersusTeams = ({ data, theme }) => {

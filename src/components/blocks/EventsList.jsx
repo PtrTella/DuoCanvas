@@ -1,6 +1,6 @@
 import React from 'react';
 import { Plus, Trash2, Calendar, MapPin, Trophy } from 'lucide-react';
-import { THEMES } from '../../data/templateRegistry';
+import { THEMES } from '../../config/templateRegistry';
 
 // --- VISUALIZZAZIONE EVENTO SINGOLO ---
 const EventItem = ({ event, theme, index }) => {

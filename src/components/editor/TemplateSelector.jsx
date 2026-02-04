@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronDown, Check } from 'lucide-react';
-import { TEMPLATES } from '../../data/templateRegistry';
+import { TEMPLATES } from '../../config/templateRegistry';
 
 const TemplateSelector = ({ activeTemplateId, setActiveTemplateId, isOpen, setIsOpen, activeTemplate }) => {
   

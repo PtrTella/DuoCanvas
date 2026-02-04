@@ -50,11 +50,13 @@ DuoCanvas/
 ├── src/
 │   ├── components/
 │   │   ├── blocks/      # UI logic fragments (MatchScore, RankingTable, etc.)
-│   │   ├── UI/          # Atomic components (BaseCard, TeamDisplay)
+│   │   ├── ui/          # Atomic components (BaseCard, TeamDisplay)
 │   │   └── editor/      # ControlsPanel and input specialized components
-│   ├── data/            # Defaults and Template Registry
+│   ├── config/          # Defaults, Sports & Template Registries
 │   ├── hooks/           # Custom hooks (scaling, downloads, logic-fetchers)
-│   ├── templates/       # Individual graphic templates (The Layouts)
+│   ├── templates/
+│   │   ├── factories/   # Generic layouts (Result, Ranking, Lineup)
+│   │   └── WeekRecap.jsx
 │   ├── utils/           # Pure JS/JSX logic, parsers, and data formatters
 │   └── App.jsx          # Application entry point & State Orchestrator
 └── vite.config.js       # Deployment & Path Configuration

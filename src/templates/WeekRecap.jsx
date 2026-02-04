@@ -1,6 +1,6 @@
 import React from 'react';
 import { CalendarRange } from 'lucide-react';
-import BaseCard from '../components/UI/BaseCard';
+import BaseCard from '../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../components/blocks/MatchInfo';
 import { EventsList, EventsListControls } from '../components/blocks/EventsList';
 

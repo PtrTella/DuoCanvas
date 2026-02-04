@@ -1,19 +1,66 @@
-import { MatchResult } from '../templates/MatchResult';
-import { NextMatch } from '../templates/NextMatch';
-import { SoccerMatch } from '../templates/SoccerMatch';
-import { FootballResult } from '../templates/FootballResult';
+import { Trophy, Shield, PartyPopper, Users, ListOrdered } from 'lucide-react';
+import { createResultTemplate } from '../templates/factories/ResultTemplate';
+import { createLineupTemplate } from '../templates/factories/LineupTemplate';
+import { createRankingTemplate } from '../templates/factories/RankingTemplate';
 import { WeekRecap } from '../templates/WeekRecap';
-import { BasketRanking } from '../templates/BasketRanking';
-import { SoccerRanking } from '../templates/SoccerRanking';
+
+// Build the templates using the generic factory components
+const BasketResult = {
+  ...createResultTemplate('basket'),
+  id: 'basket_result',
+  name: 'Risultato Basket',
+  icon: Trophy,
+  defaultTheme: 'orange'
+};
+
+const SoccerResult = {
+  ...createResultTemplate('soccer'),
+  id: 'soccer_result',
+  name: 'Risultato Calcio',
+  icon: PartyPopper,
+  defaultTheme: 'green'
+};
+
+const BasketLineup = {
+  ...createLineupTemplate('basket'),
+  id: 'basket_roster',
+  name: 'Convocazioni Basket',
+  icon: Users,
+  defaultTheme: 'orange'
+};
+
+const SoccerLineup = {
+  ...createLineupTemplate('soccer'),
+  id: 'soccer_formation',
+  name: 'Formazione Calcio',
+  icon: Shield,
+  defaultTheme: 'green'
+};
+
+const BasketRanking = {
+  ...createRankingTemplate('basket'),
+  id: 'basket_ranking',
+  name: 'Classifica Basket',
+  icon: ListOrdered,
+  defaultTheme: 'orange'
+};
+
+const SoccerRanking = {
+  ...createRankingTemplate('soccer'),
+  id: 'soccer_ranking',
+  name: 'Classifica Calcio',
+  icon: Trophy,
+  defaultTheme: 'green'
+};
 
 export const TEMPLATES = [
-  MatchResult,
-  NextMatch,
-  SoccerMatch,
-  FootballResult,
-  WeekRecap,
+  BasketResult,
+  SoccerResult,
+  BasketLineup,
+  SoccerLineup,
   BasketRanking,
-  SoccerRanking
+  SoccerRanking,
+  WeekRecap
 ];
 
 export const THEMES = {

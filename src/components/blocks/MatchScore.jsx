@@ -1,6 +1,6 @@
 import React from 'react';
-import TeamDisplay from '../UI/TeamDisplay';
-import { CONTROL_THEMES } from '../../data/templateRegistry';
+import TeamDisplay from '../ui/TeamDisplay';
+import { CONTROL_THEMES } from '../../config/templateRegistry';
 
 // --- LAYOUT ---
 export const MatchScore = ({ data, theme, className = "", children }) => {
