@@ -71,7 +71,9 @@ export const TEMPLATE_DEFAULTS = {
     leagueName: "Campionato CSI Imola, Girone Ovest",
     season: "Stagione 2025/26",
     ranking: [],
-    highlightTeam: "Duo Ligones"
+    highlightTeam: "Duo Ligones",
+    showAverages: true,
+    showStats: true
   },
 
   soccer_ranking: {
