@@ -14,6 +14,7 @@
 DuoCanvas is a high-performance web application designed to empower sports organizations to create high-quality, professional graphics in seconds. Whether it's a match result, a starting lineup, or a league ranking, DuoCanvas provides a seamless experience from data entry to PNG export.
 
 ### Key Highlights
+
 - **Retina Quality Export:** 1080x1350px PNG images optimized for Instagram standards.
 - **Mobile-First Workflow:** Fully responsive interface with native-like mobile controls (bottom sheets) and virtual keyboard optimization.
 - **Smart Data Import:** Automatic synchronization with CSI portals and intelligent manual text parsing for rankings.
@@ -24,12 +25,15 @@ DuoCanvas is a high-performance web application designed to empower sports organ
 ## 🚀 Features
 
 ### 📋 Intelligent Ranking Management
+
 Includes advanced parsing utilities for basketball and soccer. Just paste raw text from a website or spreadsheet, and the system automatically detects teams, points, matches played, and averages.
 
 ### 🖼️ Modular Template System
+
 Designed with a **Registry Pattern**. Adding a new graphic type takes minutes and requires zero changes to the core engine.
 
 ### 📱 Superior UX
+
 - **Live Preview:** Real-time feedback as you type.
 - **Double-Shot Export:** Advanced rendering technique to ensure consistent font and image decoding on mobile browsers.
 - **Sponsor Engine:** Automatically applies a consistent sponsor footer across all generated graphics.
@@ -54,22 +58,30 @@ For detailed technical information, architecture diagrams, and contribution guid
 ## 🛠️ Development Setup
 
 ### Local Installation
+
 1. **Clone:**
+
    ```bash
    git clone https://github.com/PtrTella/DuoCanvas.git
    cd DuoCanvas
    ```
+
 2. **Setup:**
+
    ```bash
    npm install
    ```
+
 3. **Running:**
+
    ```bash
    npm run dev
    ```
 
 ### Deployment
+
 Managed via **GitHub Pages**:
+
 ```bash
 npm run deploy
 ```
@@ -77,4 +89,5 @@ npm run deploy
 ---
 
 ## 📄 License & Ownership
+
 Created for **Duo Ligones**. All rights reserved. Professional redistribution requires authorization.

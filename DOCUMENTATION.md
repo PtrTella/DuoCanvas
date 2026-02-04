@@ -9,6 +9,7 @@ This document provides a deep dive into the architecture, patterns, and developm
 DuoCanvas avoids complex conditional rendering by using a **Registry Pattern**. Every graphic is treated as a "Plugin".
 
 ### 1. Anatomy of a Template
+
 Each file in `src/templates/` must export a configuration object:
 
 ```javascript
@@ -33,7 +34,9 @@ export const MyTemplate = {
 ```
 
 ### 2. The State Hub (`App.jsx`)
+
 The application manages two distinct state objects that are merged before being passed to templates:
+
 - **`sessionData`**: Shared global info (Home Team, Logo, Season).
 - **`templateData`**: Exclusive to the active template (Scores, Roster text).
 
@@ -62,15 +65,19 @@ DuoCanvas/
 ## 🛠️ Logic Utilities
 
 ### Ranking Parser (`rankingUtils.js`)
+
 Instead of templates handling complex regex, we use a universal parser.
+
 - **Input**: Raw multiline text.
 - **Features**: Automatic column detection, number extraction, and per-sport formatting.
 - **Usage Example**:
+
   ```javascript
   const { ranking, hasStats } = parseManualRanking(text, { showDraws: true });
   ```
 
 ### CSI Synchronization (`csiUtils.jsx`)
+
 Handles script-injection fetching for the CSI Faenza portal to bypass CORS limitations.
 
 ---
@@ -78,13 +85,17 @@ Handles script-injection fetching for the CSI Faenza portal to bypass CORS limit
 ## 🎨 Styling Standards
 
 ### 1. Dynamic Themes
+
 Never hardcode colors. Use the `theme` object passed to your `Render` component.
+
 - `theme.primary`: Tailwind gradient string (e.g., `from-orange-600 to-red-600`).
 - `theme.bg`: Background class for the card.
 - `theme.accent`: Text color utility for highlights.
 
 ### 2. BaseCard Layers
+
 The `BaseCard` handles the 1080x1350px container and background effects:
+
 1. **Background Layer**: User upload OR theme-default image.
 2. **Overlay Layer**: Gradient matching the theme primary color.
 3. **Content Layer**: Your `Render` logic.
@@ -103,6 +114,7 @@ We use a **"Double-Shot" Technique** in `useDownload.jsx` to solve font/image re
 ---
 
 ## 🚀 How to add a Sport
+
 1. Define the UI blocks in `src/components/blocks/`.
 2. Create the Template in `src/templates/`.
 3. Update `src/data/defaults.js` with initial values.
