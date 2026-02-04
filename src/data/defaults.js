@@ -27,7 +27,7 @@ export const TEMPLATE_DEFAULTS = {
   },
   
   basket_roster: {
-    rosterList: "1 Martini\n 4 Rubbi Alfi\n 5 Dino\n6 Ricci Lucchi\n7 Tellarini\n8 Gardenghi\n9 Lambertucci\n10 Pieri\n12 Camaggi\n14 Bonifazio\n15 Cavini\n16 Monti\n18 Tassoni\n20 Gamez\n21 Piani Gentile\n22 Biavati\n25 Ferrante\n27 Lancieri",
+    rosterList: "1 Martini\n4 Rubbi Alfi\n5 Dino\n6 Ricci Lucchi\n7 Tellarini\n8 Gardenghi\n9 Lambertucci\n10 Pieri\n12 Camaggi\n14 Bonifazio\n15 Cavini\n16 Monti\n18 Tassoni\n20 Gamez\n21 Piani Gentile\n22 Biavati\n25 Ferrante\n27 Lancieri",
   },
 
   soccer_result: {
@@ -39,7 +39,7 @@ export const TEMPLATE_DEFAULTS = {
 
   soccer_formation: {
     module: "3-2-1",
-    rosterList: "1 Voda\n 4 Gentilini\n 5 Ceroni\n 6 Neri\n 7 Costa\n 8 Mondini\n 9 Alpi\n 10 Forti\n12 Poli\n15 Sarro A.\n17 Carbone\n20 Collina\n21 Dalle Fabbriche\n22 Tomba\n23 Sarro M."
+    rosterList: "1 Voda\n4 Gentilini\n5 Ceroni\n6 Neri\n7 Costa\n8 Mondini\n9 Alpi\n10 Forti\n12 Poli\n15 Sarro A.\n17 Carbone\n20 Collina\n21 Dalle Fabbriche\n22 Tomba\n23 Sarro M."
   },
 
   week_recap: {
