@@ -90,9 +90,6 @@ const EventItem = ({ event, theme, index }) => {
                     )}
                  </div>
             </div>
-            
-            {/* Background Texture Effect */}
-             <div className="absolute inset-0 opacity-5 bg-[url('/noise.png')] pointer-events-none mix-blend-overlay"></div>
         </div>
     </div>
   );

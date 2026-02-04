@@ -8,24 +8,28 @@ import { parseManualRanking } from '../../utils/rankingUtils';
 export const createRankingTemplate = (sport, config = {}) => {
   const options = config.options || {};
   const RenderBlock = config.RenderBlock || TeamsRanking;
+  const baseDefaults = {
+    ...config.defaultData
+  };
 
   return {
+    defaultData: baseDefaults,
     Render: ({ data, theme, cardRef }) => {
       const headerData = {
+          headerTitle: data.headerTitle || "CLASSIFICA",
+          headerValue: data.headerValue || "",
           championship: `${data.leagueName} - ${data.season}`
       };
 
       return (
         <BaseCard theme={theme} ref={cardRef}>
-          <div className="flex flex-col h-full w-full relative z-10 gap-4">
+          <div className="flex flex-col h-full w-full relative z-10 gap-2">
             <MatchInfo 
                   data={headerData} 
                   theme={theme} 
-                  labels={sport.labels}
-                  matchDayLabel={sport.labels.ranking} 
               /> 
 
-            <div className="flex-1 w-full relative px-6 pb-6 pt-2">
+            <div className="flex-1 w-full relative px-6 pb-6 pt-0">
                {/* Use the Configured Render Block */}
                <RenderBlock 
                   data={data} 

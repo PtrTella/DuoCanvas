@@ -2,20 +2,20 @@ import React from 'react';
 import { Calendar, Clock, MapPin, Navigation } from 'lucide-react';
 
 // --- LAYOUT ---
-export const MatchDetails = ({ data, theme, className = "", labels = {} }) => {
+export const MatchDetails = ({ data, theme, className = "" }) => {
   const {
-      date = "Data",
-      time = "Ora",
-      arena = "Arena",
-      address = "Indirizzo"
-  } = labels;
+      labelDate = "Data",
+      labelTime = "Ora",
+      labelArena = "Arena",
+      labelAddress = "Indirizzo"
+  } = data;
 
   // Configurazione icone
   const items = [
-      { icon: Calendar, label: date, value: data.date },
-      { icon: Clock, label: time, value: data.time },
-      { icon: MapPin, label: arena, value: data.arena },
-      { icon: Navigation, label: address, value: data.arenaAddress }
+      { icon: Calendar, label: labelDate, value: data.date },
+      { icon: Clock, label: labelTime, value: data.time },
+      { icon: MapPin, label: labelArena, value: data.arena },
+      { icon: Navigation, label: labelAddress, value: data.arenaAddress }
   ];
 
   return (
@@ -51,21 +51,21 @@ export const MatchDetails = ({ data, theme, className = "", labels = {} }) => {
 };
 
 // --- CONTROLS ---
-export const MatchDetailsControls = ({ data, onChange, labels = {} }) => {
+export const MatchDetailsControls = ({ data, onChange }) => {
   const {
-      sectionTitle = "Info Evento",
-      date = "Data",
-      time = "Ora",
-      arena = "Arena",
-      address = "Indirizzo"
-  } = labels;
+      labelSectionDetails = "Info Evento",
+      labelDate = "Data",
+      labelTime = "Ora",
+      labelArena = "Arena",
+      labelAddress = "Indirizzo"
+  } = data;
 
   return (
     <div className="pt-4 border-t border-gray-100">
-      <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{sectionTitle}</h3>
+      <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{labelSectionDetails}</h3>
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase">{date}</label>
+          <label className="text-[10px] font-bold text-gray-500 uppercase">{labelDate}</label>
           <input 
               type="text" value={data.date} 
               onChange={(e) => onChange('date', e.target.value)} 
@@ -73,7 +73,7 @@ export const MatchDetailsControls = ({ data, onChange, labels = {} }) => {
           />
         </div>
         <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase">{time}</label>
+          <label className="text-[10px] font-bold text-gray-500 uppercase">{labelTime}</label>
           <input 
               type="text" value={data.time} 
               onChange={(e) => onChange('time', e.target.value)} 
@@ -81,7 +81,7 @@ export const MatchDetailsControls = ({ data, onChange, labels = {} }) => {
           />
         </div>
         <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase">{arena}</label>
+          <label className="text-[10px] font-bold text-gray-500 uppercase">{labelArena}</label>
           <input 
               type="text" value={data.arena} 
               onChange={(e) => onChange('arena', e.target.value)} 
@@ -89,7 +89,7 @@ export const MatchDetailsControls = ({ data, onChange, labels = {} }) => {
           />
         </div>
         <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase">{address}</label>
+          <label className="text-[10px] font-bold text-gray-500 uppercase">{labelAddress}</label>
           <input 
               type="text" value={data.arenaAddress || ''} 
               onChange={(e) => onChange('arenaAddress', e.target.value)} 

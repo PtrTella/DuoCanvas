@@ -4,8 +4,10 @@ import React from 'react';
  * BasketMatchExtra - Renders extra info for basket match results.
  * Includes MVP/Top Scorer and potentially other notes.
  */
-export const BasketMatchExtra = ({ data, theme, labels }) => {
+export const BasketMatchExtra = ({ data, theme }) => {
   if (!data.topScorer && !data.matchNote) return null;
+
+  const labelMvp = data.labelMvp || "MVP / Top Scorer";
 
   return (
     <div className="flex flex-col items-center gap-3 mt-6">
@@ -21,7 +23,7 @@ export const BasketMatchExtra = ({ data, theme, labels }) => {
           
           <div className="relative z-10 flex flex-col items-center">
             <span className="text-[10px] font-black tracking-[0.2em] opacity-60 text-white uppercase mb-0.5">
-              {labels?.mvp || "MVP / Top Scorer"}
+              {labelMvp}
             </span>
             <span className="text-2xl font-black text-white uppercase tracking-tight drop-shadow-sm">
               {data.topScorer}

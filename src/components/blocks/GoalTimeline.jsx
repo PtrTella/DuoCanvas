@@ -2,7 +2,8 @@ import React from 'react';
 import { Goal, Target } from 'lucide-react';
 
 // --- LAYOUT (Visualizzazione Grafica) ---
-export const GoalTimeline = ({ data, theme, labels, className = "" }) => {
+export const GoalTimeline = ({ data, theme, className = "" }) => {
+  const labelGoals = data.labelGoals || "Gol";
   // Parsing goals: "45' Rossi\n67' Bianchi" → [{minute: "45", player: "Rossi"}, ...]
   const parseGoals = (goalsText) => {
     if (!goalsText || !goalsText.trim()) return [];
@@ -29,7 +30,7 @@ export const GoalTimeline = ({ data, theme, labels, className = "" }) => {
     <div className={`w-full px-5 py-3 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/15 to-white/5 border-2 border-white/30 shadow-2xl ${className}`}>
       {/* Header con titolo */}
       <div className="text-center mb-3 pb-2 border-b border-white/20">
-        <h3 className="text-xs font-black text-white uppercase tracking-widest drop-shadow-lg">{labels?.goals || "Gol"}</h3>
+        <h3 className="text-xs font-black text-white uppercase tracking-widest drop-shadow-lg">{labelGoals}</h3>
       </div>
 
       <div className="grid grid-cols-2 gap-12">

@@ -7,16 +7,19 @@ import TeamControls from '../../components/editor/TeamControls';
 
 export const createLineupTemplate = (sport, config = {}) => {
   const block = config.extraBlock;
+  const baseDefaults = {
+    ...config.defaultData
+  };
 
   return {
+    defaultData: baseDefaults,
     Render: ({ data, theme, cardRef }) => (
       <BaseCard theme={theme} ref={cardRef}>
           <div className="flex flex-col h-full w-full relative z-10">
               <MatchInfo 
                 data={data} 
                 theme={theme} 
-                className="mb-4" 
-                labels={sport.labels}
+                className="mb-2" 
               />
               
               <TeamMatchup data={data} theme={theme} />
@@ -27,12 +30,11 @@ export const createLineupTemplate = (sport, config = {}) => {
                   <block.Render 
                     data={data} 
                     theme={theme} 
-                    labels={sport.labels}
                   />
                 )}
               </div>
               
-              <MatchDetails data={data} theme={theme} labels={sport.labels} className="mt-auto shrink-0" />
+              <MatchDetails data={data} theme={theme} className="mt-auto shrink-0" />
           </div>
       </BaseCard>
     ),
@@ -40,13 +42,13 @@ export const createLineupTemplate = (sport, config = {}) => {
     Controls: ({ data, onChange, themeColor }) => (
       <div className="space-y-1 animate-in fade-in">
         <TeamControls data={data} onChange={onChange} />
-        <MatchInfoControls data={data} onChange={onChange} labels={sport.labels} />
+        <MatchInfoControls data={data} onChange={onChange} />
         <TeamMatchupControls data={data} onChange={onChange} />
 
         {/* Sport Specific Lineup Controls */}
         {block?.Controls && <block.Controls data={data} onChange={onChange} />}
         
-        <MatchDetailsControls data={data} onChange={onChange} labels={sport.labels} />
+        <MatchDetailsControls data={data} onChange={onChange} />
       </div>
     )
   };

@@ -12,15 +12,11 @@ export const WeekRecap = {
 
   Render: ({ data, theme, cardRef }) => (
     <BaseCard theme={theme} ref={cardRef}>
-        <div className="flex flex-col h-full w-full relative z-10 gap-8">
-            {/* 
-               Header: Uses "SETTIMANA" as label.
-               Pass hideChampionship=true to MatchInfo to comply with "no champ" request 
-            */}
+        <div className="flex flex-col h-full w-full relative z-10 gap-4">
+            {/* Header: Pass hideChampionship=true to MatchInfo to comply with "no champ" request */}
             <MatchInfo 
                 data={data} 
                 theme={theme} 
-                matchDayLabel="SETTIMANA" 
                 hideChampionship={true} 
             />
             
@@ -45,6 +41,8 @@ export const WeekRecap = {
   ),
 
   defaultData: {
+    headerTitle: "SETTIMANA",
+    headerValue: "",
     weekEvents: [
        { 
          sport: 'Basket', 

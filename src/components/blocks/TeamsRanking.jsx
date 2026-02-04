@@ -17,19 +17,17 @@ export const TeamsRanking = ({
   columnsString = "V • Vittorie  P • Perse  S • Pari",
   showDraws = true,
   showAverages = false,
-  showStats = true,
-  labels = {}
+  showStats = true
 }) => {
-  // Default Labels
+  // Default Labels from data or defaults
   const L = {
-     points: "PT",
-     played: "G",
-     won: "V",
-     drawn: "P",
-     lost: "S",
-     scored: "PF",
-     conceded: "PS",
-     ...labels 
+     points: data.labelPoints || "PT",
+     played: data.labelPlayed || "G",
+     won: data.labelWon || "V",
+     drawn: data.labelDrawn || "P",
+     lost: data.labelLost || "S",
+     scored: data.labelScored || (showAverages ? "PF" : "GF"),
+     conceded: data.labelConceded || (showAverages ? "PS" : "GS")
   };
 
   // Determine Grid Columns Logic

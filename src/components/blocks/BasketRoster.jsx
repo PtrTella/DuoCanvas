@@ -22,8 +22,6 @@ const CourtPlayer = ({ number, name, theme, positionStyle }) => {
       >
           {/* Top Accent Line */}
           <div className={`absolute top-0 inset-x-0 h-1 bg-gradient-to-r ${theme?.primary || 'from-orange-500 to-red-600'}`}></div>
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
-          
           <span className="text-6xl md:text-7xl font-black italic text-white tracking-tighter z-10 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]" style={{ fontFamily: 'Impact, sans-serif' }}>
               {number}
           </span>
@@ -118,7 +116,10 @@ const StaffBox = ({ label, name, theme }) => (
 );
 
 // --- COMPONENTE PRINCIPALE ---
-export const BasketRoster = ({ data, theme, labels, className = "" }) => {
+export const BasketRoster = ({ data, theme, className = "" }) => {
+  const labelCoach = data.labelCoach || "Allenatore";
+  const labelBench = data.labelBench || "Panchina";
+
   const parsePlayer = (line) => {
       const trimmed = line.trim();
       if (!trimmed) return null;
@@ -160,7 +161,7 @@ export const BasketRoster = ({ data, theme, labels, className = "" }) => {
 
             {/* Staff Section - Omogenous bar at the bottom */}
             <div className="absolute bottom-0 inset-x-0 z-30 bg-[#0a0a0a] border-t-2 border-white/5 py-4 flex justify-center gap-16 items-center shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
-                 <StaffBox label={labels?.coach || "Allenatore"} name={data.coach || '---'} theme={theme} />
+                 <StaffBox label={labelCoach} name={data.coach || '---'} theme={theme} />
                  {data.director && <StaffBox label="Dir. Sportivo" name={data.director} theme={theme} />}
             </div>
         </div>
@@ -170,7 +171,7 @@ export const BasketRoster = ({ data, theme, labels, className = "" }) => {
             <div className="mb-5 pl-4 relative">
                 <div className={`absolute left-0 top-1.5 bottom-1.5 w-1.5 bg-gradient-to-b ${theme.primary} rounded-full`}></div>
                 <h3 className="text-5xl font-black italic text-white uppercase tracking-tighter leading-none">
-                    {labels?.bench || "Panchina"}
+                    {labelBench}
                 </h3>
             </div>
             
