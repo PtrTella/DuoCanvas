@@ -72,6 +72,15 @@ export const TEMPLATE_DEFAULTS = {
     season: "Stagione 2025/26",
     ranking: [],
     highlightTeam: "Duo Ligones"
+  },
+
+  soccer_ranking: {
+    leagueName: "Campionato Calcio a 7 - Girone B",
+    season: "Stagione 2025/26",
+    ranking: [],
+    highlightTeam: "Duo Ligones",
+    showAverages: false,
+    showStats: true
   }
 
 };

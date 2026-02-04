@@ -17,6 +17,7 @@ export const TeamsRanking = ({
   columnsString = "V • Vittorie  P • Perse  S • Pari",
   showDraws = true,
   showAverages = false,
+  showStats = true,
   labels = {}
 }) => {
   // Default Labels
@@ -32,13 +33,15 @@ export const TeamsRanking = ({
   };
 
   // Determine Grid Columns Logic
-  // Base: Rank(4rem) Team(1fr) Points(5rem) Played(3rem) Won(3rem)
-  // Optional: Drawn(3rem), Lost(3rem) - Lost is usually always shown but let's assume base structure.
+  // Base: Rank(4rem) Team(1fr) Points(5rem)
   
   // Let's build the grid template string dynamically
-  let gridCols = "4rem 1fr 5rem 3rem 3rem"; // # Team PT G V
-  if (showDraws) gridCols += " 3rem"; // P
-  gridCols += " 3rem"; // S (Lost) is standard
+  let gridCols = "4rem 1fr 5rem"; // # Team PT
+  if (showStats) {
+      gridCols += " 3rem 3rem"; // G V
+      if (showDraws) gridCols += " 3rem"; // P
+      gridCols += " 3rem"; // S (Lost) is standard
+  }
   if (showAverages) gridCols += " 4rem 4rem"; // PF PS (larger for decimals/hundreds)
 
   return (
@@ -55,10 +58,15 @@ export const TeamsRanking = ({
                 <div className="text-center text-lg">#</div>
                 <div className="text-left pl-2 text-lg">Squadra</div>
                 <div className="text-center bg-white/20 rounded shadow-inner text-white text-lg">{L.points}</div>
-                <div className="text-center opacity-60 text-lg">{L.played}</div>
-                <div className="text-center opacity-60 text-green-400 text-lg">{L.won}</div>
-                {showDraws && <div className="text-center opacity-60 text-yellow-400 text-lg">{L.drawn}</div>}
-                <div className="text-center opacity-60 text-red-400 text-lg">{L.lost}</div>
+                
+                {showStats && (
+                  <>
+                    <div className="text-center opacity-60 text-lg">{L.played}</div>
+                    <div className="text-center opacity-60 text-green-400 text-lg">{L.won}</div>
+                    {showDraws && <div className="text-center opacity-60 text-yellow-400 text-lg">{L.drawn}</div>}
+                    <div className="text-center opacity-60 text-red-400 text-lg">{L.lost}</div>
+                  </>
+                )}
                 
                 {showAverages && (
                 <>
@@ -77,11 +85,11 @@ export const TeamsRanking = ({
               const isTop3 = index < 3;
               
               // Calcolo medie se necessario (solo se giocate > 0)
-              const avgScored = showAverages && team.played > 0 
-                    ? (team.scored / team.played).toFixed(1) 
+              const avgScored = showAverages 
+                    ? (team.avgScored !== undefined ? team.avgScored : (team.played > 0 ? (team.scored / team.played).toFixed(1) : "0.0"))
                     : "0.0";
-              const avgConceded = showAverages && team.played > 0 
-                    ? (team.conceded / team.played).toFixed(1) 
+              const avgConceded = showAverages 
+                    ? (team.avgConceded !== undefined ? team.avgConceded : (team.played > 0 ? (team.conceded / team.played).toFixed(1) : "0.0"))
                     : "0.0";
 
               return (
@@ -128,10 +136,14 @@ export const TeamsRanking = ({
                   </div>
 
                   {/* Stats */}
-                  <div className="text-center font-mono opacity-80 text-xl font-bold">{team.played}</div>
-                  <div className="text-center font-mono opacity-60 text-lg">{team.won}</div>
-                  {showDraws && <div className="text-center font-mono opacity-60 text-lg">{team.drawn}</div>}
-                  <div className="text-center font-mono opacity-60 text-lg">{team.lost}</div>
+                  {showStats && (
+                    <>
+                      <div className="text-center font-mono opacity-80 text-xl font-bold">{team.played}</div>
+                      <div className="text-center font-mono opacity-60 text-lg">{team.won}</div>
+                      {showDraws && <div className="text-center font-mono opacity-60 text-lg">{team.drawn}</div>}
+                      <div className="text-center font-mono opacity-60 text-lg">{team.lost}</div>
+                    </>
+                  )}
 
                   {/* Averages */}
                   {showAverages && (

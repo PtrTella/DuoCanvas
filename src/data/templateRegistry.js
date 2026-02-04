@@ -4,6 +4,7 @@ import { SoccerMatch } from '../templates/SoccerMatch';
 import { FootballResult } from '../templates/FootballResult';
 import { WeekRecap } from '../templates/WeekRecap';
 import { BasketRanking } from '../templates/BasketRanking';
+import { SoccerRanking } from '../templates/SoccerRanking';
 
 export const TEMPLATES = [
   MatchResult,
@@ -11,7 +12,8 @@ export const TEMPLATES = [
   SoccerMatch,
   FootballResult,
   WeekRecap,
-  BasketRanking
+  BasketRanking,
+  SoccerRanking
 ];
 
 export const THEMES = {

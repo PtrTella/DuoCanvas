@@ -1,15 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { ListOrdered, RefreshCw } from 'lucide-react';
+import React, { useState } from 'react';
+import { Trophy, RefreshCw } from 'lucide-react';
 import BaseCard from '../components/UI/BaseCard';
 import { MatchInfo } from '../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../components/blocks/TeamsRanking';
-import { useClassifica } from '../hooks/useCsi';
 
-export const BasketRanking = {
-  id: 'basket_ranking',
-  name: 'Classifica Basket',
-  icon: ListOrdered,
-  defaultTheme: 'orange',
+// Hook Placeholder per Classifica Calcio
+// In futuro questo hook userà un URL diverso e un parser specifico per il calcio
+const useSoccerClassifica = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    // TODO: Implementare fetch da nuova sorgente
+    // const SOCCER_DATA_URL = "https://...";
+    
+    return { classifica: data, loading, error };
+};
+
+export const SoccerRanking = {
+  id: 'soccer_ranking',
+  name: 'Classifica Calcio',
+  icon: Trophy, // Icona diversa per distinguerla
+  defaultTheme: 'green',
 
   Render: ({ data, theme, cardRef }) => {
     // Adattiamo i dati per MatchInfo: 
@@ -19,7 +31,7 @@ export const BasketRanking = {
         championship: `${data.leagueName} - ${data.season}`
     };
 
-    const showAverages = data.showAverages ?? true;
+    const showAverages = data.showAverages ?? false; // Default false per calcio
     const showStats = data.showStats ?? true;
 
     return (
@@ -37,11 +49,19 @@ export const BasketRanking = {
              <TeamsRanking 
                 data={data} 
                 theme={theme}
-                columnsString="V•Win(3/2) S•Loss(1/0) MPF•Med.PuntiFatti"
-                showDraws={false}
+                columnsString="V•Win N•Draw P•Loss"
+                showDraws={true}
                 showStats={showStats}
                 showAverages={showAverages}
-                labels={{ scored: "MPF", conceded: "MPS" }}
+                labels={{ 
+                    points: "PT",
+                    played: "G",
+                    won: "V",
+                    drawn: "N",
+                    lost: "P",
+                    scored: "GF", 
+                    conceded: "GS" 
+                }}
              />
           </div>
         </div>
@@ -50,21 +70,17 @@ export const BasketRanking = {
   },
 
   Controls: ({ data, onChange }) => {
-    const { classifica, loading, error } = useClassifica();
-    const [mode, setMode] = useState('manual'); // 'csi' | 'manual'. Default to manual as requested or 'csi'? 'csi' was default. Let's start with 'csi'.
+    const { classifica, loading, error } = useSoccerClassifica();
+    const [mode, setMode] = useState('manual');
     const [manualText, setManualText] = useState('');
 
-    // Set initial mode based on data/preference? 
-    // Just toggle. 
-
-    // Funzione manuale per aggiornare i dati da CSI
+    // Funzione manuale per aggiornare i dati da CSI (placeholder)
     const handleSync = () => {
         if (classifica && classifica.length > 0) {
             onChange('ranking', classifica);
-            // Reset flags when syncing from CSI
             onChange('showStats', true);
-            onChange('showAverages', true);
-            // Auto-seleziona Duo Ligones se presente e non c'è selezione
+            onChange('showAverages', false);
+            
             if (!data.highlightTeam) {
                  const myTeam = classifica.find(t => t.name.toLowerCase().includes('duo') || t.name.toLowerCase().includes('ligones'));
                  if (myTeam) onChange('highlightTeam', myTeam.name);
@@ -80,7 +96,7 @@ export const BasketRanking = {
         let hasAveragesFound = false;
 
         const parsedRanking = lines.map((line) => {
-             // Basic parser: Name Pts G V S (optional: MPF MPS)
+             // Parser Calcio: Name Pt G V N P (optional: GF GS)
              const cleanLine = line.replace(/,/g, '.'); 
              const parts = cleanLine.trim().split(/[\s\t]+/);
              const numbers = [];
@@ -100,24 +116,29 @@ export const BasketRanking = {
              name = name.replace(/^(\d+)[.)]?\s*/, '');
 
              let stats = {
-                 points: 0, played: 0, won: 0, lost: 0, drawn: 0
+                 points: 0, played: 0, won: 0, drawn: 0, lost: 0
              };
              
              const n = numbers.length;
              
-             if (n >= 6) {
-                 stats.points = numbers[n-6];
-                 stats.played = numbers[n-5];
-                 stats.won = numbers[n-4];
+             // Esempio Calcio Completo: Pt G V N P GF GS (7 numeri)
+             // Esempio Calcio Base: Pt G V N P (5 numeri)
+             
+             if (n >= 7) {
+                 stats.points = numbers[n-7];
+                 stats.played = numbers[n-6];
+                 stats.won = numbers[n-5];
+                 stats.drawn = numbers[n-4];
                  stats.lost = numbers[n-3];
-                 stats.avgScored = numbers[n-2];
-                 stats.avgConceded = numbers[n-1];
+                 stats.avgScored = numbers[n-2];   // Usa avgScored per GF
+                 stats.avgConceded = numbers[n-1]; // Usa avgConceded per GS
                  hasStatsFound = true;
                  hasAveragesFound = true;
-             } else if (n >= 4) {
-                 stats.points = numbers[n-4];
-                 stats.played = numbers[n-3];
-                 stats.won = numbers[n-2];
+             } else if (n >= 5) {
+                 stats.points = numbers[n-5];
+                 stats.played = numbers[n-4];
+                 stats.won = numbers[n-3];
+                 stats.drawn = numbers[n-2];
                  stats.lost = numbers[n-1];
                  hasStatsFound = true;
              } else if (n >= 1) {
@@ -151,7 +172,7 @@ export const BasketRanking = {
                     <input 
                         value={data.leagueName}
                         onChange={(e) => onChange('leagueName', e.target.value)}
-                        className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-lg transition-all"
+                        className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-green-500 focus:ring-0 border rounded-lg transition-all"
                     />
                 </div>
                 <div>
@@ -159,20 +180,20 @@ export const BasketRanking = {
                     <input 
                         value={data.season}
                         onChange={(e) => onChange('season', e.target.value)}
-                        className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-lg transition-all"
+                        className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-green-500 focus:ring-0 border rounded-lg transition-all"
                     />
                 </div>
-                {/* Toggle Show Averages */}
+                {/* Toggles */}
                 <div className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-100">
                     <input 
                         type="checkbox"
                         id="showAvg"
-                        checked={data.showAverages ?? true}
+                        checked={data.showAverages ?? false}
                         onChange={(e) => onChange('showAverages', e.target.checked)}
-                        className="rounded text-orange-500 focus:ring-orange-500"
+                        className="rounded text-green-500 focus:ring-green-500"
                     />
                     <label htmlFor="showAvg" className="text-xs font-bold text-gray-600 select-none cursor-pointer">
-                        Mostra Medie (MPF / MPS)
+                        Mostra GF / GS
                     </label>
                 </div>
                 <div className="flex items-center gap-2 pt-2">
@@ -181,35 +202,35 @@ export const BasketRanking = {
                         id="showStats"
                         checked={data.showStats ?? true}
                         onChange={(e) => onChange('showStats', e.target.checked)}
-                        className="rounded text-orange-500 focus:ring-orange-500"
+                        className="rounded text-green-500 focus:ring-green-500"
                     />
                     <label htmlFor="showStats" className="text-xs font-bold text-gray-600 select-none cursor-pointer">
-                        Mostra Statistiche (G, V, S)
+                        Mostra Statistiche (G, V, N, P)
                     </label>
                 </div>
              </div>
         </div>
 
-        {/* CSI Fetch Control */}
-        <div className="p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
+        {/* Fetch Control */}
+        <div className="p-4 bg-green-50/50 border border-green-100 rounded-xl">
              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-bold text-blue-900 text-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                <h4 className="font-bold text-green-900 text-sm flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                     Sorgente Dati
                 </h4>
              </div>
              
              {/* Tabs Toggle */}
-             <div className="flex bg-white/50 p-1 rounded-lg mb-4 border border-blue-100">
+             <div className="flex bg-white/50 p-1 rounded-lg mb-4 border border-green-100">
                 <button 
                    onClick={() => setMode('csi')}
-                   className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${mode === 'csi' ? 'bg-blue-600 text-white shadow-md' : 'text-blue-900 hover:bg-blue-100'}`}
+                   className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${mode === 'csi' ? 'bg-green-600 text-white shadow-md' : 'text-green-900 hover:bg-green-100'}`}
                 >
-                   Automatico (CSI)
+                   Automatico (WIP)
                 </button>
                 <button 
                    onClick={() => setMode('manual')}
-                   className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${mode === 'manual' ? 'bg-blue-600 text-white shadow-md' : 'text-blue-900 hover:bg-blue-100'}`}
+                   className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${mode === 'manual' ? 'bg-green-600 text-white shadow-md' : 'text-green-900 hover:bg-green-100'}`}
                 >
                    Manuale
                 </button>
@@ -217,41 +238,37 @@ export const BasketRanking = {
 
              {mode === 'csi' ? (
                 <>
-                 <div className={`text-xs mb-4 p-2 rounded-lg ${error ? 'bg-red-100 text-red-700' : 'bg-blue-100/50 text-blue-700'}`}>
+                 <div className={`text-xs mb-4 p-2 rounded-lg ${error ? 'bg-red-100 text-red-700' : 'bg-green-100/50 text-green-700'}`}>
                     {loading 
-                        ? "Connessione al portale CSI in corso..." 
-                        : error 
-                            ? `❌ Errore CSI: ${error}`
-                            : classifica && classifica.length > 0 
-                                ? `✅ Trovate ${classifica.length} squadre nel database.` 
-                                : "⚠️ Nessun dato trovato. Controlla la connessione."}
+                        ? "Connessione in corso..." 
+                        : "⚠️ Importazione automatica non configurata per questo campionato."}
                  </div>
 
                  <button 
                     onClick={handleSync}
-                    disabled={loading || !classifica || classifica.length === 0}
-                    className="w-full flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-lg text-sm font-bold shadow-blue-200 shadow-lg transition-all disabled:opacity-50 disabled:shadow-none disabled:transform-none"
+                    disabled={true} // Disabled for now
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-green-600 text-white rounded-lg text-sm font-bold opacity-50 cursor-not-allowed"
                  >
-                    <RefreshCw size={16} className={`${loading ? 'animate-spin' : ''}`} />
-                    Importa Classifica CSI
+                    <RefreshCw size={16} />
+                    Importa Classifica Calcio
                  </button>
                 </>
              ) : (
                 <div className="space-y-3">
-                   <div className="bg-blue-100/30 p-2 rounded text-[10px] text-blue-800 leading-tight">
-                      Incolla qui la classifica (es. da Excel o sito).<br/>
-                      Formato: <b>Nome Pt G V P [MPF MPS]</b>
+                   <div className="bg-green-100/30 p-2 rounded text-[10px] text-green-800 leading-tight">
+                      Incolla qui la classifica.<br/>
+                      Formato: <b>Nome Pt G V N P [GF GS]</b>
                    </div>
                    <textarea
                       value={manualText}
                       onChange={(e) => setManualText(e.target.value)}
-                      placeholder={`Esempio:\nTeam A 20 10 10 0\nTeam B 18 10 9 1 75.5 60.2`}
-                      className="w-full h-32 p-2 text-xs font-mono border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder={`Esempio:\nDuo Ligones 20 10 5 5 0\nTeam B 18 10 4 6 0 20 10`}
+                      className="w-full h-32 p-2 text-xs font-mono border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                    />
                    <button 
                       onClick={handleManualParse}
                       disabled={!manualText}
-                      className="w-full py-2 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 disabled:opacity-50"
+                      className="w-full py-2 bg-green-600 text-white rounded-lg text-xs font-bold hover:bg-green-700 disabled:opacity-50"
                    >
                       Elabora e Aggiorna
                    </button>
