@@ -4,11 +4,9 @@ import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo'
 import { MatchDetails, MatchDetailsControls } from '../../components/blocks/MatchDetails';
 import { TeamMatchup, TeamMatchupControls } from '../../components/blocks/TeamMatchup';
 import TeamControls from '../../components/editor/TeamControls';
-import { SPORTS } from '../../config/sportsRegistry';
 
-export const createLineupTemplate = (sportKey) => {
-  const sport = SPORTS[sportKey];
-  const block = sport.templates.lineup.blocks.extra;
+export const createLineupTemplate = (sport, config = {}) => {
+  const block = config.extraBlock;
 
   return {
     Render: ({ data, theme, cardRef }) => (
@@ -25,11 +23,13 @@ export const createLineupTemplate = (sportKey) => {
               
               {/* Sport Specific Lineup/Formation */}
               <div className="flex-1 w-full my-4 min-h-0">
-                <block.Render 
-                  data={data} 
-                  theme={theme} 
-                  labels={sport.labels}
-                />
+                {block?.Render && (
+                  <block.Render 
+                    data={data} 
+                    theme={theme} 
+                    labels={sport.labels}
+                  />
+                )}
               </div>
               
               <MatchDetails data={data} theme={theme} labels={sport.labels} className="mt-auto shrink-0" />
@@ -44,12 +44,10 @@ export const createLineupTemplate = (sportKey) => {
         <TeamMatchupControls data={data} onChange={onChange} />
 
         {/* Sport Specific Lineup Controls */}
-        <block.Controls data={data} onChange={onChange} />
+        {block?.Controls && <block.Controls data={data} onChange={onChange} />}
         
         <MatchDetailsControls data={data} onChange={onChange} labels={sport.labels} />
       </div>
-    ),
-    
-    defaultData: sport.templates.lineup.defaults
+    )
   };
 };

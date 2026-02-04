@@ -48,7 +48,7 @@ const BenchPlayer = ({ number, name, theme }) => (
 );
 
 // --- LAYOUT PRINCIPALE ---
-export const SoccerFormation = ({ data, theme, className = "" }) => {
+export const SoccerFormation = ({ data, theme, labels, className = "" }) => {
   
   // 1. Parser
   const parsePlayer = (line) => {
@@ -95,7 +95,7 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
             </div>
             
             <div className="flex flex-col items-end">
-                <span className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em] mb-0.5">Allenatore</span>
+                <span className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em] mb-0.5">{labels?.coach || "Allenatore"}</span>
                 <span className="text-lg font-bold text-white uppercase tracking-wider">{data.coach}</span>
             </div>
         </div>
@@ -141,7 +141,7 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
             {/* --- COLONNA DX: PANCHINA (25%) --- */}
             <div className="w-1/4 max-w-[250px] bg-black/40 backdrop-blur-xl flex flex-col">
                 <div className="px-4 py-3 bg-white/5 border-b border-white/10">
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-white/60">Panchina</span>
+                    <span className="text-xs font-black uppercase tracking-[0.2em] text-white/60">{labels?.bench || "Panchina"}</span>
                 </div>
                 
                 <div className="flex-1 p-4 space-y-2 overflow-hidden">

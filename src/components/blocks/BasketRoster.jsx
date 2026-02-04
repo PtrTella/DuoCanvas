@@ -118,7 +118,7 @@ const StaffBox = ({ label, name, theme }) => (
 );
 
 // --- COMPONENTE PRINCIPALE ---
-export const BasketRoster = ({ data, theme, className = "" }) => {
+export const BasketRoster = ({ data, theme, labels, className = "" }) => {
   const parsePlayer = (line) => {
       const trimmed = line.trim();
       if (!trimmed) return null;
@@ -160,7 +160,7 @@ export const BasketRoster = ({ data, theme, className = "" }) => {
 
             {/* Staff Section - Omogenous bar at the bottom */}
             <div className="absolute bottom-0 inset-x-0 z-30 bg-[#0a0a0a] border-t-2 border-white/5 py-4 flex justify-center gap-16 items-center shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
-                 <StaffBox label="Allenatore" name={data.coach || '---'} theme={theme} />
+                 <StaffBox label={labels?.coach || "Allenatore"} name={data.coach || '---'} theme={theme} />
                  {data.director && <StaffBox label="Dir. Sportivo" name={data.director} theme={theme} />}
             </div>
         </div>
@@ -170,7 +170,7 @@ export const BasketRoster = ({ data, theme, className = "" }) => {
             <div className="mb-5 pl-4 relative">
                 <div className={`absolute left-0 top-1.5 bottom-1.5 w-1.5 bg-gradient-to-b ${theme.primary} rounded-full`}></div>
                 <h3 className="text-5xl font-black italic text-white uppercase tracking-tighter leading-none">
-                    Panchina
+                    {labels?.bench || "Panchina"}
                 </h3>
             </div>
             

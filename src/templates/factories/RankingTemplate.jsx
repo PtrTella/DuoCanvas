@@ -4,12 +4,10 @@ import BaseCard from '../../components/ui/BaseCard';
 import { MatchInfo } from '../../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../../components/blocks/TeamsRanking';
 import { parseManualRanking } from '../../utils/rankingUtils';
-import { SPORTS } from '../../config/sportsRegistry';
 
-export const createRankingTemplate = (sportKey) => {
-  const sport = SPORTS[sportKey];
-  const block = sport.templates.ranking.blocks.config;
-  const config = block.options; // Access the closure options exposed by factory
+export const createRankingTemplate = (sport, config = {}) => {
+  const options = config.options || {};
+  const RenderBlock = config.RenderBlock || TeamsRanking;
 
   return {
     Render: ({ data, theme, cardRef }) => {
@@ -29,12 +27,12 @@ export const createRankingTemplate = (sportKey) => {
 
             <div className="flex-1 w-full relative px-6 pb-6 pt-2">
                {/* Use the Configured Render Block */}
-               <block.Render 
+               <RenderBlock 
                   data={data} 
                   theme={theme}
-                  // Override specific visual toggles from data if present
+                  showDraws={options.showDraws}
                   showStats={data.showStats ?? true}
-                  showAverages={data.showAverages ?? config.showAverages}
+                  showAverages={data.showAverages ?? options.showAverages}
                />
             </div>
           </div>
@@ -56,8 +54,8 @@ export const createRankingTemplate = (sportKey) => {
       const handleManualChange = (val) => {
         onChange('manualText', val);
         const parsed = parseManualRanking(val, { 
-          showDraws: config.showDraws,
-          sport: sportKey
+          showDraws: options.showDraws,
+          sport: sport.id
         });
         
         // Extract only the ranking array from the parser results
@@ -126,11 +124,9 @@ export const createRankingTemplate = (sportKey) => {
              )}
           </div>
 
-          <TeamsRankingControls data={data} onChange={onChange} showAveragesOption={config.showAverages} />
+          <TeamsRankingControls data={data} onChange={onChange} showAveragesOption={options.showAverages} />
         </div>
       );
-    },
-
-    defaultData: sport.templates.ranking.defaults
+    }
   };
 };

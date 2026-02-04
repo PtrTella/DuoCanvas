@@ -4,11 +4,9 @@ import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo'
 import { MatchDetails, MatchDetailsControls } from '../../components/blocks/MatchDetails';
 import { MatchScore, MatchScoreControls } from '../../components/blocks/MatchScore';
 import TeamControls from '../../components/editor/TeamControls';
-import { SPORTS } from '../../config/sportsRegistry';
 
-export const createResultTemplate = (sportKey) => {
-  const sport = SPORTS[sportKey];
-  const block = sport.templates.result.blocks.extra;
+export const createResultTemplate = (sport, config = {}) => {
+  const block = config.extraBlock;
   
   return {
     Render: ({ data, theme, cardRef }) => (
@@ -25,7 +23,7 @@ export const createResultTemplate = (sportKey) => {
             <MatchScore data={data} theme={theme} className="mb-8" />
 
             {/* Configured Block */}
-            <block.Render data={data} theme={theme} labels={sport.labels} />
+            {block?.Render && <block.Render data={data} theme={theme} labels={sport.labels} />}
           </div>
 
           <MatchDetails data={data} theme={theme} labels={sport.labels} />
@@ -41,12 +39,10 @@ export const createResultTemplate = (sportKey) => {
         <MatchScoreControls data={data} onChange={onChange} accentColor={themeColor} />
         
         {/* Configured Block Controls */}
-        <block.Controls data={data} onChange={onChange} />
+        {block?.Controls && <block.Controls data={data} onChange={onChange} />}
         
         <MatchDetailsControls data={data} onChange={onChange} labels={sport.labels} />
       </div>
-    ),
-
-    defaultData: sport.templates.result.defaults
+    )
   };
 };
