@@ -1,44 +1,41 @@
-/**
- * 📄 Base raw data for all templates (Standard Fallbacks)
- */
 export const BASE_TEMPLATE_DATA = {
   basket_result: {
-    headerTitle: "MATCH DAY",
-    headerValue: "1",
-    leagueName: "CSI Imola, Girone Ovest",
-    homeScore: "0", awayScore: "0"
+    headerTitle: "GIORNATA",
+    headerValue: "",
+    leagueName: "",
+    homeScore: "", awayScore: ""
   },
   basket_roster: {
-    headerTitle: "MATCH DAY",
-    headerValue: "1",
-    rosterList: "1 Player\n2 Player",
+    headerTitle: "GARA",
+    headerValue: "",
+    rosterList: "",
   },
   basket_ranking: {
     headerTitle: "CLASSIFICA",
-    season: "2025/26",
+    season: "",
     ranking: [],
-    highlightTeam: "Mia Squadra",
+    highlightTeam: "",
     showAverages: true,
     showStats: true
   },
   soccer_result: {
     headerTitle: "GIORNATA",
-    homeScore: "0", awayScore: "0"
+    homeScore: "", awayScore: ""
   },
   soccer_roster: {
     headerTitle: "GIORNATA",
-    module: "3-2-1",
-    rosterList: "1 Player\n2 Player"
+    module: "",
+    rosterList: ""
   },
   soccer_ranking: {
     headerTitle: "CLASSIFICA",
-    season: "2025/26",
+    season: "",
     ranking: [],
-    highlightTeam: "Mia Squadra"
+    highlightTeam: ""
   },
   week_recap: {
     headerTitle: "PROGRAMMA",
-    headerValue: "SETTIMANA",
+    headerValue: "",
     weekEvents: []
   }
 };

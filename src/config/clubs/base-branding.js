@@ -1,21 +1,20 @@
-/**
- * 🎨 Fallback Branding & Global Settings
- */
 export const BASE_BRANDING = {
-  name: "DuoCanvas",
-  tagline: "Sports Graphics Generator",
-  sponsors: [],
+  branding: {
+    name: "DuoCanvas",
+    tagline: "Sports Graphics Generator",
+    sponsors: []
+  },
   globalDefaults: {
     homeTeam: "Squadra Casa",
-    awayTeam: "Avversari",
+    awayTeam: "Ospiti",
     homeLogo: "/DuoCanvas/logos/generic.png",
     awayLogo: "",
     championship: "Campionato",
-    matchDay: "1^ GIORNATA",
-    date: "SAB 01 GENNAIO",
-    time: "20:30",
-    arena: "Palazzetto",
-    coach: "Allenatore"
+    matchDay: "",
+    date: "",
+    time: "",
+    arena: "",
+    coach: ""
   },
   csiConfig: {
     teamId: 0,

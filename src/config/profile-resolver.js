@@ -14,14 +14,17 @@ const CLUBS = {
 };
 
 const getActiveKey = () => {
-  if (typeof window === 'undefined') return 'duo';
+  if (typeof window === 'undefined') return null;
   const params = new URLSearchParams(window.location.search);
-  const key = params.get('d') || params.get('domain') || params.get('p') || 'duo';
-  return CLUBS[key] ? key : 'duo';
+  const key = params.get('d') || params.get('domain') || params.get('p');
+  return key;
 };
 
 const activeKey = getActiveKey();
-const club = CLUBS[activeKey];
+const club = CLUBS[activeKey] || { 
+  branding: {}, 
+  templates: { activeTemplates: null, templateOverrides: {} } 
+};
 
 /**
  * 🚀 ACTIVE_CONFIG (Data Only)
@@ -31,17 +34,17 @@ export const ACTIVE_CONFIG = {
   branding: {
     ...BASE_BRANDING,
     ...club.branding,
-    branding: { ...BASE_BRANDING.branding, ...club.branding.branding },
-    globalDefaults: { ...BASE_BRANDING.globalDefaults, ...club.branding.globalDefaults },
-    csiConfig: { ...BASE_BRANDING.csiConfig, ...club.branding.csiConfig },
-    themeAssets: { ...BASE_BRANDING.themeAssets, ...club.branding.themeAssets }
+    branding: { ...BASE_BRANDING.branding, ...(club.branding.branding || {}) },
+    globalDefaults: { ...BASE_BRANDING.globalDefaults, ...(club.branding.globalDefaults || {}) },
+    csiConfig: { ...BASE_BRANDING.csiConfig, ...(club.branding.csiConfig || {}) },
+    themeAssets: { ...BASE_BRANDING.themeAssets, ...(club.branding.themeAssets || {}) }
   },
   templates: {
     activeIds: club.templates.activeTemplates || null,
     data: Object.keys(BASE_TEMPLATE_DATA).reduce((acc, key) => {
        acc[key] = {
          ...BASE_TEMPLATE_DATA[key],
-         ...(club.templates.templateOverrides[key] || {})
+         ...((club.templates.templateOverrides && club.templates.templateOverrides[key]) || {})
        };
        return acc;
     }, {})
