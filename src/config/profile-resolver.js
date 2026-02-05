@@ -11,11 +11,17 @@ import * as VoltaTemplates from './clubs/volta/templates';
 // 2. REGISTRY OF CLUBS
 const CLUBS = {
   duo: { 
-    branding: DuoConfig.BRANDING, 
+    clubInfo: DuoConfig.CLUB_INFO,
+    globalDefaults: DuoConfig.GLOBAL_DEFAULTS,
+    themeAssets: DuoConfig.THEME_ASSETS,
+    rankingSync: DuoConfig.RANKING_SYNC,
     templates: DuoTemplates.TEMPLATES 
   },
   volta: { 
-    branding: VoltaConfig.BRANDING, 
+    clubInfo: VoltaConfig.CLUB_INFO,
+    globalDefaults: VoltaConfig.GLOBAL_DEFAULTS,
+    themeAssets: VoltaConfig.THEME_ASSETS,
+    rankingSync: VoltaConfig.RANKING_SYNC,
     templates: VoltaTemplates.TEMPLATES 
   }
 };
@@ -34,6 +40,9 @@ const activeKey = getActiveKey();
  * If no key matches, use the Generic blueprint.
  */
 export const ACTIVE_PROFILE = CLUBS[activeKey] || {
-  branding: GenericConfig.BRANDING,
+  clubInfo: GenericConfig.CLUB_INFO,
+  globalDefaults: GenericConfig.GLOBAL_DEFAULTS,
+  themeAssets: GenericConfig.THEME_ASSETS,
+  rankingSync: GenericConfig.RANKING_SYNC,
   templates: GenericTemplates.TEMPLATES
 };

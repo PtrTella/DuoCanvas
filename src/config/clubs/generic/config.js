@@ -1,32 +1,42 @@
 /**
  * 🎨 Generic/Default Branding & Data
  */
-export const BRANDING = {
-  branding: {
-    name: "DuoCanvas",
-    tagline: "Sports Graphics Generator",
-    sponsors: ["/DuoCanvas/clubs/generic/sponsors/generic-sponsor.png"]
-  },
-  globalDefaults: {
-    homeTeam: "Squadra Casa",
-    awayTeam: "Ospiti",
-    homeLogo: "/DuoCanvas/clubs/generic/logos/generic.png",
-    awayLogo: "",
-    championship: "Campionato",
-    matchDay: "",
-    date: "DD/MM/YYYY",
-    time: "HH:MM",
-    arena: "Arena",
-    arenaAddress: "Indirizzo"
-  },
-  themeAssets: {
-    orange: { decoration: "/DuoCanvas/clubs/generic/themes/basketball.png" },
-    blue:   { decoration: "/DuoCanvas/clubs/generic/themes/volleyball.png" },
-    green:  { decoration: "/DuoCanvas/clubs/generic/themes/football.png" },
-    purple: { decoration: "/DuoCanvas/clubs/generic/themes/imola.jpeg" }
-  }
+
+// 1. Identity & Logos
+export const CLUB_INFO = {
+  name: "DuoCanvas",
+  tagline: "Sports Graphics Generator",
+  sponsors: ["/DuoCanvas/clubs/generic/sponsors/generic-sponsor.png"]
 };
 
+// 2. Global Defaults for matches
+export const GLOBAL_DEFAULTS = {
+  homeTeam: "Squadra Casa",
+  awayTeam: "Ospiti",
+  homeLogo: "/DuoCanvas/clubs/generic/logos/generic.png",
+  awayLogo: "",
+  championship: "Campionato",
+  matchDay: "",
+  date: "DD/MM/YYYY",
+  time: "HH:MM",
+  arena: "Arena",
+  arenaAddress: "Indirizzo"
+};
+
+// 3. Theme Specific Assets (Backgrounds, Decorations)
+export const THEME_ASSETS = {
+  orange: { decoration: "/DuoCanvas/clubs/generic/themes/basketball.png" },
+  blue:   { decoration: "/DuoCanvas/clubs/generic/themes/volleyball.png" },
+  green:  { decoration: "/DuoCanvas/clubs/generic/themes/football.png" },
+  purple: { decoration: "/DuoCanvas/clubs/generic/themes/imola.jpeg" }
+};
+
+// 4. Ranking Synchronization settings
+export const RANKING_SYNC = { 
+  enabled: false 
+};
+
+// 5. Default Data & Themes for each Template type
 export const TEMPLATE_DATA = {
   basket_result: {
     defaultData: {

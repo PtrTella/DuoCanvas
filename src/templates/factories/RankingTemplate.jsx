@@ -4,7 +4,7 @@ import BaseCard from '../../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../../components/blocks/TeamsRanking';
 import { parseManualRanking } from '../../utils/rankingUtils';
-import { GLOBAL_DEFAULTS } from '../../config';
+import { GLOBAL_DEFAULTS, BRANDING } from '../../config';
 
 export const createRankingTemplate = (sport, config = {}) => {
   const options = config.options || {};
@@ -40,14 +40,16 @@ export const createRankingTemplate = (sport, config = {}) => {
     },
 
     Controls: ({ data, onChange, themeColor }) => {
-      // Use the hook specified in the sports registry
-      // Pass potential csi config from template data
-      const { classifica: csiData, loading, refresh } = sport.hooks.useRanking(data.csiGironeId);
+      const syncConfig = BRANDING.rankingSync || { enabled: false };
+      
+      // Use the hook specified in the club config or fallback to sports registry
+      const useRankingHook = syncConfig.customHook || sport.hooks.useRanking;
+      const { classifica: syncData, loading, refresh } = useRankingHook(data.csiGironeId);
 
       const handleSync = () => {
         refresh(); // Ricarica dati dal web
-        if (csiData && csiData.length > 0) {
-          onChange('ranking', csiData);
+        if (syncData && syncData.length > 0) {
+          onChange('ranking', syncData);
           onChange('isManual', false);
         }
       };
@@ -77,35 +79,51 @@ export const createRankingTemplate = (sport, config = {}) => {
 
           {/* Sync / Manual Toggle Block */}
           <div className="py-5 border-b border-gray-100 italic">
-             <div className="flex items-center justify-between mb-4 not-italic">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Origine Dati</span>
-                <button 
-                  onClick={() => onChange('isManual', !data.isManual)}
-                  className="text-[10px] font-black uppercase text-gray-900 border-b-2 border-gray-900"
-                >
-                  {data.isManual ? 'Switch to CSI Sync' : 'Switch to Manual'}
-                </button>
-             </div>
+             {syncConfig.enabled ? (
+               <>
+                <div className="flex items-center justify-between mb-4 not-italic">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Origine Dati</span>
+                    <button 
+                      onClick={() => onChange('isManual', !data.isManual)}
+                      className="text-[10px] font-black uppercase text-gray-900 border-b-2 border-gray-900"
+                    >
+                      {data.isManual ? `Switch to ${syncConfig.label || 'Sync'}` : 'Switch to Manual'}
+                    </button>
+                </div>
 
-             {!data.isManual ? (
-                <button 
-                  onClick={handleSync}
-                  disabled={loading}
-                  className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center gap-3 text-gray-900 hover:bg-white hover:shadow-md transition-all font-bold text-xs not-italic"
-                >
-                  <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-                  {loading ? 'Sincronizzazione...' : 'Sincronizza Classifica CSI'}
-                </button>
+                {!data.isManual ? (
+                    <button 
+                      onClick={handleSync}
+                      disabled={loading}
+                      className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center gap-3 text-gray-900 hover:bg-white hover:shadow-md transition-all font-bold text-xs not-italic"
+                    >
+                      <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
+                      {loading ? 'Sincronizzazione...' : `Sincronizza Classifica ${syncConfig.label || ''}`}
+                    </button>
+                ) : (
+                    <div className="not-italic space-y-2">
+                      <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter text-gray-400">Inserimento Manuale (Nome PT G V P S GF GS)</label>
+                      <textarea 
+                          className="w-full h-32 p-4 text-[11px] font-mono bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-2xl transition-all"
+                          placeholder={`${GLOBAL_DEFAULTS.homeTeam} 24 10 8 0 2 34 12...`}
+                          value={data.manualText || ''}
+                          onChange={(e) => handleManualChange(e.target.value)}
+                      />
+                    </div>
+                )}
+               </>
              ) : (
-                <div className="not-italic space-y-2">
-                   <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter text-gray-400">Inserimento Manuale (Nome PT G V P S GF GS)</label>
-                   <textarea 
+               /* Solo Manuale se Sync non abilitato */
+               <div className="not-italic space-y-2">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-4">Dati Classifica</span>
+                  <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter text-gray-400">Inserimento Manuale (Nome PT G V P S GF GS)</label>
+                  <textarea 
                       className="w-full h-32 p-4 text-[11px] font-mono bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-2xl transition-all"
                       placeholder={`${GLOBAL_DEFAULTS.homeTeam} 24 10 8 0 2 34 12...`}
                       value={data.manualText || ''}
                       onChange={(e) => handleManualChange(e.target.value)}
-                   />
-                </div>
+                  />
+               </div>
              )}
           </div>
         </div>

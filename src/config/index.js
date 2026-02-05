@@ -6,16 +6,18 @@ import { ACTIVE_PROFILE } from './profile-resolver';
  * Bridges resolved data with Template components.
  */
 
-// 1. BRANDING & SESSION
+// 1. BRANDING (Identity, Sponsors, Sync)
 export const BRANDING = {
-  ...ACTIVE_PROFILE.branding?.branding,
-  sponsors: ACTIVE_PROFILE.branding?.branding?.sponsors || []
+  ...ACTIVE_PROFILE.clubInfo,
+  rankingSync: ACTIVE_PROFILE.rankingSync
 };
-export const GLOBAL_DEFAULTS = ACTIVE_PROFILE.branding?.globalDefaults || {};
 
-// 2. THEMES REGISTRY
+// 2. SESSION DEFAULTS (Teams, Arena, etc.)
+export const GLOBAL_DEFAULTS = ACTIVE_PROFILE.globalDefaults;
+
+// 3. THEME REGISTRY (Dynamic Backgrounds)
 export const THEMES = Object.keys(COLOR_THEMES).reduce((acc, key) => {
-  const clubThemeAssets = ACTIVE_PROFILE.branding?.themeAssets || {};
+  const clubThemeAssets = ACTIVE_PROFILE.themeAssets || {};
   acc[key] = { 
     ...COLOR_THEMES[key], 
     ...(clubThemeAssets[key] || {}) 
@@ -23,14 +25,13 @@ export const THEMES = Object.keys(COLOR_THEMES).reduce((acc, key) => {
   return acc;
 }, {});
 
+// 4. CONTROL THEMES (UI Styling)
 export { CONTROL_THEMES };
 
-// 3. TEMPLATES REGISTRY
-// The profile already provides the full template list with specific defaultData
+// 5. TEMPLATES REGISTRY
 export const TEMPLATES = ACTIVE_PROFILE.templates;
 
-// Keep this for backward compatibility in App.jsx if needed, 
-// though TEMPLATES already contains defaultData
+// Helper: map template defaults for state initialization
 export const TEMPLATE_DEFAULTS = ACTIVE_PROFILE.templates.reduce((acc, t) => {
   acc[t.id] = t.defaultData;
   return acc;

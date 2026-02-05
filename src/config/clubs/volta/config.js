@@ -1,17 +1,19 @@
-export const BRANDING = {
-  branding: {
-    name: "La Volta",
-    tagline: "Official Matchday",
-    sponsors: []
-  },
-  globalDefaults: {
-    homeTeam: "La Volta",
-    homeLogo: "/DuoCanvas/clubs/volta/logos/volta.png",
-    championship: "Divisione Regionale 3 FIP",
-    arena: "TOSCA BEACH"
-  },
-  themeAssets: {}
+export const CLUB_INFO = {
+  name: "La Volta",
+  tagline: "Official Matchday",
+  sponsors: []
 };
+
+export const GLOBAL_DEFAULTS = {
+  homeTeam: "La Volta",
+  homeLogo: "/DuoCanvas/clubs/volta/logos/volta.png",
+  championship: "Divisione Regionale 3 FIP",
+  arena: "TOSCA BEACH"
+};
+
+export const THEME_ASSETS = {};
+
+export const RANKING_SYNC = { enabled: false };
 
 export const TEMPLATE_DATA = {
   basket_result: {
