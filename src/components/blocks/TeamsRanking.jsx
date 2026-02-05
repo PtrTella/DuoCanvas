@@ -190,23 +190,36 @@ export const TeamsRanking = ({
 // --- Controls Generic ---
 export const TeamsRankingControls = ({ data, onChange }) => {
     return (
-        <div className="py-4 border-b border-gray-100 last:border-0 italic">
-          <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2 not-italic">
-            <ListOrdered size={14} className="text-gray-300" />
+        <div className="py-5 border-b border-gray-100 italic">
+          <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2 not-italic">
+            <ListOrdered size={14} className="text-gray-900" />
             Parametri Classifica
           </h3>
-          <div className="not-italic">
-             <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 block">Evidenzia Squadra</label>
+          
+          <div className="grid grid-cols-2 gap-3 not-italic">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter">Stagione</label>
+              <input 
+                  type="text" 
+                  value={data.season || ''} 
+                  onChange={(e) => onChange('season', e.target.value)} 
+                  className="w-full p-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl text-xs font-bold transition-all" 
+                  placeholder="2025/26"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter">Evidenzia Squadra</label>
               <select 
-                  className="w-full p-3 text-sm bg-gray-50 border-2 border-transparent focus:bg-white focus:border-gray-900 focus:ring-0 rounded-xl transition-all"
+                  className="w-full p-3 text-xs bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl font-bold transition-all"
                   value={data.highlightTeam}
                   onChange={(e) => onChange('highlightTeam', e.target.value)}
               >
-                  <option value="">Nessuna selezione</option>
+                  <option value="">Nessuna</option>
                   {data.ranking && data.ranking.map((t, i) => (
                       <option key={t.id || i} value={t.name}>{t.name}</option>
                   ))}
               </select>
+            </div>
           </div>
         </div>
     );

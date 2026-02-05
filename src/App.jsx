@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Layout, Download, Eye, Edit3 } from 'lucide-react';
 
 import { TEMPLATES, THEMES } from './config/templateRegistry';
-import { GLOBAL_DEFAULTS } from './config/constants';
+import { GLOBAL_DEFAULTS } from './config/defaults';
 import { useScale } from './hooks/useScale';
 import { useDownload } from './hooks/useDownload'; 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BRANDING } from '../../config/constants';
+import { BRANDING } from '../../config/defaults';
 
 const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }, ref) => {
   return (

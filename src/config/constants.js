@@ -1,31 +1,4 @@
-// --- 1. DATI GLOBALI (Sessione) ---
-export const GLOBAL_DEFAULTS = {
-  homeTeam: "Duo Ligones",
-  awayTeam: "Avversari",
-  homeLogo: "/DuoCanvas/logos/duoligones.png",
-  awayLogo: null, 
-  headerTitle: "GARA",
-  headerValue: "1",
-  championship: "Serie D",
-  date: "Sab 21 Ott",
-  time: "21:30",
-  arena: "PalaDuo",
-  arenaAddress: "Via dello Sport 10",
-  coach: "Coach"
-};
-
-// --- 1b. BRANDING & SPONSORS ---
-export const BRANDING = {
-  name: "Duo Ligones",
-  tagline: "Official",
-  sponsors: [
-    '/DuoCanvas/logos/sponsor1.png', 
-    '/DuoCanvas/logos/sponsor2.png',
-    '/DuoCanvas/logos/sponsor3.png'
-  ]
-};
-
-// --- 2. TEMI ---
+// --- 1. CONFIGURAZIONE TEMI ---
 export const THEMES = {
   orange: { preview: "#ea580c", accentColor: "#ea580c", primary: "from-orange-600 to-red-600", bg: "bg-orange-950", accent: "text-orange-400", bgImage: "/DuoCanvas/themes/basketTeam.jpeg" },
   blue:   { preview: "#2563eb", accentColor: "#2563eb", primary: "from-blue-600 to-cyan-600", bg: "bg-blue-950", accent: "text-blue-400", decoration: "/DuoCanvas/themes/volleyball.png" },

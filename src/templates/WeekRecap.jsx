@@ -3,6 +3,7 @@ import { CalendarRange } from 'lucide-react';
 import BaseCard from '../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../components/blocks/MatchInfo';
 import { EventsList, EventsListControls } from '../components/blocks/EventsList';
+import { TEMPLATE_DEFAULTS } from '../config/defaults';
 
 export const WeekRecap = {
   id: 'week_recap',
@@ -35,30 +36,5 @@ export const WeekRecap = {
       </div>
   ),
 
-  defaultData: {
-    headerTitle: "SETTIMANA",
-    headerValue: "",
-    weekEvents: [
-       { 
-         sport: 'Basket', 
-         date: 'Ven 12', 
-         time: '21:30', 
-         location: 'Pala Penazzi', 
-         championship: 'Serie B Ovest',
-         homeTeam: 'Duo Ligones',
-         awayTeam: 'Avversari',
-         color: 'orange'
-       },
-       { 
-         sport: 'Calcio a 7', 
-         date: 'Ven 14',
-         time: '20:30', 
-         location: 'Casa del Fanciullo', 
-         championship: 'Coppa CSI Imola',
-         homeTeam: 'Atletico',
-         awayTeam: 'Duo Ligones',
-         color: 'green'
-       }
-    ]
-  }
+  defaultData: TEMPLATE_DEFAULTS.week_recap
 };

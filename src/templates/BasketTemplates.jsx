@@ -7,6 +7,7 @@ import { BasketRoster, BasketRosterControls } from '../components/blocks/BasketR
 import { BasketMatchExtra, BasketMatchExtraControls } from '../components/blocks/BasketMatchExtra';
 import { TeamsRanking } from '../components/blocks/TeamsRanking';
 import { useClassifica } from '../hooks/useCsi';
+import { TEMPLATE_DEFAULTS } from '../config/defaults';
 
 const BASKET_SPORT = {
   id: 'basket',
@@ -25,15 +26,7 @@ export const BasketResult = {
       Render: BasketMatchExtra,
       Controls: BasketMatchExtraControls
     },
-    defaultData: {
-      headerTitle: "GARA",
-      headerValue: "1",
-			labelMvp: "MVP",
-      topScorer: "",
-      matchNote: "",
-      homeScore: "0",
-      awayScore: "0"
-    }
+    defaultData: TEMPLATE_DEFAULTS.basket_result
   }),
   id: 'basket_result',
   name: 'Risultato Basket',
@@ -48,13 +41,7 @@ export const BasketLineup = {
       Render: BasketRoster,
       Controls: BasketRosterControls
     },
-    defaultData: {
-      headerTitle: "CONVOCAZIONI",
-      headerValue: "",
-      labelCoach: "Allenatore",
-      labelBench: "Panchina",
-      rosterList: "1 Martini\n4 Rubbi Alfi\n5 Dino\n6 Ricci Lucchi\n7 Tellarini\n8 Gardenghi\n9 Lambertucci\n10 Pieri\n12 Camaggi\n14 Bonifazio\n15 Cavini\n16 Monti\n18 Tassoni\n20 Gamez\n21 Piani Gentile\n22 Biavati\n25 Ferrante\n27 Lancieri",
-    }
+    defaultData: TEMPLATE_DEFAULTS.basket_roster
   }),
   id: 'basket_roster',
   name: 'Convocazioni Basket',
@@ -67,16 +54,7 @@ export const BasketRanking = {
   ...createRankingTemplate(BASKET_SPORT, {
     options: { showDraws: false, showAverages: true },
     RenderBlock: TeamsRanking,
-    defaultData: {
-      headerTitle: "CLASSIFICA",
-			headerValue: "",
-      leagueName: "Campionato CSI Imola, Girone Ovest",
-      season: "Stagione 2025/26",
-      ranking: [],
-      highlightTeam: "Duo Ligones",
-      showAverages: true,
-      showStats: true
-    }
+    defaultData: TEMPLATE_DEFAULTS.basket_ranking
   }),
   id: 'basket_ranking',
   name: 'Classifica Basket',

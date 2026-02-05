@@ -1,7 +1,7 @@
 import React from 'react';
 import { RefreshCw } from 'lucide-react';
 import BaseCard from '../../components/ui/BaseCard';
-import { MatchInfo } from '../../components/blocks/MatchInfo';
+import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../../components/blocks/TeamsRanking';
 import { parseManualRanking } from '../../utils/rankingUtils';
 
@@ -15,17 +15,11 @@ export const createRankingTemplate = (sport, config = {}) => {
   return {
     defaultData: baseDefaults,
     Render: ({ data, theme, cardRef }) => {
-      const headerData = {
-          headerTitle: data.headerTitle || "CLASSIFICA",
-          headerValue: data.headerValue || "",
-          championship: `${data.leagueName} - ${data.season}`
-      };
-
       return (
         <BaseCard theme={theme} ref={cardRef}>
           <div className="flex flex-col h-full w-full relative z-10 gap-2">
             <MatchInfo 
-                  data={headerData} 
+                  data={data} 
                   theme={theme} 
               /> 
 
@@ -72,64 +66,46 @@ export const createRankingTemplate = (sport, config = {}) => {
       };
 
       return (
-        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
-          {/* Header Info */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="text-[10px] font-bold text-gray-400 uppercase mb-1 block">Titolo Lega</label>
-              <input 
-                className="w-full p-2 text-xs border rounded-lg"
-                value={data.leagueName || ''} 
-                onChange={e => onChange('leagueName', e.target.value)} 
-              />
-            </div>
-            <div>
-              <label className="text-[10px] font-bold text-gray-400 uppercase mb-1 block">Stagione</label>
-              <input 
-                className="w-full p-2 text-xs border rounded-lg"
-                value={data.season || ''} 
-                onChange={e => onChange('season', e.target.value)} 
-              />
-            </div>
-          </div>
+        <div className="space-y-1 animate-in fade-in">
+          {/* Standardized Header Controls */}
+          <MatchInfoControls data={data} onChange={onChange} />
 
-          {/* Sync / Manual Toggle */}
-          <div className="bg-gray-50 p-3 rounded-xl border border-gray-100">
-             <div className="flex items-center justify-between mb-3">
-                <span className="text-[10px] font-bold text-gray-500 uppercase">Origine Dati</span>
+          {/* Ranking Specific Parameters */}
+          <TeamsRankingControls data={data} onChange={onChange} />
+
+          {/* Sync / Manual Toggle Block */}
+          <div className="py-5 border-b border-gray-100 italic">
+             <div className="flex items-center justify-between mb-4 not-italic">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Origine Dati</span>
                 <button 
                   onClick={() => onChange('isManual', !data.isManual)}
-                  className={`text-[9px] px-2 py-1 rounded-full font-bold transition-colors ${data.isManual ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}`}
+                  className="text-[10px] font-black uppercase text-gray-900 border-b-2 border-gray-900"
                 >
-                  {data.isManual ? 'MODALITÀ MANUALE' : 'MODALITÀ CSI SYNC'}
+                  {data.isManual ? 'Switch to CSI Sync' : 'Switch to Manual'}
                 </button>
              </div>
 
-             {data.isManual ? (
-                <div className="space-y-2">
-                   <textarea 
-                      className="w-full h-32 p-3 text-[11px] font-mono border rounded-lg bg-white"
-                      placeholder="Squadra Punti G V N P MPF MPS"
-                      value={data.manualText || ''}
-                      onChange={(e) => handleManualChange(e.target.value)}
-                   />
-                   <p className="text-[9px] text-gray-400 leading-tight italic">
-                      Incolla i dati direttamente dal sito. Il sistema riconoscerà automaticamente le colonne.
-                   </p>
-                </div>
-             ) : (
+             {!data.isManual ? (
                 <button 
                   onClick={handleSync}
                   disabled={loading}
-                  className="w-full py-3 bg-white border-2 border-dashed border-blue-200 rounded-xl flex items-center justify-center gap-2 text-blue-600 hover:bg-blue-50 transition-all font-bold text-xs"
+                  className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center gap-3 text-gray-900 hover:bg-white hover:shadow-md transition-all font-bold text-xs not-italic"
                 >
-                  <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+                  <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
                   {loading ? 'Sincronizzazione...' : 'Sincronizza Classifica CSI'}
                 </button>
+             ) : (
+                <div className="not-italic space-y-2">
+                   <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter text-gray-400">Inserimento Manuale (Nome PT G V P S GF GS)</label>
+                   <textarea 
+                      className="w-full h-32 p-4 text-[11px] font-mono bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-2xl transition-all"
+                      placeholder="Duo Ligones 24 10 8 0 2 34 12..."
+                      value={data.manualText || ''}
+                      onChange={(e) => handleManualChange(e.target.value)}
+                   />
+                </div>
              )}
           </div>
-
-          <TeamsRankingControls data={data} onChange={onChange} showAveragesOption={options.showAverages} />
         </div>
       );
     }
