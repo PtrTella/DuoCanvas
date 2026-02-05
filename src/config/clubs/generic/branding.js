@@ -6,7 +6,7 @@ export const BRANDING = {
   branding: {
     name: "DuoCanvas",
     tagline: "Sports Graphics Generator",
-    sponsors: []
+    sponsors: ["/DuoCanvas/clubs/generic/sponsors/generic-sponsor.png"]
   },
   globalDefaults: {
     homeTeam: "Squadra Casa",
@@ -15,10 +15,10 @@ export const BRANDING = {
     awayLogo: "",
     championship: "Campionato",
     matchDay: "",
-    date: "",
-    time: "",
-    arena: "",
-    coach: ""
+    date: "DD/MM/YYYY",
+    time: "HH:MM",
+    arena: "Arena",
+    arenaAddress: "Indirizzo"
   },
   themeAssets: {
     orange: { decoration: "/DuoCanvas/clubs/generic/themes/basketball.png" },
