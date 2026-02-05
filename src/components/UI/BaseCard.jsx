@@ -1,5 +1,5 @@
 import React from 'react';
-import { BRANDING } from '../../config';
+import { CLUB_INFO } from '../../config';
 
 const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }, ref) => {
   return (
@@ -64,10 +64,10 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
           {/* Left: Brand Identity */}
           <div className="flex flex-col items-end">
              <span className="text-3xl font-black uppercase text-white tracking-[0.15em] leading-none">
-               {BRANDING.name}
+               {CLUB_INFO.name}
              </span>
              <span className="text-[10px] text-gray-400 font-bold tracking-[0.6em] uppercase mt-1">
-               {BRANDING.tagline}
+               {CLUB_INFO.tagline}
              </span>
           </div>
 
@@ -76,7 +76,7 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
 
           {/* Right: Sponsors - Big but balanced */}
           <div className="flex items-center justify-start gap-12 flex-1">
-              {BRANDING.sponsors.map((logo, index) => (
+              {CLUB_INFO.sponsors.map((logo, index) => (
                 <img 
                   key={index} 
                   src={logo} 

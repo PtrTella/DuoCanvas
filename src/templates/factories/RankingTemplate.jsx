@@ -4,7 +4,7 @@ import BaseCard from '../../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../../components/blocks/TeamsRanking';
 import { parseManualRanking } from '../../utils/rankingUtils';
-import { GLOBAL_DEFAULTS, BRANDING } from '../../config';
+import { GLOBAL_DEFAULTS } from '../../config';
 
 export const createRankingTemplate = (sport, config = {}) => {
   const options = config.options || {};
@@ -39,8 +39,8 @@ export const createRankingTemplate = (sport, config = {}) => {
       );
     },
 
-    Controls: ({ data, onChange, themeColor }) => {
-      const syncConfig = BRANDING.rankingSync || { enabled: false };
+    Controls: ({ data, onChange }) => {
+      const syncConfig = data.rankingSync || { enabled: false };
       
       // Use the hook specified in the club config or fallback to sports registry
       const useRankingHook = syncConfig.customHook || sport.hooks.useRanking;

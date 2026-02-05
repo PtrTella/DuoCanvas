@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Layout, Download, Eye, Edit3 } from 'lucide-react';
 
-import { TEMPLATES, THEMES, GLOBAL_DEFAULTS, BRANDING, TEMPLATE_DEFAULTS } from './config';
+import { TEMPLATES, THEMES, GLOBAL_DEFAULTS, CLUB_INFO, TEMPLATE_DEFAULTS } from './config';
 import { useScale } from './hooks/useScale';
 import { useDownload } from './hooks/useDownload'; 
 
@@ -14,9 +14,9 @@ const App = () => {
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false);
 
-  // Update document title based on branding
+  // Update document title based on club info
   React.useEffect(() => {
-    document.title = `${BRANDING.name} - Canvas`;
+    document.title = `${CLUB_INFO.name} - Canvas`;
   }, []);
 
   // Global Session Data
@@ -125,7 +125,7 @@ const App = () => {
               <Layout className="text-white" size={24} strokeWidth={2.5}/>
             </div>
             <div>
-              <h1 className="font-black text-xl tracking-tighter uppercase italic leading-none">{BRANDING.name}</h1>
+              <h1 className="font-black text-xl tracking-tighter uppercase italic leading-none">{CLUB_INFO.name}</h1>
               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] leading-none">Studio Editor</span>
             </div>
           </div>
