@@ -1,4 +1,5 @@
 import React from 'react';
+import { Layout, Users, ClipboardList } from 'lucide-react';
 
 // --- CONFIGURAZIONE MODULI CALCIO A 7 ---
 const FORMATIONS_7V7 = {
@@ -162,17 +163,20 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
 
 // --- CONTROLS ---
 export const SoccerFormationControls = ({ data, onChange }) => (
-  <div className="pt-4 border-t border-gray-100">
+  <div className="py-4 border-b border-gray-100 last:border-0 italic">
      
      {/* Modulo */}
-     <div className="mb-4">
-        <label className="text-xs font-bold text-gray-500 block mb-1">MODULO (Calcio a 7)</label>
+     <div className="mb-4 not-italic">
+        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+            <Layout size={14} className="text-gray-300" />
+            Schema Tattico
+        </h3>
         <div className="grid grid-cols-3 gap-2">
             {Object.keys(FORMATIONS_7V7).map(mod => (
                 <button 
                     key={mod}
                     onClick={() => onChange('module', mod)}
-                    className={`p-2 text-xs font-bold rounded border transition-all ${data.module === mod ? 'bg-emerald-600 text-white border-emerald-600 shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-400'}`}
+                    className={`p-2 text-xs font-bold rounded-xl border-2 transition-all ${data.module === mod ? 'bg-gray-900 text-white border-gray-900 shadow-lg scale-105' : 'bg-white text-gray-500 border-gray-100 hover:border-gray-200'}`}
                 >
                     {mod}
                 </button>
@@ -181,19 +185,34 @@ export const SoccerFormationControls = ({ data, onChange }) => (
      </div>
 
      {/* Textarea */}
-     <label className="text-xs font-bold text-gray-500 flex justify-between mb-1">
-        <span>CONVOCATI</span>
-        <span className="text-emerald-600 text-[10px]">Primi 7 = Titolari</span>
-    </label>
-    <textarea 
-        value={data.rosterList || ''} 
-        onChange={(e) => onChange('rosterList', e.target.value)} 
-        className="w-full p-3 bg-white border rounded-lg text-sm font-mono h-48 resize-none focus:ring-2 focus:ring-emerald-500 outline-none leading-relaxed shadow-sm"
-        placeholder={"1 Buffon (GK)\n3 Maldini\n...\n-- Panchina --\n10 Del Piero\n9 Inzaghi"}
-    />
-     <div className="mt-2">
-        <label className="text-[10px] font-bold text-gray-500 uppercase">Allenatore</label>
-        <input type="text" value={data.coach} onChange={(e) => onChange('coach', e.target.value)} className="w-full p-2 bg-white border rounded-lg text-sm" placeholder="Mister Rossi" />
+     <div className="not-italic">
+        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+            <Users size={14} className="text-gray-300" />
+            Rosa Convocati
+        </h3>
+        <p className="text-[10px] text-gray-400 mb-3 italic bg-gray-50 p-2 rounded-lg border border-gray-100">
+            I <span className="font-bold text-gray-600">primi 7</span> in lista appariranno in campo come titolari.
+        </p>
+        <textarea 
+            value={data.rosterList || ''} 
+            onChange={(e) => onChange('rosterList', e.target.value)} 
+            className="w-full p-3 bg-gray-50/50 border rounded-2xl text-xs font-mono h-48 resize-none focus:bg-white focus:border-gray-900 transition-all outline-none leading-relaxed"
+            placeholder={"1 Voda\n4 Gentilini\n..."}
+        />
+     </div>
+     
+     <div className="mt-4 not-italic">
+         <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+            <ClipboardList size={14} className="text-gray-300" />
+            Staff
+        </h3>
+        <input 
+            type="text" 
+            value={data.coach} 
+            onChange={(e) => onChange('coach', e.target.value)} 
+            className="w-full p-3 bg-gray-50/50 border rounded-xl text-xs transition-all focus:bg-white focus:border-gray-900" 
+            placeholder="Mister / Allenatore" 
+        />
      </div>
   </div>
 );

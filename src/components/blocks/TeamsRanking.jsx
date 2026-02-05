@@ -190,10 +190,15 @@ export const TeamsRanking = ({
 // --- Controls Generic ---
 export const TeamsRankingControls = ({ data, onChange }) => {
     return (
-        <div className="p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
-             <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 block">Evidenzia Squadra</label>
+        <div className="py-4 border-b border-gray-100 last:border-0 italic">
+          <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2 not-italic">
+            <ListOrdered size={14} className="text-gray-300" />
+            Parametri Classifica
+          </h3>
+          <div className="not-italic">
+             <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 block">Evidenzia Squadra</label>
               <select 
-                  className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-0 border rounded-lg"
+                  className="w-full p-3 text-sm bg-gray-50 border-2 border-transparent focus:bg-white focus:border-gray-900 focus:ring-0 rounded-xl transition-all"
                   value={data.highlightTeam}
                   onChange={(e) => onChange('highlightTeam', e.target.value)}
               >
@@ -202,6 +207,7 @@ export const TeamsRankingControls = ({ data, onChange }) => {
                       <option key={t.id || i} value={t.name}>{t.name}</option>
                   ))}
               </select>
+          </div>
         </div>
     );
 };

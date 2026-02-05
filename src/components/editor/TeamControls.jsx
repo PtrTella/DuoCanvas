@@ -1,8 +1,8 @@
 import React from 'react';
-import { ArrowLeftRight } from 'lucide-react';
+import { ArrowLeftRight, Users } from 'lucide-react';
 import ImageUploader from './ImageUploader';
 
-const TeamControls = ({ data, onChange }) => {
+const TeamControls = ({ data, onChange, onSwap }) => {
   const handleSwapTeams = () => {
     // Store current values
     const tempHomeTeam = data.homeTeam;
@@ -15,12 +15,18 @@ const TeamControls = ({ data, onChange }) => {
     onChange('awayTeam', tempHomeTeam);
     onChange('homeLogo', tempAwayLogo);
     onChange('awayLogo', tempHomeLogo);
+
+    // Call optional extra swap (e.g. for scores)
+    if (onSwap) onSwap();
   };
 
   return (
-    <div className="space-y-2 pb-4 border-b border-gray-100">
-      <h3 className="text-xs font-bold uppercase text-gray-400 tracking-wider">Squadre</h3>
-      <div className="relative">
+    <div className="py-4 border-b border-gray-100 italic">
+      <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2 not-italic">
+        <Users size={14} className="text-gray-300" />
+        Squadre & Loghi
+      </h3>
+      <div className="relative not-italic">
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
             <input 

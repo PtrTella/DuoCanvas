@@ -3,7 +3,6 @@ import BaseCard from '../../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo';
 import { MatchDetails, MatchDetailsControls } from '../../components/blocks/MatchDetails';
 import { TeamMatchup, TeamMatchupControls } from '../../components/blocks/TeamMatchup';
-import TeamControls from '../../components/editor/TeamControls';
 
 export const createLineupTemplate = (sport, config = {}) => {
   const block = config.extraBlock;
@@ -41,7 +40,6 @@ export const createLineupTemplate = (sport, config = {}) => {
 
     Controls: ({ data, onChange, themeColor }) => (
       <div className="space-y-1 animate-in fade-in">
-        <TeamControls data={data} onChange={onChange} />
         <MatchInfoControls data={data} onChange={onChange} />
         <TeamMatchupControls data={data} onChange={onChange} />
 

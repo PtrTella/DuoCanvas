@@ -98,12 +98,16 @@ export const GoalTimeline = ({ data, theme, className = "" }) => {
 
 // --- CONTROLS (Pannello Editor) ---
 export const GoalTimelineControls = ({ data, onChange }) => (
-  <div className="pt-4 border-t border-gray-100">
-    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Cronologia Gol</h3>
+  <div className="py-4 border-b border-gray-100 last:border-0">
+    <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+      <Goal size={14} className="text-gray-300" />
+      Marcatori
+    </h3>
 
     {/* Istruzioni */}
-    <p className="text-[10px] text-gray-500 mb-3 italic">
-      Formato: minuto' nomegiocatore (uno per riga). Es: 45' Rossi
+    <p className="text-[10px] text-gray-400 mb-3 italic bg-gray-50 p-2 rounded-lg border border-gray-100">
+      Formato: <span className="font-bold text-gray-600">minuto' nome</span> (uno per riga).<br/>
+      Esempio: <span className="font-mono text-[9px] bg-white px-1 border rounded">45' Rossi</span>
     </p>
 
     <div className="grid grid-cols-2 gap-3">

@@ -49,10 +49,11 @@ export const MatchInfo = ({ data, theme, className = "", hideChampionship = fals
 // --- CONTROLS (Pannello Editor) ---
 export const MatchInfoControls = ({ data, onChange, hideChampionship = false }) => {
   return (
-    <div className="pb-4 mb-4 border-b border-gray-100">
-      <div className="flex items-center gap-2 mb-3">
-        <h3 className="text-xs font-bold uppercase text-gray-400 tracking-wider">Intestazione</h3>
-      </div>
+    <div className="py-4 border-b border-gray-100">
+      <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+        <Trophy size={14} className="text-gray-300" />
+        Intestazione
+      </h3>
       
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Star } from 'lucide-react';
 
 /**
  * BasketMatchExtra - Renders extra info for basket match results.
@@ -45,31 +46,33 @@ export const BasketMatchExtra = ({ data, theme }) => {
 
 export const BasketMatchExtraControls = ({ data, onChange }) => {
   return (
-    <div className="space-y-4 py-4 border-b border-gray-100">
-      <div className="flex items-center gap-2 mb-1">
-        <div className="h-1 w-1 rounded-full bg-orange-500" />
-        <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Informazioni Extra</h3>
-      </div>
+    <div className="py-4 border-b border-gray-100 italic">
+      <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2 not-italic">
+        <Star size={14} className="text-gray-300" />
+        Dettagli Risultato
+      </h3>
       
-      <div>
-        <label className="text-[10px] font-bold text-gray-500 uppercase mb-1.5 block">MVP / Miglior Marcatore</label>
-        <input 
-          type="text" 
-          className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-200 border rounded-xl transition-all"
-          placeholder="Esempio: Tellarini (24 pt)"
-          value={data.topScorer || ''} 
-          onChange={(e) => onChange('topScorer', e.target.value)}
-        />
-      </div>
+      <div className="space-y-3 not-italic">
+        <div>
+          <label className="text-[10px] font-bold text-gray-500 uppercase mb-1.5 block">MVP / Top Scorer</label>
+          <input 
+            type="text" 
+            className="w-full p-3 text-xs bg-gray-50 border rounded-xl focus:bg-white focus:border-gray-900 transition-all outline-none"
+            placeholder="Esempio: Tellarini (24 pt)"
+            value={data.topScorer || ''} 
+            onChange={(e) => onChange('topScorer', e.target.value)}
+          />
+        </div>
 
-      <div>
-        <label className="text-[10px] font-bold text-gray-500 uppercase mb-1.5 block">Nota Partita</label>
-        <textarea 
-          className="w-full p-2.5 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-200 border rounded-xl transition-all h-20"
-          placeholder="Esempio: Vittoria voluta e sudata dopo un tempo supplementare..."
-          value={data.matchNote || ''} 
-          onChange={(e) => onChange('matchNote', e.target.value)}
-        />
+        <div>
+          <label className="text-[10px] font-bold text-gray-500 uppercase mb-1.5 block">Nota Partita</label>
+          <textarea 
+            className="w-full p-3 text-xs bg-gray-50 border rounded-xl focus:bg-white focus:border-gray-900 transition-all outline-none h-20 resize-none"
+            placeholder="Esempio: Vittoria voluta e sudata dopo un tempo supplementare..."
+            value={data.matchNote || ''} 
+            onChange={(e) => onChange('matchNote', e.target.value)}
+          />
+        </div>
       </div>
     </div>
   );

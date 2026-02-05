@@ -121,9 +121,19 @@ const App = () => {
           w-full md:w-[400px] bg-white border-r border-gray-200 flex-col z-10 shadow-xl order-2 md:order-1 h-full
           ${!showMobilePreview ? 'flex' : 'hidden md:flex'}
       `}>
-        <div className="hidden md:flex p-5 border-b items-center gap-2 bg-white">
-          <Layout className="text-orange-600" size={24}/>
-          <h1 className="font-black text-xl tracking-tight">DuoCanvas</h1>
+        <div className="hidden md:flex p-6 border-b border-gray-100 items-center justify-between bg-white">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center shadow-lg transform -rotate-3 hover:rotate-0 transition-transform cursor-pointer">
+              <Layout className="text-white" size={24} strokeWidth={2.5}/>
+            </div>
+            <div>
+              <h1 className="font-black text-xl tracking-tighter uppercase italic leading-none">DuoCanvas</h1>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] leading-none">Studio Editor</span>
+            </div>
+          </div>
+          <div className="px-3 py-1 bg-gray-50 border border-gray-100 rounded-full">
+             <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">v2.0</span>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-5 scrollbar-thin pb-32 md:pb-5">

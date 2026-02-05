@@ -1,4 +1,5 @@
 import React from 'react';
+import { Users, ClipboardList } from 'lucide-react';
 
 // --- MARKER GIOCATORE (CAMPO) ---
 // Stile Cyber/NBA per i titolari
@@ -188,46 +189,50 @@ export const BasketRoster = ({ data, theme, className = "" }) => {
 // -- CONTROLS (Reused Reuse simplified version of BasketRosterControls or pure text area) --
 export const BasketRosterControls = ({ data, onChange }) => {
     return (
-        <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
+        <div className="py-4 border-b border-gray-100 last:border-0 italic">
+            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2 not-italic">
+                <ClipboardList size={14} className="text-gray-300" />
+                Staff Tecnico
+            </h3>
+            <div className="grid grid-cols-2 gap-3 mb-6 not-italic">
                 <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Coach</label>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">Allenatore</label>
                     <input 
                         type="text"
                         value={data.coach || ''}
                         onChange={(e) => onChange('coach', e.target.value)}
-                        className="w-full text-xs p-2 bg-white border border-gray-200 rounded-lg focus:border-orange-500 outline-none"
+                        className="w-full text-xs p-3 bg-gray-50 border rounded-xl focus:bg-white focus:border-gray-900 transition-all outline-none"
                         placeholder="Nome Coach"
                     />
                 </div>
                 <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Dir. Sportivo</label>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-tighter">Dir. Sportivo</label>
                     <input 
                         type="text"
                         value={data.director || ''}
                         onChange={(e) => onChange('director', e.target.value)}
-                        className="w-full text-xs p-2 bg-white border border-gray-200 rounded-lg focus:border-orange-500 outline-none"
-                        placeholder="Nome DS (Opzionale)"
+                        className="w-full text-xs p-3 bg-gray-50 border rounded-xl focus:bg-white focus:border-gray-900 transition-all outline-none"
+                        placeholder="Nome DS"
                     />
                 </div>
             </div>
 
-            <div className="space-y-1">
-                <div className="flex justify-between items-center">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Lista Giocatori</label>
-                    <span className="text-[10px] text-gray-400">I primi 5 sono titolari</span>
-                </div>
+            <div className="not-italic">
+                <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <Users size={14} className="text-gray-300" />
+                    Convocati
+                </h3>
+                <p className="text-[10px] text-gray-400 mb-3 italic bg-gray-50 p-2 rounded-lg border border-gray-100">
+                    I <span className="font-bold text-gray-600">primi 5</span> sono titolari.<br/>
+                    La lista panchina è limitata a 7 per la resa grafica.
+                </p>
                 <textarea
                     value={data.rosterList || ''}
                     onChange={(e) => onChange('rosterList', e.target.value)}
-                    rows={10}
-                    className="w-full text-xs font-mono bg-white border border-gray-200 rounded-lg p-3 focus:border-orange-500 outline-none resize-none"
+                    className="w-full text-xs font-mono bg-gray-50/50 border rounded-2xl p-3 focus:bg-white focus:border-gray-900 transition-all outline-none resize-none h-48"
                     placeholder="23 Michael Jordan..."
                 />
             </div>
-             <p className="text-[10px] text-gray-400 leading-tight italic">
-                La panchina mostra i primi 7 giocatori dopo i titolari per mantenere l'allineamento grafico.
-            </p>
         </div>
     );
 };

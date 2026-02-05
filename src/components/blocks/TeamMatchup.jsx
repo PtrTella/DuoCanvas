@@ -1,5 +1,6 @@
 import React from 'react';
 import TeamDisplay from '../ui/TeamDisplay';
+import TeamControls from '../editor/TeamControls';
 
 // --- LAYOUT ---
 export const TeamMatchup = ({ data, theme }) => {
@@ -35,7 +36,5 @@ export const TeamMatchup = ({ data, theme }) => {
 
 // --- CONTROLS ---
 export const TeamMatchupControls = ({ data, onChange }) => (
-  <div className="pb-2">
-     {/* Logo uploaders now in common controls section */}
-  </div>
+  <TeamControls data={data} onChange={onChange} />
 );

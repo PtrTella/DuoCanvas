@@ -5,21 +5,21 @@ import { TEMPLATES } from '../../config/templateRegistry';
 const TemplateSelector = ({ activeTemplateId, setActiveTemplateId, isOpen, setIsOpen, activeTemplate }) => {
   
   return (
-    <div className="mb-6 relative z-50">
-      <label className="text-[10px] font-bold uppercase text-gray-400 mb-2 block tracking-wider">
-        Seleziona Grafica
+    <div className="mb-6 relative z-50 italic">
+      <label className="text-[10px] font-bold uppercase text-gray-400 mb-2 block tracking-widest not-italic">
+        Modello Grafico
       </label>
       
       {/* 1. Il Bottone che vedi sempre */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-3 bg-white border-2 border-gray-100 rounded-xl hover:border-orange-200 transition-colors"
+        className="w-full flex items-center justify-between p-4 bg-white border border-gray-100 rounded-2xl hover:border-gray-900 transition-all shadow-sm active:scale-[0.98] not-italic"
       >
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-orange-50 text-orange-600 rounded-lg">
-             {activeTemplate && <activeTemplate.icon size={18} />}
+        <div className="flex items-center gap-4">
+          <div className="p-2.5 bg-gray-900 text-white rounded-xl shadow-lg shadow-gray-200">
+             {activeTemplate && <activeTemplate.icon size={20} />}
           </div>
-          <span className="font-bold text-gray-800 text-sm">
+          <span className="font-black text-gray-900 text-[15px] uppercase tracking-tight italic">
              {activeTemplate?.name || "Seleziona..."}
           </span>
         </div>
@@ -30,9 +30,9 @@ const TemplateSelector = ({ activeTemplateId, setActiveTemplateId, isOpen, setIs
       {isOpen && (
         <>
           {/* Overlay invisibile per chiudere cliccando fuori */}
-          <div className="fixed inset-0" onClick={() => setIsOpen(false)} />
+          <div className="fixed inset-0 z-[-1]" onClick={() => setIsOpen(false)} />
           
-          <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 shadow-xl rounded-xl overflow-hidden max-h-60 overflow-y-auto p-1 animate-in fade-in zoom-in-95 duration-100">
+          <div className="absolute top-full left-0 right-0 mt-3 bg-white border border-gray-100 shadow-2xl rounded-2xl overflow-hidden max-h-80 overflow-y-auto p-1.5 animate-in fade-in zoom-in-95 duration-200 not-italic">
             {TEMPLATES.map(t => {
               const isActive = activeTemplateId === t.id;
               return (
@@ -42,11 +42,13 @@ const TemplateSelector = ({ activeTemplateId, setActiveTemplateId, isOpen, setIs
                     setActiveTemplateId(t.id);
                     setIsOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-colors ${isActive ? 'bg-orange-50 text-orange-700' : 'hover:bg-gray-50 text-gray-600'}`}
+                  className={`w-full flex items-center gap-3 p-3.5 rounded-xl text-left transition-all ${isActive ? 'bg-gray-900 text-white shadow-lg' : 'hover:bg-gray-50 text-gray-600'}`}
                 >
-                  <t.icon size={18} className={isActive ? 'text-orange-600' : 'text-gray-400'}/>
-                  <span className={`text-sm ${isActive ? 'font-bold' : 'font-medium'}`}>{t.name}</span>
-                  {isActive && <Check size={16} className="ml-auto text-orange-600"/>}
+                  <div className={`p-1.5 rounded-lg ${isActive ? 'bg-white/10' : 'bg-gray-100'}`}>
+                    <t.icon size={18} className={isActive ? 'text-white' : 'text-gray-400'}/>
+                  </div>
+                  <span className={`text-[13px] uppercase tracking-tight italic ${isActive ? 'font-black' : 'font-bold'}`}>{t.name}</span>
+                  {isActive && <Check size={16} className="ml-auto text-white"/>}
                 </button>
               );
             })}

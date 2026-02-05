@@ -148,104 +148,107 @@ export const EventsListControls = ({ data, onChange }) => {
   };
 
   return (
-    <div className="pt-4 border-t border-gray-100">
-        <div className="flex justify-between items-center mb-4">
-            <label className="text-xs font-bold text-gray-500">LISTA EVENTI ({events.length})</label>
+    <div className="py-4 border-b border-gray-100 last:border-0 italic">
+        <div className="flex justify-between items-center mb-4 not-italic">
+            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                <Calendar size={14} className="text-gray-300" />
+                Eventi Settimanali ({events.length})
+            </h3>
             <button 
                 onClick={addEvent}
-                className="flex items-center gap-1 text-[10px] bg-orange-100 text-orange-700 px-2 py-1 rounded hover:bg-orange-200 font-bold uppercase transition-colors"
+                className="flex items-center gap-1 text-[10px] bg-gray-900 text-white px-3 py-1.5 rounded-full hover:bg-black font-bold uppercase transition-all active:scale-95 shadow-md"
             >
-                <Plus size={12} /> Aggiungi
+                <Plus size={12} strokeWidth={3} /> Aggiungi
             </button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 not-italic">
             {events.map((evt, idx) => (
-                <div key={idx} className="bg-gray-50 p-3 rounded-xl border border-gray-200 relative group">
+                <div key={idx} className="bg-gray-50 p-4 rounded-2xl border border-gray-100 relative group transition-all hover:bg-white hover:shadow-xl hover:border-orange-200">
                     {/* Header Controls: Trash + Color */}
-                    <div className="absolute top-2 right-2 flex gap-2">
+                    <div className="absolute top-3 right-3 flex gap-3 z-10">
                          <div className="relative">
                             <select 
                                 value={evt.color || 'orange'}
                                 onChange={(e) => updateEvent(idx, 'color', e.target.value)}
-                                className="appearance-none text-[10px] font-bold uppercase bg-white border border-gray-300 rounded px-2 py-0.5 pr-4 focus:ring-1 focus:ring-orange-500 outline-none"
+                                className="appearance-none text-[9px] font-black uppercase bg-white border border-gray-200 rounded-lg px-3 py-1.5 focus:border-gray-900 outline-none transition-all shadow-sm cursor-pointer"
                             >
                                 {availableColors.map(c => <option key={c} value={c}>{c}</option>)}
                             </select>
                          </div>
                         <button 
                             onClick={() => removeEvent(idx)}
-                            className="text-gray-400 hover:text-red-500 transition-colors"
+                            className="w-7 h-7 flex items-center justify-center bg-white border border-gray-200 rounded-full text-gray-400 hover:text-red-500 hover:border-red-100 transition-all shadow-sm"
                         >
-                            <Trash2 size={14} />
+                            <Trash2 size={12} />
                         </button>
                     </div>
 
                     {/* SPORT NAME */}
-                    <div className="mb-3 pr-24">
-                         <label className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Sport</label>
+                    <div className="mb-4 pr-32">
+                         <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Sport</label>
                          <input 
                             value={evt.sport} 
                             onChange={(e) => updateEvent(idx, 'sport', e.target.value)}
-                            className="w-full text-sm font-black italic bg-transparent border-b border-gray-300 focus:border-orange-500 outline-none pb-1 text-gray-800"
+                            className="w-full text-base font-black italic bg-transparent border-b-2 border-gray-200 focus:border-gray-900 outline-none pb-1 text-gray-900 uppercase tracking-tight"
                             placeholder="BASKET, CALCIO, ETC..."
                          />
                     </div>
 
                     {/* TEAMS (Home vs Away) */}
-                    <div className="grid grid-cols-2 gap-2 mb-3 bg-white p-2 rounded border border-gray-100">
-                         <div>
-                             <label className="text-[9px] font-bold text-gray-400 uppercase block mb-0.5">Casa</label>
+                    <div className="grid grid-cols-2 gap-4 mb-4 bg-white/50 p-3 rounded-xl border border-gray-50 shadow-inner">
+                         <div className="space-y-1">
+                             <label className="text-[8px] font-black text-gray-400 uppercase tracking-tighter block">Casa</label>
                              <input 
                                 value={evt.homeTeam || ''} 
                                 onChange={(e) => updateEvent(idx, 'homeTeam', e.target.value)}
-                                className="w-full text-xs font-bold border-b border-gray-200 focus:border-orange-500 outline-none pb-0.5"
+                                className="w-full text-xs font-black uppercase border-b border-gray-100 focus:border-gray-900 outline-none pb-1 bg-transparent"
                              />
                         </div>
-                        <div className="text-right">
-                             <label className="text-[9px] font-bold text-gray-400 uppercase block mb-0.5">Trasferta</label>
+                        <div className="space-y-1">
+                             <label className="text-[8px] font-black text-gray-400 uppercase tracking-tighter block text-right">Trasferta</label>
                              <input 
                                 value={evt.awayTeam || ''} 
                                 onChange={(e) => updateEvent(idx, 'awayTeam', e.target.value)}
-                                className="w-full text-xs font-bold border-b border-gray-200 focus:border-orange-500 outline-none pb-0.5 text-right"
+                                className="w-full text-xs font-black uppercase border-b border-gray-100 focus:border-gray-900 outline-none pb-1 bg-transparent text-right"
                              />
                         </div>
                     </div>
 
                     {/* DETAILS: Date, Time, Location */}
-                    <div className="grid grid-cols-3 gap-2 mb-2">
-                        <div className="col-span-1">
-                             <label className="text-[9px] font-bold text-gray-400 uppercase block">Data</label>
+                    <div className="grid grid-cols-3 gap-3 mb-3">
+                        <div className="space-y-1">
+                             <label className="text-[8px] font-black text-gray-400 uppercase block">Data</label>
                              <input 
                                 value={evt.date} 
                                 onChange={(e) => updateEvent(idx, 'date', e.target.value)}
-                                className="w-full text-xs bg-white border border-gray-200 rounded p-1 font-medium"
+                                className="w-full text-[11px] bg-white border border-gray-100 rounded-lg p-2 font-bold shadow-sm focus:border-gray-900 outline-none"
                              />
                         </div>
-                        <div className="col-span-1">
-                             <label className="text-[9px] font-bold text-gray-400 uppercase block">Ora</label>
+                        <div className="space-y-1">
+                             <label className="text-[8px] font-black text-gray-400 uppercase block">Ora</label>
                              <input 
                                 value={evt.time} 
                                 onChange={(e) => updateEvent(idx, 'time', e.target.value)}
-                                className="w-full text-xs bg-white border border-gray-200 rounded p-1 font-medium"
+                                className="w-full text-[11px] bg-white border border-gray-100 rounded-lg p-2 font-bold shadow-sm focus:border-gray-900 outline-none"
                              />
                         </div>
-                         <div className="col-span-1">
-                             <label className="text-[9px] font-bold text-gray-400 uppercase block">Luogo</label>
+                         <div className="space-y-1">
+                             <label className="text-[8px] font-black text-gray-400 uppercase block">Luogo</label>
                              <input 
                                 value={evt.location} 
                                 onChange={(e) => updateEvent(idx, 'location', e.target.value)}
-                                className="w-full text-xs bg-white border border-gray-200 rounded p-1 font-medium"
+                                className="w-full text-[11px] bg-white border border-gray-100 rounded-lg p-2 font-bold shadow-sm focus:border-gray-900 outline-none"
                              />
                         </div>
                     </div>
                     
-                     <div>
-                         <label className="text-[9px] font-bold text-gray-400 uppercase block">Campionato</label>
+                     <div className="space-y-1">
+                         <label className="text-[8px] font-black text-gray-400 uppercase block">Campionato</label>
                          <input 
                             value={evt.championship || ''} 
                             onChange={(e) => updateEvent(idx, 'championship', e.target.value)}
-                            className="w-full text-xs bg-white border border-gray-200 rounded p-1 font-medium"
+                            className="w-full text-[11px] bg-white border border-gray-100 rounded-lg p-2 font-bold shadow-sm focus:border-gray-900 outline-none"
                             placeholder="Es. Serie D"
                          />
                     </div>
