@@ -28,7 +28,17 @@ export const BRANDING = {
   ]
 };
 
-// --- 3. TEMPLATE-SPECIFIC DEFAULTS ---
+// --- 3. THEME ASSETS (Backgrounds & Decorations) ---
+export const THEME_ASSETS = {
+  orange: { bgImage: "/DuoCanvas/themes/basketTeam.jpeg" },
+  blue:   { decoration: "/DuoCanvas/themes/volleyball.png" },
+  green:  { bgImage: "/DuoCanvas/themes/soccerTeam.jpeg" },
+  purple: { bgImage: "/DuoCanvas/themes/imola.jpeg" },
+  gold:   { bgImage: "" }, // Placeholder for gold
+  black:  { bgImage: "" }
+};
+
+// --- 4. TEMPLATE-SPECIFIC DEFAULTS ---
 // Note: headerTitle and headerValue are often template-specific to allow 
 // different labels (e.g., "GARA" vs "CLASSIFICA") while keeping values local.
 // If a key is NOT here, it will fall back to GLOBAL_DEFAULTS.
