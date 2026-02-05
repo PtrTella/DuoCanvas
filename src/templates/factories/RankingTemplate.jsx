@@ -49,6 +49,7 @@ export const createRankingTemplate = (sport, config = {}) => {
       const { classifica: csiData, loading, refresh } = sport.hooks.useRanking();
 
       const handleSync = () => {
+        refresh(); // Ricarica dati dal web
         if (csiData && csiData.length > 0) {
           onChange('ranking', csiData);
           onChange('isManual', false);

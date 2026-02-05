@@ -14,7 +14,7 @@ const BASKET_SPORT = {
   icon: Trophy,
   defaultTheme: 'orange',
   hooks: {
-    useRanking: useClassifica
+    useRanking: () => useClassifica("3") // Silver Ovest
   }
 };
 

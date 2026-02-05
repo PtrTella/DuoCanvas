@@ -14,6 +14,17 @@ export const GLOBAL_DEFAULTS = {
   coach: "Coach"
 };
 
+// --- 1b. BRANDING & SPONSORS ---
+export const BRANDING = {
+  name: "Duo Ligones",
+  tagline: "Official",
+  sponsors: [
+    '/DuoCanvas/logos/sponsor1.png', 
+    '/DuoCanvas/logos/sponsor2.png',
+    '/DuoCanvas/logos/sponsor3.png'
+  ]
+};
+
 // --- 2. TEMI ---
 export const THEMES = {
   orange: { preview: "#ea580c", accentColor: "#ea580c", primary: "from-orange-600 to-red-600", bg: "bg-orange-950", accent: "text-orange-400", bgImage: "/DuoCanvas/themes/basketTeam.jpeg" },

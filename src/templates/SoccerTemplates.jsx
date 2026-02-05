@@ -13,7 +13,7 @@ const SOCCER_SPORT = {
   icon: PartyPopper,
   defaultTheme: 'green',
   hooks: {
-    useRanking: useClassifica
+    useRanking: () => useClassifica("4") // Girone Calcio (Ipotetico, da configurare)
   }
 };
 
@@ -28,7 +28,8 @@ export const SoccerResult = {
       headerTitle: "GIORNATA",
       headerValue: "1",
       labelGoals: "GOL",
-      events: [],
+      homeGoals: "",
+      awayGoals: "",
       homeScore: "0",
       awayScore: "0"
     }

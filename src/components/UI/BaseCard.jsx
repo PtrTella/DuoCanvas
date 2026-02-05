@@ -1,11 +1,5 @@
 import React from 'react';
-
-// Definisci qui i percorsi dei loghi (che hai messo in /public/logos/)
-const SPONSORS = [
-  '/DuoCanvas/logos/sponsor1.png', 
-  '/DuoCanvas/logos/sponsor2.png',
-  '/DuoCanvas/logos/sponsor3.png'
-];
+import { BRANDING } from '../../config/constants';
 
 const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }, ref) => {
   return (
@@ -67,13 +61,13 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
 
       {/* 4. FOOTER (Clean, Dark, Impactful) */}
       <div className="relative z-20 w-full bg-[#101010] flex items-center justify-between px-12 py-8 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
-          {/* Left: Brand Identity - Aligned with App Style */}
+          {/* Left: Brand Identity */}
           <div className="flex flex-col items-end">
              <span className="text-3xl font-black uppercase text-white tracking-[0.15em] leading-none">
-               Duo Ligones
+               {BRANDING.name}
              </span>
              <span className="text-[10px] text-gray-400 font-bold tracking-[0.6em] uppercase mt-1">
-               Official
+               {BRANDING.tagline}
              </span>
           </div>
 
@@ -82,7 +76,7 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
 
           {/* Right: Sponsors - Big but balanced */}
           <div className="flex items-center justify-start gap-12 flex-1">
-              {SPONSORS.map((logo, index) => (
+              {BRANDING.sponsors.map((logo, index) => (
                 <img 
                   key={index} 
                   src={logo} 

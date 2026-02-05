@@ -1,59 +1,66 @@
 // src/hooks/useCsi.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { calculateClassifica, getTeamMatches } from '../utils/csiUtils';
 
 // URL del file JS con i dati (Basket Faenza)
 const CSI_DATA_URL = "https://www.csifaenza.it/combasket/listapar.js";
 
+let loadingPromise = null;
+
 // Helper Function per caricare lo script ed estrarre i dati globali
 const loadCsiDataFromScript = () => {
-    return new Promise((resolve, reject) => {
-        // Rimuovi eventuali script precedenti per forzare il refresh
+    // Se c'è già una richiesta in corso, restituisci quella
+    if (loadingPromise) return loadingPromise;
+
+    loadingPromise = new Promise((resolve, reject) => {
+        // Rimuovi eventuali script precedenti
         const existingScript = document.getElementById('csi-data-script');
-        if (existingScript) {
-            existingScript.remove();
-        }
+        if (existingScript) existingScript.remove();
 
         const script = document.createElement('script');
-        script.src = CSI_DATA_URL; // Caricamento diretto NO PROXY (bypass CORS tramite <script>)
+        script.src = `${CSI_DATA_URL}?t=${Date.now()}`; // Cache bust
         script.id = 'csi-data-script';
         script.async = true;
 
         script.onload = () => {
             try {
-                // Estrae i dati dalle variabili globali window.sq1 e window.nu1
                 const teamsMap = window.sq1 || [];
-                // nu1 è un array di stringhe pipe-separated. Lo convertiamo in array di array per compatibilità
                 const rawMatchesOriginal = window.nu1 || []; 
                 const rawMatches = rawMatchesOriginal
-                    .filter(line => line && typeof line === 'string') // Rimuove slot vuoti
+                    .filter(line => line && typeof line === 'string')
                     .map(line => line.split('|'));
 
                 resolve({ teamsMap, rawMatches });
             } catch (e) {
                 reject(new Error("Errore nel parsing dei dati globali CSI: " + e.message));
+            } finally {
+                loadingPromise = null; // Reset per permettere ricaricamenti futuri
             }
         };
 
         script.onerror = () => {
-            reject(new Error("Errore caricamento script CSI (controlla connessione o blocchi adblock)"));
+            loadingPromise = null;
+            reject(new Error("Errore caricamento script CSI"));
         };
 
         document.body.appendChild(script);
     });
+
+    return loadingPromise;
 };
 
 // --- HOOK 1: Classifica ---
-export const useClassifica = () => {
+export const useClassifica = (gironeId = "3") => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
+    setLoading(true);
     loadCsiDataFromScript()
       .then(({ teamsMap, rawMatches }) => {
-        // Calcoliamo classifica (Silver Ovest = Girone 3)
-        const ranking = calculateClassifica(teamsMap, rawMatches, "3");
+        // Calcoliamo classifica per il girone specificato
+        const ranking = calculateClassifica(teamsMap, rawMatches, gironeId);
         setData(ranking);
         setLoading(false);
       })
@@ -62,9 +69,13 @@ export const useClassifica = () => {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [gironeId]);
 
-  return { classifica: data, loading, error };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return { classifica: data, loading, error, refresh: fetchData };
 };
 
 // --- HOOK 2: Partite Duo Ligones ---

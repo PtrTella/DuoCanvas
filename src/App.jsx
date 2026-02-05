@@ -13,13 +13,19 @@ const App = () => {
   const [activeTemplateId, setActiveTemplateId] = useState(TEMPLATES[0].id);
   const [themeColor, setThemeColor] = useState('orange');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
-  
-  // STATO CHE MANCAVA: Gestisce l'apertura del menu a tendina
   const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false);
 
-  // Dati
+  // Global Session Data
   const [sessionData, setSessionData] = useState(GLOBAL_DEFAULTS);
-  const [templateData, setTemplateData] = useState(TEMPLATES[0].defaultData || {});
+
+  // Per-template Persistent Data Map
+  const [templateDataMap, setTemplateDataMap] = useState(() => {
+    const initial = {};
+    TEMPLATES.forEach(t => {
+      initial[t.id] = t.defaultData || {};
+    });
+    return initial;
+  });
 
   // Refs
   const cardRef = useRef(null);
@@ -30,29 +36,58 @@ const App = () => {
   const { downloadSnapshot, isGenerating: isProcessing } = useDownload(cardRef);
 
   // --- LOGICA ---
-  const activeTemplate = TEMPLATES.find(t => t.id === activeTemplateId);
+  const activeTemplate = TEMPLATES.find(t => t.id === activeTemplateId) || TEMPLATES[0];
   const currentTheme = THEMES[themeColor] || THEMES['orange'];
-  const data = { ...sessionData, ...templateData };
+  
+  // Combined data for rendering
+  const currentTemplateData = templateDataMap[activeTemplateId] || {};
+  const data = { ...sessionData, ...currentTemplateData };
 
   const handleTemplateChange = (newId) => {
     const newTemplate = TEMPLATES.find(t => t.id === newId);
+    if (!newTemplate) return;
+
     setActiveTemplateId(newId);
-    setTemplateData(newTemplate.defaultData || {});
-    if (newTemplate.defaultTheme) setThemeColor(newTemplate.defaultTheme);
-    setIsTemplateSelectorOpen(false); // Chiude il menu dopo la scelta
+    
+    // Switch theme if template has a preference and it's not already set
+    if (newTemplate.defaultTheme && themeColor !== newTemplate.defaultTheme) {
+      setThemeColor(newTemplate.defaultTheme);
+    }
+    
+    setIsTemplateSelectorOpen(false);
   };
 
   const handleDataChange = (key, value) => {
-    if (key in GLOBAL_DEFAULTS) setSessionData(prev => ({ ...prev, [key]: value }));
-    else setTemplateData(prev => ({ ...prev, [key]: value }));
+    // ROUTING LOGIC:
+    // 1. If key is explicitly defined in template's defaultData, it's TEMPLATE SPECIFIC.
+    // 2. Otherwise, if it's in GLOBAL_DEFAULTS, it's SESSION WIDE.
+    // 3. Fallback: treat as TEMPLATE SPECIFIC.
+    
+    const isTemplateSpecific = activeTemplate.defaultData && (key in activeTemplate.defaultData);
+    const isGlobal = key in GLOBAL_DEFAULTS;
+
+    if (isTemplateSpecific) {
+      setTemplateDataMap(prev => ({
+        ...prev,
+        [activeTemplateId]: { ...prev[activeTemplateId], [key]: value }
+      }));
+    } else if (isGlobal) {
+      setSessionData(prev => ({ ...prev, [key]: value }));
+    } else {
+      setTemplateDataMap(prev => ({
+        ...prev,
+        [activeTemplateId]: { ...prev[activeTemplateId], [key]: value }
+      }));
+    }
   };
 
   const handleDownloadClick = () => {
+    // On mobile, force preview mode first to ensure ref is visible and layout is correct
     if (!showMobilePreview && window.innerWidth < 768) {
         setShowMobilePreview(true);
         setTimeout(() => {
             downloadSnapshot(`duocanvas-${activeTemplateId}`);
-        }, 100);
+        }, 150);
     } else {
         downloadSnapshot(`duocanvas-${activeTemplateId}`);
     }
