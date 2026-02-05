@@ -4,7 +4,7 @@ import { Users, ClipboardList } from 'lucide-react';
 // --- MARKER GIOCATORE (CAMPO) ---
 // Stile Cyber/NBA per i titolari
 const CourtPlayer = ({ number, name, theme, positionStyle }) => {
-  const accentColor = theme?.accentColor || '#ea580c';
+  const accentColor = theme?.hex || '#ea580c';
   const shadowColor = theme?.primary?.split(' ')[1]?.replace('to-', '') || accentColor;
 
   return (
@@ -46,7 +46,7 @@ const CourtPlayer = ({ number, name, theme, positionStyle }) => {
 const BenchPlayer = ({ number, name, theme }) => (
   <div 
     className="flex items-center gap-5 py-3.5 px-5 mb-2.5 bg-[#141414] border-l-[6px] relative overflow-hidden shadow-lg"
-    style={{ borderLeftColor: theme?.accentColor || '#ea580c' }}
+    style={{ borderLeftColor: theme?.hex || '#ea580c' }}
   >
       {/* Number */}
       <div className="w-12 text-right shrink-0 relative">

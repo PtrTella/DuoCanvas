@@ -13,6 +13,7 @@ const CLUBS = {
   duo: { 
     clubInfo: DuoConfig.CLUB_INFO,
     globalDefaults: DuoConfig.GLOBAL_DEFAULTS,
+    colorThemes: DuoConfig.COLOR_THEMES,
     themeAssets: DuoConfig.THEME_ASSETS,
     rankingSync: DuoConfig.RANKING_SYNC,
     templates: DuoTemplates.TEMPLATES 
@@ -20,6 +21,7 @@ const CLUBS = {
   volta: { 
     clubInfo: VoltaConfig.CLUB_INFO,
     globalDefaults: VoltaConfig.GLOBAL_DEFAULTS,
+    colorThemes: VoltaConfig.COLOR_THEMES,
     themeAssets: VoltaConfig.THEME_ASSETS,
     rankingSync: VoltaConfig.RANKING_SYNC,
     templates: VoltaTemplates.TEMPLATES 
@@ -42,6 +44,7 @@ const activeKey = getActiveKey();
 export const ACTIVE_PROFILE = CLUBS[activeKey] || {
   clubInfo: GenericConfig.CLUB_INFO,
   globalDefaults: GenericConfig.GLOBAL_DEFAULTS,
+  colorThemes: GenericConfig.COLOR_THEMES,
   themeAssets: GenericConfig.THEME_ASSETS,
   rankingSync: GenericConfig.RANKING_SYNC,
   templates: GenericTemplates.TEMPLATES

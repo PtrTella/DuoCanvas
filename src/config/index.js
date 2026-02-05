@@ -1,4 +1,3 @@
-import { THEMES as COLOR_THEMES } from './constants';
 import { ACTIVE_PROFILE } from './profile-resolver';
 
 /**
@@ -16,10 +15,11 @@ export const BRANDING = {
 export const GLOBAL_DEFAULTS = ACTIVE_PROFILE.globalDefaults;
 
 // 3. THEME REGISTRY (Dynamic Backgrounds)
-export const THEMES = Object.keys(COLOR_THEMES).reduce((acc, key) => {
+export const THEMES = Object.keys(ACTIVE_PROFILE.colorThemes).reduce((acc, key) => {
+  const baseColor = ACTIVE_PROFILE.colorThemes[key];
   const clubThemeAssets = ACTIVE_PROFILE.themeAssets || {};
   acc[key] = { 
-    ...COLOR_THEMES[key], 
+    ...baseColor, 
     ...(clubThemeAssets[key] || {}) 
   };
   return acc;

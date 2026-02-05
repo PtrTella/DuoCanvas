@@ -17,7 +17,7 @@ const FieldPlayer = ({ number, name, theme }) => (
     {/* Cerchio/Card */}
     <div 
       className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-2xl border-l-4 shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md bg-gradient-to-br from-gray-900/90 to-gray-800/60 transition-transform hover:scale-110"
-      style={{ borderColor: theme?.accentColor || '#10b981' }} 
+      style={{ borderColor: theme?.hex || '#10b981' }} 
     >
         <span className="text-3xl md:text-4xl font-black italic text-white tracking-tighter" style={{ fontFamily: 'Impact, sans-serif' }}>
             {number}

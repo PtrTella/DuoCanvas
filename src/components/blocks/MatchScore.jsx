@@ -47,7 +47,7 @@ export const MatchScore = ({ data, theme, className = "", children }) => {
 };
 
 // --- CONTROLS ---
-export const MatchScoreControls = ({ data, onChange, accentColor = "orange" }) => {
+export const MatchScoreControls = ({ data, onChange }) => {
   const handleScoreSwap = () => {
     const tempHome = data.homeScore;
     onChange('homeScore', data.awayScore);

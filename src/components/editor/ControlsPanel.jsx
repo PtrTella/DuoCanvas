@@ -41,7 +41,7 @@ const ControlsPanel = ({
                 key={color}
                 onClick={() => setThemeColor(color)}
                 className={`flex-shrink-0 w-12 h-12 rounded-2xl border-4 transition-all duration-300 relative ${themeColor === color ? 'border-gray-900 scale-110 shadow-xl' : 'border-white hover:scale-105 shadow-md'}`}
-                style={{ backgroundColor: THEMES[color].preview }}
+                style={{ backgroundColor: THEMES[color].hex }}
               >
                  {themeColor === color && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/10 rounded-xl">

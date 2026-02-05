@@ -33,11 +33,11 @@ export const createResultTemplate = (sport, config = {}) => {
       </BaseCard>
     ),
 
-    Controls: ({ data, onChange, themeColor }) => (
+    Controls: ({ data, onChange }) => (
       <div className="space-y-1 animate-in fade-in">
         <MatchInfoControls data={data} onChange={onChange} />
         
-        <MatchScoreControls data={data} onChange={onChange} accentColor={themeColor} />
+        <MatchScoreControls data={data} onChange={onChange} />
         
         {/* Configured Block Controls */}
         {block?.Controls && <block.Controls data={data} onChange={onChange} />}
