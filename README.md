@@ -1,7 +1,7 @@
 # 🎨 DuoCanvas
 
 > **Professional Sports Graphics Generator**
-> Optimized for social media sharing (Instagram/Mobile). Built for the **Duo Ligones** sports club.
+> Optimized for social media sharing (Instagram/Mobile). Multi-profile support for **Duo Ligones** and **Volta Basket**.
 
 [![Link Live](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://PtrTella.github.io/DuoCanvas/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -11,18 +11,29 @@
 
 ## 🌟 Overview
 
-DuoCanvas is a high-performance web application designed to empower sports organizations to create high-quality, professional graphics in seconds. Whether it's a match result, a starting lineup, or a league ranking, DuoCanvas provides a seamless experience from data entry to PNG export.
+DuoCanvas is a high-performance web application designed to empower sports organizations to create high-quality, professional graphics in seconds. Since v2.0, the app supports **Multiple Club Profiles**, allowing organizations to manage different brands (logos, sponsors, arenas) within a single studio environment.
 
 ### Key Highlights
 
 - **Retina Quality Export:** 1080x1350px PNG images optimized for Instagram standards.
-- **Mobile-First Workflow:** Fully responsive interface with native-like mobile controls (bottom sheets) and virtual keyboard optimization.
+- **Cyber Sport Typography:** Dynamic font injection using **Orbitron** for a futuristic, impactful look.
+- **Multi-Profile Architecture:** Switch between clubs (e.g., Duo Ligones, Volta Basket) with one click.
+- **Dynamic Theming:** Premium palettes including **Gold** (Premium Yellow/Amber) and **Black/White**.
+- **Mobile-First Workflow:** Fully responsive interface with native-like mobile controls and virtual keyboard optimization.
 - **Smart Data Import:** Automatic synchronization with CSI portals and intelligent manual text parsing for rankings.
-- **Dynamic Theming:** Instant switching between brand colors (Orange, Blue, Green, etc.).
 
 ---
 
 ## 🚀 Features
+
+### 🏢 Multi-Society Switcher
+
+Manage multiple sports clubs from the same interface. Each profile (defined in `APP_PROFILES`) automatically loads specific:
+
+- Home Team names & logos.
+- Sponsor footers.
+- Default palettes (e.g., Gold/Stone for Volta).
+- Standard Arenas/Locations.
 
 ### 📋 Intelligent Ranking Management
 
@@ -36,7 +47,7 @@ Designed with a **Registry Pattern**. Adding a new graphic type takes minutes an
 
 - **Live Preview:** Real-time feedback as you type.
 - **Double-Shot Export:** Advanced rendering technique to ensure consistent font and image decoding on mobile browsers.
-- **Sponsor Engine:** Automatically applies a consistent sponsor footer across all generated graphics.
+- **Cyber Typography:** Numbers and headers utilize CSS variable overrides to ensure high-impact readability.
 
 ---
 
