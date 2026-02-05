@@ -6,9 +6,9 @@ import TeamControls from '../editor/TeamControls';
 // --- LAYOUT ---
 export const MatchScore = ({ data, theme, className = "", children }) => {
   return (
-    <div className={`flex items-center justify-between w-full px-6 ${className}`}>
+    <div className={`flex items-start justify-between w-full px-6 ${className}`}>
       {/* Team Left */}
-      <div className="w-[35%]">
+      <div className="w-[35%] flex flex-col items-center">
          <TeamDisplay 
             name={data.homeTeam} 
             logoSrc={data.homeLogo}
@@ -19,11 +19,13 @@ export const MatchScore = ({ data, theme, className = "", children }) => {
       </div>
 
       {/* Score Center */}
-      <div className="w-[30%] flex flex-col items-center justify-center">
-         <div className="text-[140px] font-black leading-none text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] flex items-center gap-3">
-            <span>{data.homeScore}</span>
-            <span className="text-white/30 text-7xl">:</span>
-            <span>{data.awayScore}</span>
+      <div className="w-[30%] flex flex-col items-center">
+         <div className="h-40 md:h-48 flex items-center justify-center">
+            <div className="text-[140px] font-black leading-none text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] flex items-center gap-3">
+               <span>{data.homeScore}</span>
+               <span className="text-white/30 text-7xl">:</span>
+               <span>{data.awayScore}</span>
+            </div>
          </div>
          <div className={`mt-4 px-6 py-1.5 bg-gradient-to-r ${theme?.primary || 'from-emerald-600 to-green-600'} rounded-full text-sm font-black uppercase tracking-[0.2em] text-white shadow-lg border border-white/20 backdrop-blur-sm`}>
             Finale
@@ -33,7 +35,7 @@ export const MatchScore = ({ data, theme, className = "", children }) => {
       </div>
 
       {/* Team Right */}
-      <div className="w-[35%]">
+      <div className="w-[35%] flex flex-col items-center">
          <TeamDisplay 
             name={data.awayTeam} 
             logoSrc={data.awayLogo} 
