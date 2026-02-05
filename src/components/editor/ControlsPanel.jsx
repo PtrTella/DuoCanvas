@@ -1,6 +1,6 @@
 import React from 'react';
 import { Palette, Download, Check } from 'lucide-react';
-import { THEMES } from '../../config/templateRegistry';
+import { THEMES } from '../../config';
 import TemplateSelector from './TemplateSelector';
 
 const ControlsPanel = ({ 

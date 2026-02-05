@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Layout, Download, Eye, Edit3 } from 'lucide-react';
 
-import { TEMPLATES, THEMES } from './config/templateRegistry';
-import { GLOBAL_DEFAULTS } from './config/defaults';
+import { TEMPLATES, THEMES, GLOBAL_DEFAULTS, BRANDING } from './config';
 import { useScale } from './hooks/useScale';
 import { useDownload } from './hooks/useDownload'; 
 
@@ -14,6 +13,11 @@ const App = () => {
   const [themeColor, setThemeColor] = useState('orange');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false);
+
+  // Update document title based on branding
+  React.useEffect(() => {
+    document.title = `${BRANDING.name} - Canvas`;
+  }, []);
 
   // Global Session Data
   const [sessionData, setSessionData] = useState(GLOBAL_DEFAULTS);
@@ -127,7 +131,7 @@ const App = () => {
               <Layout className="text-white" size={24} strokeWidth={2.5}/>
             </div>
             <div>
-              <h1 className="font-black text-xl tracking-tighter uppercase italic leading-none">DuoCanvas</h1>
+              <h1 className="font-black text-xl tracking-tighter uppercase italic leading-none">{BRANDING.name}</h1>
               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] leading-none">Studio Editor</span>
             </div>
           </div>

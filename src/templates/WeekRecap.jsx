@@ -3,7 +3,7 @@ import { CalendarRange } from 'lucide-react';
 import BaseCard from '../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../components/blocks/MatchInfo';
 import { EventsList, EventsListControls } from '../components/blocks/EventsList';
-import { TEMPLATE_DEFAULTS } from '../config/defaults';
+// Pure template
 
 export const WeekRecap = {
   id: 'week_recap',
@@ -34,7 +34,5 @@ export const WeekRecap = {
           <MatchInfoControls data={data} onChange={onChange} />
           <EventsListControls data={data} onChange={onChange} />
       </div>
-  ),
-
-  defaultData: TEMPLATE_DEFAULTS.week_recap
+  )
 };

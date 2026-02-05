@@ -1,14 +1,20 @@
 import React from 'react';
 import { Plus, Trash2, Calendar, MapPin, Trophy } from 'lucide-react';
-import { THEMES } from '../../config/templateRegistry';
+import { THEMES, GLOBAL_DEFAULTS } from '../../config';
 
 // --- VISUALIZZAZIONE EVENTO SINGOLO ---
 const EventItem = ({ event, theme, index }) => {
   // Se l'evento ha un colore personalizzato, usalo. Altrimenti usa il tema globale.
   const eventTheme = event.color && THEMES[event.color] ? THEMES[event.color] : theme;
 
-  // Check which team is "Duo Ligones" (or variation) to apply color
-  const isDuo = (name) => name && (name.toLowerCase().includes('duo') || name.toLowerCase().includes('ligones'));
+  // Check which team is the "home" team of the current domain to apply accent color
+  const isTargetTeam = (name) => {
+    if (!name) return false;
+    const homeTeam = GLOBAL_DEFAULTS.homeTeam.toLowerCase();
+    const cleanName = name.toLowerCase();
+    // Match if it contains the home team name or vice versa (e.g. "Duo" matches "Duo Ligones")
+    return cleanName.includes(homeTeam) || homeTeam.includes(cleanName);
+  };
 
   return (
     <div className="relative group w-full">
@@ -52,7 +58,7 @@ const EventItem = ({ event, theme, index }) => {
                     {/* Team 1 */}
                     <div className="flex items-center relative">
                         <span className={`text-6xl font-black uppercase leading-[0.85] tracking-tight truncate ${
-                            isDuo(event.homeTeam) ? eventTheme.accent : 'text-white'
+                            isTargetTeam(event.homeTeam) ? eventTheme.accent : 'text-white'
                         }`}>
                             {event.homeTeam}
                         </span>
@@ -64,7 +70,7 @@ const EventItem = ({ event, theme, index }) => {
                     {/* Team 2 */}
                      <div className="flex items-center relative">
                         <span className={`text-6xl font-black uppercase leading-[0.85] tracking-tight truncate ${
-                            isDuo(event.awayTeam) ? eventTheme.accent : 'text-white'
+                            isTargetTeam(event.awayTeam) ? eventTheme.accent : 'text-white'
                         }`}>
                             {event.awayTeam}
                         </span>
@@ -129,7 +135,7 @@ export const EventsListControls = ({ data, onChange }) => {
         time: '21:00',
         location: 'Luogo',
         championship: 'Campionato',
-        homeTeam: 'Duo Ligones',
+        homeTeam: GLOBAL_DEFAULTS.homeTeam,
         awayTeam: 'Avversario',
         color: 'orange'
     };

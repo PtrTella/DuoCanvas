@@ -4,6 +4,7 @@ import BaseCard from '../../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../../components/blocks/TeamsRanking';
 import { parseManualRanking } from '../../utils/rankingUtils';
+import { GLOBAL_DEFAULTS } from '../../config';
 
 export const createRankingTemplate = (sport, config = {}) => {
   const options = config.options || {};
@@ -99,7 +100,7 @@ export const createRankingTemplate = (sport, config = {}) => {
                    <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter text-gray-400">Inserimento Manuale (Nome PT G V P S GF GS)</label>
                    <textarea 
                       className="w-full h-32 p-4 text-[11px] font-mono bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-2xl transition-all"
-                      placeholder="Duo Ligones 24 10 8 0 2 34 12..."
+                      placeholder={`${GLOBAL_DEFAULTS.homeTeam} 24 10 8 0 2 34 12...`}
                       value={data.manualText || ''}
                       onChange={(e) => handleManualChange(e.target.value)}
                    />

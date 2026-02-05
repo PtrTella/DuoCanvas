@@ -1,8 +1,10 @@
-// src/csiUtils.js
+import { ACTIVE_CONFIG } from '../config/profile-resolver';
 
-// ID della tua squadra (Duo Ligones = 32)
-const MY_TEAM_ID = 32; 
-const MY_GIRONE_ID = "3"; // Girone 3 (Silver Ovest)
+const { csiConfig: CSI_CONFIG } = ACTIVE_CONFIG.branding;
+
+// ID della tua squadra
+const MY_TEAM_ID = CSI_CONFIG.teamId; 
+const MY_GIRONE_ID = CSI_CONFIG.gironeId; 
 
 // Logica Punti Basket CSI Faenza
 const POINTS_WIN = 3; 

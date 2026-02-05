@@ -7,7 +7,7 @@ import { BasketRoster, BasketRosterControls } from '../components/blocks/BasketR
 import { BasketMatchExtra, BasketMatchExtraControls } from '../components/blocks/BasketMatchExtra';
 import { TeamsRanking } from '../components/blocks/TeamsRanking';
 import { useClassifica } from '../hooks/useCsi';
-import { TEMPLATE_DEFAULTS } from '../config/defaults';
+// NO generic imports from config to avoid circularity
 
 const BASKET_SPORT = {
   id: 'basket',
@@ -25,8 +25,7 @@ export const BasketResult = {
     extraBlock: {
       Render: BasketMatchExtra,
       Controls: BasketMatchExtraControls
-    },
-    defaultData: TEMPLATE_DEFAULTS.basket_result
+    }
   }),
   id: 'basket_result',
   name: 'Risultato Basket',
@@ -40,8 +39,7 @@ export const BasketLineup = {
     extraBlock: {
       Render: BasketRoster,
       Controls: BasketRosterControls
-    },
-    defaultData: TEMPLATE_DEFAULTS.basket_roster
+    }
   }),
   id: 'basket_roster',
   name: 'Convocazioni Basket',
@@ -53,8 +51,7 @@ export const BasketLineup = {
 export const BasketRanking = {
   ...createRankingTemplate(BASKET_SPORT, {
     options: { showDraws: false, showAverages: true },
-    RenderBlock: TeamsRanking,
-    defaultData: TEMPLATE_DEFAULTS.basket_ranking
+    RenderBlock: TeamsRanking
   }),
   id: 'basket_ranking',
   name: 'Classifica Basket',

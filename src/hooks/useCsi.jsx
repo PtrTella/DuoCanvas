@@ -78,8 +78,8 @@ export const useClassifica = (gironeId = "3") => {
   return { classifica: data, loading, error, refresh: fetchData };
 };
 
-// --- HOOK 2: Partite Duo Ligones ---
-export const usePartiteDuoLigones = () => {
+// --- HOOK 2: Partite Recenti ---
+export const useRecentMatches = () => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

@@ -6,7 +6,7 @@ import { GoalTimeline, GoalTimelineControls } from '../components/blocks/GoalTim
 import { SoccerFormation as FormationBlock, SoccerFormationControls } from '../components/blocks/SoccerFormation';
 import { TeamsRanking } from '../components/blocks/TeamsRanking';
 import { useClassifica } from '../hooks/useCsi';
-import { TEMPLATE_DEFAULTS } from '../config/defaults';
+// Pure template definition
 
 const SOCCER_SPORT = {
   id: 'soccer',
@@ -24,8 +24,7 @@ export const SoccerResult = {
     extraBlock: {
       Render: GoalTimeline,
       Controls: GoalTimelineControls
-    },
-    defaultData: TEMPLATE_DEFAULTS.soccer_result
+    }
   }),
   id: 'soccer_result',
   name: 'Risultato Calcio',
@@ -39,8 +38,7 @@ export const SoccerFormation = {
     extraBlock: {
       Render: FormationBlock,
       Controls: SoccerFormationControls
-    },
-    defaultData: TEMPLATE_DEFAULTS.soccer_roster
+    }
   }),
   id: 'soccer_roster',
   name: 'Formazione Calcio',
@@ -52,8 +50,7 @@ export const SoccerFormation = {
 export const SoccerRanking = {
   ...createRankingTemplate(SOCCER_SPORT, {
     options: { showDraws: true, showAverages: false },
-    RenderBlock: TeamsRanking,
-    defaultData: TEMPLATE_DEFAULTS.soccer_ranking
+    RenderBlock: TeamsRanking
   }),
   id: 'soccer_ranking',
   name: 'Classifica Calcio',
