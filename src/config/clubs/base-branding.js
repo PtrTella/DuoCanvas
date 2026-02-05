@@ -2,7 +2,7 @@ export const BASE_BRANDING = {
   branding: {
     name: "DuoCanvas",
     tagline: "Sports Graphics Generator",
-    sponsors: []
+    sponsors: ["/DuoCanvas/sponsors/sponsor_generic.png"]
   },
   globalDefaults: {
     homeTeam: "Squadra Casa",
