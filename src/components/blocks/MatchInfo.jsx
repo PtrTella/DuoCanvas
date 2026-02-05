@@ -6,9 +6,8 @@ import { Trophy } from 'lucide-react';
  * MatchInfo - The header block of graphics
  * @param {Object} data - All template data
  * @param {Object} theme - Visual theme
- * @param {string} hideChampionship - Hide championship bar
  */
-export const MatchInfo = ({ data, theme, className = "", hideChampionship = false }) => {
+export const MatchInfo = ({ data, theme, className = "" }) => {
   // NEW: Flexible title parts
   const mainTitle = data.headerTitle || "TITOLO";
   const accentTitle = data.headerValue || "";
@@ -30,10 +29,10 @@ export const MatchInfo = ({ data, theme, className = "", hideChampionship = fals
             </h1>
             
             {/* Championship / Subtitle bar with better styling */}
-            {!hideChampionship && data.championship && (
+            {data.championship && (
                 <div className="flex justify-center items-center gap-2.5 mt-1.5 px-6 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
                     <Trophy size={14} className={theme?.accent || "text-orange-500"} />
-                    <span className="text-white/90 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">
+                    <span className="text-white/90 font-bold uppercase tracking-[0.3em] text-xs md:text-sm">
                         {data.championship}
                     </span>
                 </div>
@@ -47,7 +46,7 @@ export const MatchInfo = ({ data, theme, className = "", hideChampionship = fals
 };
 
 // --- CONTROLS (Pannello Editor) ---
-export const MatchInfoControls = ({ data, onChange, hideChampionship = false }) => {
+export const MatchInfoControls = ({ data, onChange }) => {
   return (
     <div className="py-5 border-b border-gray-100 italic">
       <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2 not-italic">
@@ -78,21 +77,19 @@ export const MatchInfoControls = ({ data, onChange, hideChampionship = false }) 
         </div>
       </div>
 
-      {!hideChampionship && (
-        <div className="not-italic space-y-1">
-          <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter">Campionato / Barretta</label>
-          <div className="relative group">
-            <Trophy size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gray-900 transition-colors" />
-            <input 
-                type="text" 
-                value={data.championship || ''} 
-                onChange={(e) => onChange('championship', e.target.value)} 
-                className="w-full pl-10 p-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl text-xs font-bold transition-all" 
-                placeholder="Nome competizione"
-            />
-          </div>
+      <div className="not-italic space-y-1">
+        <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter">Campionato</label>
+        <div className="relative group">
+          <Trophy size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gray-900 transition-colors" />
+          <input 
+              type="text" 
+              value={data.championship || ''} 
+              onChange={(e) => onChange('championship', e.target.value)} 
+              className="w-full pl-10 p-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl text-xs font-bold transition-all" 
+              placeholder="Nome competizione"
+          />
         </div>
-      )}
+      </div>
     </div>
   );
 };
