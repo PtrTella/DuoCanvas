@@ -63,7 +63,7 @@ const BaseCard = React.forwardRef(({ theme, children, scale = 1, backgroundUrl }
       <div className="relative z-20 w-full bg-[#101010] flex items-center justify-between px-12 py-8 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
           {/* Left: Brand Identity */}
           <div className="flex flex-col items-end">
-             <span className="text-3xl font-black uppercase text-white tracking-[0.15em] leading-none">
+             <span className="text-3xl font-black uppercase text-white tracking-[0.15em] leading-none italic">
                {CLUB_INFO.name}
              </span>
              <span className="text-[10px] text-gray-400 font-bold tracking-[0.6em] uppercase mt-1">

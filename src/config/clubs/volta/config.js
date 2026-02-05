@@ -1,11 +1,11 @@
 export const CLUB_INFO = {
-  name: "La Volta",
-  tagline: "Official Matchday",
+  name: "Volta Baloncesto",
+  tagline: "Official",
   sponsors: []
 };
 
 export const GLOBAL_DEFAULTS = {
-  homeTeam: "La Volta",
+  homeTeam: "Playground Volta Dozza",
   homeLogo: "/DuoCanvas/clubs/volta/logos/volta.png",
   championship: "Divisione Regionale 3 FIP",
   arena: "TOSCA BEACH"

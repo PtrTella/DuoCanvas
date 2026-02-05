@@ -1,6 +1,6 @@
 export const CLUB_INFO = {
   name: "Duo Ligones",
-  tagline: "Official Matchday",
+  tagline: "Official",
   sponsors: [
     '/DuoCanvas/clubs/duo/sponsors/sponsor1.png', 
     '/DuoCanvas/clubs/duo/sponsors/sponsor2.png',
