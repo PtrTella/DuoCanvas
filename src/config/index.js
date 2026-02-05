@@ -7,14 +7,18 @@ import { ACTIVE_PROFILE } from './profile-resolver';
  */
 
 // 1. BRANDING & SESSION
-export const BRANDING = ACTIVE_PROFILE.branding.branding;
-export const GLOBAL_DEFAULTS = ACTIVE_PROFILE.branding.globalDefaults;
+export const BRANDING = {
+  ...ACTIVE_PROFILE.branding?.branding,
+  sponsors: ACTIVE_PROFILE.branding?.branding?.sponsors || []
+};
+export const GLOBAL_DEFAULTS = ACTIVE_PROFILE.branding?.globalDefaults || {};
 
 // 2. THEMES REGISTRY
 export const THEMES = Object.keys(COLOR_THEMES).reduce((acc, key) => {
+  const clubThemeAssets = ACTIVE_PROFILE.branding?.themeAssets || {};
   acc[key] = { 
     ...COLOR_THEMES[key], 
-    ...(ACTIVE_PROFILE.branding.themeAssets[key] || {}) 
+    ...(clubThemeAssets[key] || {}) 
   };
   return acc;
 }, {});

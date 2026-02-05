@@ -10,7 +10,7 @@ import ControlsPanel from './components/editor/ControlsPanel';
 const App = () => {
   // --- STATI ---
   const [activeTemplateId, setActiveTemplateId] = useState(TEMPLATES[0].id);
-  const [themeColor, setThemeColor] = useState('orange');
+  const [themeColor, setThemeColor] = useState(TEMPLATES[0].defaultTheme || 'orange');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false);
 

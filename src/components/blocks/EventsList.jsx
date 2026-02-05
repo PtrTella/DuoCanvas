@@ -35,17 +35,17 @@ const EventItem = ({ event, theme, index }) => {
                  {/* Date Info */}
                  <div className="flex-1 flex flex-col items-center justify-center p-2">
                      <span className="text-3xl font-black uppercase text-white/50 tracking-widest mb-0 leading-none">
-                        {event.date.split(' ')[0]} 
+                        {event.date?.split(' ')[0] || 'DAY'} 
                      </span>
                      <span className={`text-[70px] font-black italic text-white leading-[0.8] tracking-tighter drop-shadow-xl my-1`}>
-                        {event.date.split(' ')[1] || event.date.slice(0,2)} 
+                        {event.date?.split(' ')[1] || event.date?.slice(0,2) || '##'} 
                      </span>
                      <span className="text-lg font-bold uppercase text-white/40 tracking-[0.2em] leading-none">
-                        {event.date.split(' ').slice(2).join(' ')}
+                        {event.date?.split(' ').slice(2).join(' ') || ''}
                      </span>
                      
                      <div className={`mt-3 px-3 py-1 rounded bg-white/10 text-2xl font-black text-white tracking-widest`}>
-                        {event.time}
+                        {event.time || 'HH:MM'}
                      </div>
                  </div>
             </div>
@@ -194,7 +194,7 @@ export const EventsListControls = ({ data, onChange }) => {
                     <div className="mb-4 pr-32">
                          <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Sport</label>
                          <input 
-                            value={evt.sport} 
+                            value={evt.sport || ''} 
                             onChange={(e) => updateEvent(idx, 'sport', e.target.value)}
                             className="w-full text-base font-black italic bg-transparent border-b-2 border-gray-200 focus:border-gray-900 outline-none pb-1 text-gray-900 uppercase tracking-tight"
                             placeholder="BASKET, CALCIO, ETC..."
@@ -226,7 +226,7 @@ export const EventsListControls = ({ data, onChange }) => {
                         <div className="space-y-1">
                              <label className="text-[8px] font-black text-gray-400 uppercase block">Data</label>
                              <input 
-                                value={evt.date} 
+                                value={evt.date || ''} 
                                 onChange={(e) => updateEvent(idx, 'date', e.target.value)}
                                 className="w-full text-[11px] bg-white border border-gray-100 rounded-lg p-2 font-bold shadow-sm focus:border-gray-900 outline-none"
                              />
@@ -234,7 +234,7 @@ export const EventsListControls = ({ data, onChange }) => {
                         <div className="space-y-1">
                              <label className="text-[8px] font-black text-gray-400 uppercase block">Ora</label>
                              <input 
-                                value={evt.time} 
+                                value={evt.time || ''} 
                                 onChange={(e) => updateEvent(idx, 'time', e.target.value)}
                                 className="w-full text-[11px] bg-white border border-gray-100 rounded-lg p-2 font-bold shadow-sm focus:border-gray-900 outline-none"
                              />
@@ -242,7 +242,7 @@ export const EventsListControls = ({ data, onChange }) => {
                          <div className="space-y-1">
                              <label className="text-[8px] font-black text-gray-400 uppercase block">Luogo</label>
                              <input 
-                                value={evt.location} 
+                                value={evt.location || ''} 
                                 onChange={(e) => updateEvent(idx, 'location', e.target.value)}
                                 className="w-full text-[11px] bg-white border border-gray-100 rounded-lg p-2 font-bold shadow-sm focus:border-gray-900 outline-none"
                              />
