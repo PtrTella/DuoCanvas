@@ -71,11 +71,15 @@ DuoCanvas/
 ## 🛠️ Logic Utilities
 
 ### Ranking Parser (`rankingUtils.js`)
+
 Universal parser for raw tournament data.
+
 - **Features**: Multi-format support, column normalization, and error handling.
 
 ### CSI Synchronization (`useCsi.jsx`)
+
 A robust hook that fetches remote data via proxy/script-injection.
+
 - **Smart Caching**: Avoids redundant network requests during session.
 - **Validation**: Sanitizes scrapped strings to prevent rendering artifacts.
 
@@ -95,6 +99,7 @@ As of v1.6, the project follows a **"Premium Studio"** aesthetic:
 ## 🚀 Development Workflow
 
 ### Adding a New Layout
+
 1. **Define Blocks**: Create/Reuse components in `src/components/blocks/`.
 2. **Instance Template**: Create a file or use a factory in `src/templates/`.
 3. **Defaults**: Add initial state to `TEMPLATE_DEFAULTS` in `config/defaults.js`.
