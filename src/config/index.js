@@ -1,4 +1,4 @@
-import { THEMES as COLOR_THEMES, CONTROL_THEMES } from './constants';
+import { THEMES as COLOR_THEMES } from './constants';
 import { ACTIVE_PROFILE } from './profile-resolver';
 
 /**
@@ -25,10 +25,7 @@ export const THEMES = Object.keys(COLOR_THEMES).reduce((acc, key) => {
   return acc;
 }, {});
 
-// 4. CONTROL THEMES (UI Styling)
-export { CONTROL_THEMES };
-
-// 5. TEMPLATES REGISTRY
+// 4. TEMPLATES REGISTRY
 export const TEMPLATES = ACTIVE_PROFILE.templates;
 
 // Helper: map template defaults for state initialization

@@ -5,38 +5,7 @@ export const THEMES = {
   gold:   { preview: "#f59e0b", accentColor: "#f59e0b", primary: "from-amber-500 via-yellow-500 to-yellow-600", bg: "bg-stone-900", accent: "text-amber-400" },
   green:  { preview: "#16a34a", accentColor: "#16a34a", primary: "from-green-600 to-emerald-600", bg: "bg-green-950", accent: "text-green-400" },
   purple: { preview: "#9333ea", accentColor: "#9333ea", primary: "from-purple-600 to-indigo-600", bg: "bg-purple-950", accent: "text-purple-400" },
-  black:  { preview: "#111827", accentColor: "#111827", primary: "from-gray-700 to-black", bg: "bg-gray-900", accent: "text-gray-400" }
+  black:  { preview: "#111827", accentColor: "#111827", primary: "from-gray-700 to-black", bg: "bg-gray-900", accent: "text-gray-400" },
+  white:  { preview: "#f3f4f6", accentColor: "#f3f4f6", primary: "from-gray-200 to-white", bg: "bg-white", accent: "text-gray-600" }
 };
 
-export const CONTROL_THEMES = {
-  orange: {
-    wrapper: "bg-orange-50 border-orange-100",
-    label: "text-orange-800",
-    focus: "focus:border-orange-500"
-  },
-  blue: {
-    wrapper: "bg-blue-50 border-blue-100",
-    label: "text-blue-800",
-    focus: "focus:border-blue-500"
-  },
-  gold: {
-    wrapper: "bg-amber-50 border-amber-100",
-    label: "text-amber-800",
-    focus: "focus:border-amber-500"
-  },
-  green: {
-    wrapper: "bg-green-50 border-green-100",
-    label: "text-green-800",
-    focus: "focus:border-green-500"
-  },
-  purple: {
-    wrapper: "bg-purple-50 border-purple-100",
-    label: "text-purple-800",
-    focus: "focus:border-purple-500"
-  },
-  black: {
-    wrapper: "bg-gray-100 border-gray-200",
-    label: "text-gray-700",
-    focus: "focus:border-gray-600"
-  }
-};
