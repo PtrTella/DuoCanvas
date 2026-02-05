@@ -46,8 +46,8 @@ export const THEME_ASSETS = {
 export const TEMPLATE_DEFAULTS = {
   // --- BASKET ---
   basket_result: {
-    headerTitle: "RISULTATO",
-    headerValue: "FINALE",
+    headerTitle: "MATCH DAY",
+    headerValue: "1",
     leagueName: "CSI Imola, Girone Ovest",
     labelMvp: "MVP",
     topScorer: "",
@@ -55,8 +55,8 @@ export const TEMPLATE_DEFAULTS = {
     awayScore: "0"
   },
   basket_roster: {
-    headerTitle: "CONVOCAZIONI",
-    headerValue: "",
+    headerTitle: "MATCH DAY",
+    headerValue: "1",
     leagueName: "CSI Imola, Girone Ovest",
     labelCoach: "Allenatore",
     labelBench: "Panchina",
@@ -65,7 +65,7 @@ export const TEMPLATE_DEFAULTS = {
   basket_ranking: {
     headerTitle: "CLASSIFICA",
     headerValue: "BASKET",
-    championship: "CSI Imola, Silver Ovest",
+    championship: "CSI Imola, Girone Ovest",
     season: "2025/26",
     ranking: [],
     highlightTeam: "Duo Ligones",
@@ -76,7 +76,7 @@ export const TEMPLATE_DEFAULTS = {
   // --- CALCIO ---
   soccer_result: {
     headerTitle: "GIORNATA",
-    headerValue: "",
+    headerValue: "1",
     labelGoals: "GOL",
     homeGoals: "",
     awayGoals: "",
@@ -84,8 +84,8 @@ export const TEMPLATE_DEFAULTS = {
     awayScore: "0"
   },
   soccer_roster: {
-    headerTitle: "FORMAZIONE",
-    headerValue: "",
+    headerTitle: "GIORNATA",
+    headerValue: "1",
     module: "3-2-1",
     labelCoach: "Mister",
     labelBench: "A Disposizione",
