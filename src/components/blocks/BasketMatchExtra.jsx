@@ -6,7 +6,7 @@ import { Star } from 'lucide-react';
  * Includes MVP/Top Scorer and potentially other notes.
  */
 export const BasketMatchExtra = ({ data, theme }) => {
-  if (!data.topScorer && !data.matchNote) return null;
+  if (!data.topScorer) return null;
 
   const labelMvp = data.labelMvp || "MVP / Top Scorer";
 
@@ -32,14 +32,6 @@ export const BasketMatchExtra = ({ data, theme }) => {
           </div>
         </div>
       )}
-
-      {data.matchNote && (
-        <div className="max-w-[80%] text-center">
-            <p className="text-white/70 text-sm font-medium italic leading-tight">
-                "{data.matchNote}"
-            </p>
-        </div>
-      )}
     </div>
   );
 };
@@ -61,16 +53,6 @@ export const BasketMatchExtraControls = ({ data, onChange }) => {
             placeholder="Esempio: Tellarini (24 pt)"
             value={data.topScorer || ''} 
             onChange={(e) => onChange('topScorer', e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase mb-1.5 block">Nota Partita</label>
-          <textarea 
-            className="w-full p-3 text-xs bg-gray-50 border rounded-xl focus:bg-white focus:border-gray-900 transition-all outline-none h-20 resize-none"
-            placeholder="Esempio: Vittoria voluta e sudata dopo un tempo supplementare..."
-            value={data.matchNote || ''} 
-            onChange={(e) => onChange('matchNote', e.target.value)}
           />
         </div>
       </div>
