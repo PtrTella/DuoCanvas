@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Layout, Download, Eye, Edit3 } from 'lucide-react';
 
-import { TEMPLATES, THEMES, GLOBAL_DEFAULTS, CLUB_INFO, TEMPLATE_DEFAULTS } from './config';
+import { TEMPLATES, TEMPLATES_LIST, THEMES, GLOBAL_DEFAULTS, CLUB_INFO, TEMPLATE_DEFAULTS } from './config';
 import { useScale } from './hooks/useScale';
 import { useDownload } from './hooks/useDownload'; 
 
@@ -9,8 +9,9 @@ import ControlsPanel from './components/editor/ControlsPanel';
 
 const App = () => {
   // --- STATI ---
-  const [activeTemplateId, setActiveTemplateId] = useState(TEMPLATES[0].id);
-  const [themeColor, setThemeColor] = useState(TEMPLATES[0].defaultTheme || 'orange');
+  const firstId = Object.keys(TEMPLATES)[0];
+  const [activeTemplateId, setActiveTemplateId] = useState(firstId);
+  const [themeColor, setThemeColor] = useState(TEMPLATES[firstId].defaultTheme);
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false);
 
@@ -34,7 +35,7 @@ const App = () => {
   const { downloadSnapshot, isGenerating: isProcessing } = useDownload(cardRef);
 
   // --- LOGICA ---
-  const activeTemplate = TEMPLATES.find(t => t.id === activeTemplateId) || TEMPLATES[0];
+  const activeTemplate = TEMPLATES[activeTemplateId] || TEMPLATES[firstId];
   const currentTheme = THEMES[themeColor] || THEMES['orange'];
   
   // Combined data for rendering
@@ -42,7 +43,7 @@ const App = () => {
   const data = { ...sessionData, ...currentTemplateData };
 
   const handleTemplateChange = (newId) => {
-    const newTemplate = TEMPLATES.find(t => t.id === newId);
+    const newTemplate = TEMPLATES[newId];
     if (!newTemplate) return;
 
     setActiveTemplateId(newId);

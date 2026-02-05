@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronDown, Check } from 'lucide-react';
-import { TEMPLATES } from '../../config';
+import { TEMPLATES_LIST } from '../../config';
 
 const TemplateSelector = ({ activeTemplateId, setActiveTemplateId, isOpen, setIsOpen, activeTemplate }) => {
   
@@ -33,7 +33,7 @@ const TemplateSelector = ({ activeTemplateId, setActiveTemplateId, isOpen, setIs
           <div className="fixed inset-0 z-[-1]" onClick={() => setIsOpen(false)} />
           
           <div className="absolute top-full left-0 right-0 mt-3 bg-white border border-gray-100 shadow-2xl rounded-2xl overflow-hidden max-h-80 overflow-y-auto p-1.5 animate-in fade-in zoom-in-95 duration-200 not-italic">
-            {TEMPLATES.map(t => {
+            {TEMPLATES_LIST.map(t => {
               const isActive = activeTemplateId === t.id;
               return (
                 <button

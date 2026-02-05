@@ -1,13 +1,4 @@
-// 1. PROFILE RESOLUTION
-const getProfile = () => {
-  if (typeof window === 'undefined') return 'generic';
-  const params = new URLSearchParams(window.location.search);
-  return params.get('d') || params.get('domain') || params.get('p') || 'generic';
-};
-
-const profile = getProfile();
-
-// 2. DYNAMIC IMPORTS (handled by Vite/Bundler at compile time via standard imports)
+// 1. IMPORTS (Club Blueprints)
 import * as GenericConfig from './clubs/generic/config';
 import * as GenericTemplates from './clubs/generic/templates';
 import * as DuoConfig from './clubs/duo/config';
@@ -21,15 +12,26 @@ const PROFILES = {
   volta:   { config: VoltaConfig,   templates: VoltaTemplates }
 };
 
-const active = PROFILES[profile] || PROFILES.generic;
+// 2. PROFILE RESOLUTION
+const resolveActiveProfile = () => {
+  if (typeof window === 'undefined') return PROFILES.generic;
+  const params = new URLSearchParams(window.location.search);
+  const clubKey = params.get('d') || params.get('domain') || params.get('p');
+  return PROFILES[clubKey] || PROFILES.generic;
+};
+
+const active = resolveActiveProfile();
 
 // 3. CORE EXPORTS
-export const CLUB_INFO       = active.config.CLUB_INFO;
-export const GLOBAL_DEFAULTS = active.config.GLOBAL_DEFAULTS;
-export const THEMES          = active.templates.THEMES;
-export const TEMPLATES       = active.templates.TEMPLATES;
+export const CLUB_INFO        = active.config.CLUB_INFO;
+export const GLOBAL_DEFAULTS  = active.config.GLOBAL_DEFAULTS;
+export const THEMES           = active.config.THEMES;
+export const TEMPLATES        = active.templates.TEMPLATES;
 
-// Map for initial template states (ID -> Default Data)
+// Helper: Array of templates for selectors/loops
+export const TEMPLATES_LIST   = Object.values(active.templates.TEMPLATES);
+
+// Initial state for all templates (ID -> defaultData)
 export const TEMPLATE_DEFAULTS = Object.fromEntries(
-  active.templates.TEMPLATES.map(t => [t.id, t.defaultData || {}])
+  Object.entries(active.templates.TEMPLATES).map(([id, t]) => [id, t.defaultData || {}])
 );
