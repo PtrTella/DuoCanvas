@@ -37,14 +37,16 @@ const FieldPlayer = ({ number, name, theme }) => (
 
 const BenchPlayer = ({ number, name, theme }) => (
   <div 
-    className="flex items-center gap-2.5 py-2.5 px-4 mb-1.5 bg-white/5 border-l-4 shadow-lg relative overflow-hidden group hover:bg-white/10 transition-all"
+    className="flex items-center gap-5 py-3.5 px-5 mb-2.5 bg-[#141414] border-l-[6px] relative overflow-hidden group hover:bg-white/10 transition-all shadow-lg"
     style={{ borderLeftColor: theme?.hex || '#10b981' }}
   >
-      <div className="text-xl font-black italic text-white/90 w-8 text-right shrink-0 drop-shadow-md" style={IMPACT_FONT}>
+      <div className="text-2xl font-black italic text-white/90 w-10 text-right shrink-0 drop-shadow-md" style={IMPACT_FONT}>
         {number}
       </div>
-      <div className="text-base font-black text-white uppercase tracking-tight truncate leading-tight">
-        {name}
+      <div className="flex-1 min-w-0">
+        <span className="block text-2xl font-black text-white uppercase tracking-tight truncate leading-tight">
+          {name}
+        </span>
       </div>
       {/* Subtle glow effect on hover */}
       <div className="absolute inset-y-0 left-0 w-1 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
