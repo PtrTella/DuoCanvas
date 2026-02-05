@@ -10,13 +10,7 @@ export const BRANDING = {
   },
   globalDefaults: {
     homeTeam: "Duo Ligones",
-    homeLogo: "/DuoCanvas/clubs/duo/logos/duoligones.png",
-    championship: "Basket CSI - Silver Ovest",
-    arena: "Pala Penazzi, Imola",
-  },
-  csiConfig: {
-    teamId: 32,
-    gironeId: "3"
+    homeLogo: "/DuoCanvas/clubs/duo/logos/duoligones.png"
   },
   themeAssets: {
     orange: { bgImage: "/DuoCanvas/clubs/duo/themes/basketTeam.jpeg" },

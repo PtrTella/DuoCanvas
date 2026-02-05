@@ -14,7 +14,7 @@ const SOCCER_SPORT = {
   icon: PartyPopper,
   defaultTheme: 'green',
   hooks: {
-    useRanking: () => useClassifica("4") // Girone Calcio (Ipotetico, da configurare)
+    useRanking: (gironeId) => useClassifica(gironeId || "4") 
   }
 };
 

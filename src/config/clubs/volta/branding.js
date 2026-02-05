@@ -8,9 +8,5 @@ export const BRANDING = {
     homeLogo: "/DuoCanvas/clubs/volta/logos/volta.png",
     championship: "CSI Imola",
     arena: "Campo Volta"
-  },
-  csiConfig: {
-    teamId: 0, 
-    gironeId: "1"
   }
 };

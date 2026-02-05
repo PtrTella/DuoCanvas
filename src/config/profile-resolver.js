@@ -1,16 +1,23 @@
-// 1. BASE FALLBACKS
-import { BASE_BRANDING } from './clubs/base-branding';
-import { BASE_TEMPLATE_DATA } from './clubs/base-template-data';
+// 1. IMPORT ALL CLUB BLUEPRINTS
+import * as GenericBranding from './clubs/generic/branding';
+import * as GenericTemplates from './clubs/generic/templates';
 
-// 2. CLUB DEFINITIONS (Pure data, NO template imports here)
 import * as DuoBranding from './clubs/duo/branding';
 import * as DuoTemplates from './clubs/duo/templates';
+
 import * as VoltaBranding from './clubs/volta/branding';
 import * as VoltaTemplates from './clubs/volta/templates';
 
+// 2. REGISTRY OF CLUBS
 const CLUBS = {
-  duo: { branding: DuoBranding.BRANDING, templates: DuoTemplates.TEMPLATES_CONFIG },
-  volta: { branding: VoltaBranding.BRANDING, templates: VoltaTemplates.TEMPLATES_CONFIG }
+  duo: { 
+    branding: DuoBranding.BRANDING, 
+    templates: DuoTemplates.TEMPLATES 
+  },
+  volta: { 
+    branding: VoltaBranding.BRANDING, 
+    templates: VoltaTemplates.TEMPLATES 
+  }
 };
 
 const getActiveKey = () => {
@@ -21,32 +28,12 @@ const getActiveKey = () => {
 };
 
 const activeKey = getActiveKey();
-const club = CLUBS[activeKey] || { 
-  branding: {}, 
-  templates: { activeTemplates: null, templateOverrides: {} } 
-};
 
 /**
- * 🚀 ACTIVE_CONFIG (Data Only)
- * Resolved at runtime. Exported for csiUtils and hooks.
+ * 🚀 RESOLVED PROFILE
+ * If no key matches, use the Generic blueprint.
  */
-export const ACTIVE_CONFIG = {
-  branding: {
-    ...BASE_BRANDING,
-    ...club.branding,
-    branding: { ...BASE_BRANDING.branding, ...(club.branding.branding || {}) },
-    globalDefaults: { ...BASE_BRANDING.globalDefaults, ...(club.branding.globalDefaults || {}) },
-    csiConfig: { ...BASE_BRANDING.csiConfig, ...(club.branding.csiConfig || {}) },
-    themeAssets: { ...BASE_BRANDING.themeAssets, ...(club.branding.themeAssets || {}) }
-  },
-  templates: {
-    activeIds: club.templates.activeTemplates || null,
-    data: Object.keys(BASE_TEMPLATE_DATA).reduce((acc, key) => {
-       acc[key] = {
-         ...BASE_TEMPLATE_DATA[key],
-         ...((club.templates.templateOverrides && club.templates.templateOverrides[key]) || {})
-       };
-       return acc;
-    }, {})
-  }
+export const ACTIVE_PROFILE = CLUBS[activeKey] || {
+  branding: GenericBranding.BRANDING,
+  templates: GenericTemplates.TEMPLATES
 };

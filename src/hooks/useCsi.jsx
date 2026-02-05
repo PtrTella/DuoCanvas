@@ -79,7 +79,7 @@ export const useClassifica = (gironeId = "3") => {
 };
 
 // --- HOOK 2: Partite Recenti ---
-export const useRecentMatches = () => {
+export const useRecentMatches = (teamId = 328, gironeId = "3") => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -87,7 +87,7 @@ export const useRecentMatches = () => {
   useEffect(() => {
     loadCsiDataFromScript()
       .then(({ teamsMap, rawMatches }) => {
-        const teamMatches = getTeamMatches(teamsMap, rawMatches);
+        const teamMatches = getTeamMatches(teamsMap, rawMatches, teamId, gironeId);
         setMatches(teamMatches);
         setLoading(false);
       })
@@ -96,7 +96,7 @@ export const useRecentMatches = () => {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [teamId, gironeId]);
 
   return { partite: matches, loading, error };
 };

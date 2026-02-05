@@ -1,11 +1,3 @@
-import { ACTIVE_CONFIG } from '../config/profile-resolver';
-
-const { csiConfig: CSI_CONFIG } = ACTIVE_CONFIG.branding;
-
-// ID della tua squadra
-const MY_TEAM_ID = CSI_CONFIG.teamId; 
-const MY_GIRONE_ID = CSI_CONFIG.gironeId; 
-
 // Logica Punti Basket CSI Faenza
 const POINTS_WIN = 3; 
 const POINTS_WIN_OT = 2;
@@ -128,20 +120,20 @@ export const calculateClassifica = (teamsMap, rawMatches, targetGironeId = MY_GI
   });
 };
 
-export const getTeamMatches = (teamsMap, rawMatches) => {
+export const getTeamMatches = (teamsMap, rawMatches, teamId = 328, gironeId = "3") => {
   const matches = [];
 
   rawMatches.forEach(m => {
-    const gironeId = m[6];
+    const mGironeId = m[6];
     const idHome = parseInt(m[8]);
     const idAway = parseInt(m[9]);
     const scoreHome = m[10]; // Stringa per controllare se è vuota
     const scoreAway = m[11];
     
-    // Filtra solo le partite giocate (punteggio non vuoto) dove c'è la Duo Ligones
-    if (gironeId === MY_GIRONE_ID && scoreHome !== "" && scoreAway !== "" && (idHome === MY_TEAM_ID || idAway === MY_TEAM_ID)) {
+    // Filtra solo le partite giocate (punteggio non vuoto) dove c'è la squadra cercata
+    if (mGironeId === gironeId && scoreHome !== "" && scoreAway !== "" && (idHome === teamId || idAway === teamId)) {
       
-      const isHome = idHome === MY_TEAM_ID;
+      const isHome = idHome === teamId;
       const opponentId = isHome ? idAway : idHome;
       const myScore = parseInt(isHome ? scoreHome : scoreAway);
       const oppScore = parseInt(isHome ? scoreAway : scoreHome);

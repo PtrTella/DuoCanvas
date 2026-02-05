@@ -41,7 +41,8 @@ export const createRankingTemplate = (sport, config = {}) => {
 
     Controls: ({ data, onChange, themeColor }) => {
       // Use the hook specified in the sports registry
-      const { classifica: csiData, loading, refresh } = sport.hooks.useRanking();
+      // Pass potential csi config from template data
+      const { classifica: csiData, loading, refresh } = sport.hooks.useRanking(data.csiGironeId);
 
       const handleSync = () => {
         refresh(); // Ricarica dati dal web
