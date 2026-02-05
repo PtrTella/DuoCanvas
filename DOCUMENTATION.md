@@ -14,7 +14,7 @@ Each file in `src/templates/` must export a configuration object:
 
 ```javascript
 export const MyTemplate = {
-  id: 'unique_id',         // String: Must match keys in defaults.js
+  id: 'unique_id',         // String: Must match keys in TEMPLATE_DEFAULTS
   name: 'Display Name',    // String: Shown in the Template Selector
   icon: Trophy,            // Component: Lucide Icon
   defaultTheme: 'blue',    // String: Applied on first load (optional)
@@ -28,17 +28,20 @@ export const MyTemplate = {
 
   // The editor form
   Controls: ({ data, onChange, themeColor }) => (
-    <div>{/* Form Fields */}</div>
+    <div>{/* Form Blocks */}</div>
   )
 };
 ```
 
-### 2. The State Hub (`App.jsx`)
+### 2. State Hub & Lifecycle
 
-The application manages two distinct state objects that are merged before being passed to templates:
+The application manages state through `App.jsx` using a sophisticated persistence model:
 
-- **`sessionData`**: Shared global info (Home Team, Logo, Season).
-- **`templateData`**: Exclusive to the active template (Scores, Roster text).
+- **`sessionData`**: Global shared state (Home Team, Logo, Generic Colors).
+- **`templateDataMap`**: A directory of states, keyed by template ID. This ensures that when you switch from "Result" to "Lineup", your lineup doesn't overwrite your scores, and vice versa.
+- **Sync Logic**: `onChange` automatically detects if a key belongs to global or template state and updates the map accordingly.
+
+---
 
 ## 📂 Folder Structure
 
@@ -49,17 +52,18 @@ DuoCanvas/
 │   └── themes/          # High-res background textures
 ├── src/
 │   ├── components/
-│   │   ├── blocks/      # UI logic fragments (MatchScore, RankingTable, etc.)
+│   │   ├── blocks/      # UI logic fragments (MatchScore, TeamMatchup, etc.)
+│   │   │                # Blocks now encapsulate their own Controls.
 │   │   ├── ui/          # Atomic components (BaseCard, TeamDisplay)
-│   │   └── editor/      # ControlsPanel and input specialized components
+│   │   └── editor/      # Components strictly for the sidebar (Inputs, etc.)
 │   ├── config/          # Defaults, Sports & Template Registries
-│   ├── hooks/           # Custom hooks (scaling, downloads, logic-fetchers)
+│   ├── hooks/           # useScale, useDownload, useCsi
 │   ├── templates/
-│   │   ├── factories/   # Generic layouts (Result, Ranking, Lineup)
-│   │   └── WeekRecap.jsx
-│   ├── utils/           # Pure JS/JSX logic, parsers, and data formatters
-│   └── App.jsx          # Application entry point & State Orchestrator
-└── vite.config.js       # Deployment & Path Configuration
+│   │   ├── factories/   # Blueprints for multi-sport layouts
+│   │   └── ...          # Specific templates
+│   ├── utils/           # Pure logic (ranking parsing, scraper helpers)
+│   └── App.jsx          # Root orchestrator
+└── vite.config.js       # V7 + Tailwind 4 Setup
 ```
 
 ---
@@ -67,57 +71,31 @@ DuoCanvas/
 ## 🛠️ Logic Utilities
 
 ### Ranking Parser (`rankingUtils.js`)
+Universal parser for raw tournament data.
+- **Features**: Multi-format support, column normalization, and error handling.
 
-Instead of templates handling complex regex, we use a universal parser.
-
-- **Input**: Raw multiline text.
-- **Features**: Automatic column detection, number extraction, and per-sport formatting.
-- **Usage Example**:
-
-  ```javascript
-  const { ranking, hasStats } = parseManualRanking(text, { showDraws: true });
-  ```
-
-### CSI Synchronization (`csiUtils.jsx`)
-
-Handles script-injection fetching for the CSI Faenza portal to bypass CORS limitations.
+### CSI Synchronization (`useCsi.jsx`)
+A robust hook that fetches remote data via proxy/script-injection.
+- **Smart Caching**: Avoids redundant network requests during session.
+- **Validation**: Sanitizes scrapped strings to prevent rendering artifacts.
 
 ---
 
-## 🎨 Styling Standards
+## 🎨 Styling Standards & Design Language
 
-### 1. Dynamic Themes
+As of v1.6, the project follows a **"Premium Studio"** aesthetic:
 
-Never hardcode colors. Use the `theme` object passed to your `Render` component.
-
-- `theme.primary`: Tailwind gradient string (e.g., `from-orange-600 to-red-600`).
-- `theme.bg`: Background class for the card.
-- `theme.accent`: Text color utility for highlights.
-
-### 2. BaseCard Layers
-
-The `BaseCard` handles the 1080x1350px container and background effects:
-
-1. **Background Layer**: User upload OR theme-default image.
-2. **Overlay Layer**: Gradient matching the theme primary color.
-3. **Content Layer**: Your `Render` logic.
-4. **Footer Layer**: Standardized sponsors.
+1. **Hierarchy**: Headers must use `tracking-widest` and Lucide icons in `gray-900`.
+2. **Standard Inputs**: Use `bg-gray-50`, `rounded-xl`, and `focus:border-gray-900`.
+3. **Encapsulation**: Layout blocks (like `MatchScore`) should include their own `Controls` component for easy assembly.
+4. **Dynamic Themes**: Use `theme.primary` (gradient) and `theme.accent` (text color).
 
 ---
 
-## 📸 Image Export Logic
+## 🚀 Development Workflow
 
-We use a **"Double-Shot" Technique** in `useDownload.jsx` to solve font/image rendering issues on mobile browsers:
-
-1. **Shot 1 (Invisible)**: Triggers `toPng` once to force the browser to decode resources.
-2. **Buffer**: 100ms wait period.
-3. **Shot 2 (Final)**: Captures the actual high-res PNG (Retina 2x pixel ratio).
-
----
-
-## 🚀 How to add a Sport
-
-1. Define the UI blocks in `src/components/blocks/`.
-2. Create the Template in `src/templates/`.
-3. Update `src/data/defaults.js` with initial values.
-4. Register the template in `src/data/templateRegistry.js`.
+### Adding a New Layout
+1. **Define Blocks**: Create/Reuse components in `src/components/blocks/`.
+2. **Instance Template**: Create a file or use a factory in `src/templates/`.
+3. **Defaults**: Add initial state to `TEMPLATE_DEFAULTS` in `config/defaults.js`.
+4. **Register**: Add the object to `TEMPLATES` in `config/templateRegistry.js`.

@@ -49,45 +49,45 @@ export const MatchInfo = ({ data, theme, className = "", hideChampionship = fals
 // --- CONTROLS (Pannello Editor) ---
 export const MatchInfoControls = ({ data, onChange, hideChampionship = false }) => {
   return (
-    <div className="py-4 border-b border-gray-100">
-      <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-        <Trophy size={14} className="text-gray-300" />
-        Intestazione
+    <div className="py-5 border-b border-gray-100 italic">
+      <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2 not-italic">
+        <Trophy size={14} className="text-gray-900" />
+        Testata Grafica
       </h3>
       
-      <div className="grid grid-cols-2 gap-3 mb-3">
-        <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Titolo (Bianco)</label>
+      <div className="grid grid-cols-2 gap-3 mb-4 not-italic">
+        <div className="space-y-1">
+          <label className="text-[10px] font-bold text-gray-400 uppercase block tracking-tighter ml-1">Parte Bianca</label>
           <input 
               type="text" 
               value={data.headerTitle || ''} 
               onChange={(e) => onChange('headerTitle', e.target.value)} 
-              className="w-full p-2.5 bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 border rounded-xl text-xs font-bold" 
-              placeholder="Esempio: GIORNATA"
+              className="w-full p-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl text-xs font-black uppercase italic tracking-tight transition-all" 
+              placeholder="GIORNATA"
           />
         </div>
-        <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Titolo (Colore)</label>
+        <div className="space-y-1">
+          <label className="text-[10px] font-bold text-gray-400 uppercase block tracking-tighter ml-1 text-right mr-1">Parte Colorata</label>
           <input 
               type="text" 
               value={data.headerValue || ''} 
               onChange={(e) => onChange('headerValue', e.target.value)} 
-              className="w-full p-2.5 bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 border rounded-xl text-xs font-bold" 
+              className="w-full p-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl text-xs font-black uppercase italic tracking-tight transition-all text-right" 
               placeholder="1"
           />
         </div>
       </div>
 
       {!hideChampionship && (
-        <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1">Campionato / Torneo</label>
-          <div className="relative">
-            <Trophy size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" />
+        <div className="not-italic space-y-1">
+          <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter">Campionato / Barretta</label>
+          <div className="relative group">
+            <Trophy size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gray-900 transition-colors" />
             <input 
                 type="text" 
                 value={data.championship || ''} 
                 onChange={(e) => onChange('championship', e.target.value)} 
-                className="w-full pl-9 p-2.5 bg-gray-50 border-transparent focus:bg-white focus:border-orange-500 border rounded-xl text-xs" 
+                className="w-full pl-10 p-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl text-xs font-bold transition-all" 
                 placeholder="Nome competizione"
             />
           </div>
