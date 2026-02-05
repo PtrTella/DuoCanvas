@@ -21,7 +21,7 @@ export const createResultTemplate = (sport, config = {}) => {
             className="w-full mb-2" 
           />
 
-          <div className="flex-1 flex flex-col items-center justify-start pt-2 w-full">
+          <div className="flex-1 flex flex-col items-center justify-start pt-12 w-full">
             <MatchScore data={data} theme={theme} className="mb-4" />
 
             {/* Configured Block */}
