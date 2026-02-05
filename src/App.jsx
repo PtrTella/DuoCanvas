@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Layout, Download, Eye, Edit3 } from 'lucide-react';
 
-import { TEMPLATES, THEMES, GLOBAL_DEFAULTS, BRANDING } from './config';
+import { TEMPLATES, THEMES, GLOBAL_DEFAULTS, BRANDING, TEMPLATE_DEFAULTS } from './config';
 import { useScale } from './hooks/useScale';
 import { useDownload } from './hooks/useDownload'; 
 
@@ -23,13 +23,7 @@ const App = () => {
   const [sessionData, setSessionData] = useState(GLOBAL_DEFAULTS);
 
   // Per-template Persistent Data Map
-  const [templateDataMap, setTemplateDataMap] = useState(() => {
-    const initial = {};
-    TEMPLATES.forEach(t => {
-      initial[t.id] = t.defaultData || {};
-    });
-    return initial;
-  });
+  const [templateDataMap, setTemplateDataMap] = useState(TEMPLATE_DEFAULTS);
 
   // Refs
   const cardRef = useRef(null);

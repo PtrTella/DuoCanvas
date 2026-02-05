@@ -4,32 +4,17 @@ import { ACTIVE_PROFILE } from './profile-resolver';
  * 🚀 DuoCanvas - Final Registry for UI
  * Bridges resolved data with Template components.
  */
+const { config, templates } = ACTIVE_PROFILE;
 
-// 1. BRANDING (Identity, Sponsors, Sync)
-export const BRANDING = {
-  ...ACTIVE_PROFILE.clubInfo,
-  rankingSync: ACTIVE_PROFILE.rankingSync
-};
+// 1. BRANDING & SESSION
+export const BRANDING = { ...config.CLUB_INFO, rankingSync: config.RANKING_SYNC };
+export const GLOBAL_DEFAULTS = config.GLOBAL_DEFAULTS;
+export const TEMPLATES = templates;
 
-// 2. SESSION DEFAULTS (Teams, Arena, etc.)
-export const GLOBAL_DEFAULTS = ACTIVE_PROFILE.globalDefaults;
+// 2. THEME REGISTRY
+export const THEMES = config.THEMES;
 
-// 3. THEME REGISTRY (Dynamic Backgrounds)
-export const THEMES = Object.keys(ACTIVE_PROFILE.colorThemes).reduce((acc, key) => {
-  const baseColor = ACTIVE_PROFILE.colorThemes[key];
-  const clubThemeAssets = ACTIVE_PROFILE.themeAssets || {};
-  acc[key] = { 
-    ...baseColor, 
-    ...(clubThemeAssets[key] || {}) 
-  };
-  return acc;
-}, {});
-
-// 4. TEMPLATES REGISTRY
-export const TEMPLATES = ACTIVE_PROFILE.templates;
-
-// Helper: map template defaults for state initialization
-export const TEMPLATE_DEFAULTS = ACTIVE_PROFILE.templates.reduce((acc, t) => {
-  acc[t.id] = t.defaultData;
-  return acc;
-}, {});
+// 3. TEMPLATE DEFAULTS MAP
+export const TEMPLATE_DEFAULTS = Object.fromEntries(
+  templates.map(t => [t.id, t.defaultData || {}])
+);
