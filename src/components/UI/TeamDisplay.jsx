@@ -34,7 +34,7 @@ const TeamDisplay = ({
        <div className={`${logoSize} relative z-10`}> 
            <TeamLogo src={logoSrc} alt={name} className="w-full h-full shadow-xl" />
        </div>
-       <h2 className={`${textSize} font-black uppercase text-white leading-none tracking-tighter text-center drop-shadow-md max-w-[200px]`}>
+       <h2 className={`${textSize} font-black uppercase text-white leading-none tracking-tighter text-center drop-shadow-md max-w-[450px]`}>
           {name}
        </h2>
     </div>

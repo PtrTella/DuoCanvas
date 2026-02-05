@@ -24,7 +24,7 @@ export const createLineupTemplate = (sport, config = {}) => {
               <TeamMatchup data={data} theme={theme} />
               
               {/* Sport Specific Lineup/Formation */}
-              <div className="flex-1 w-full my-4 min-h-0">
+              <div className="flex-1 w-full my-2 min-h-0">
                 {block?.Render && (
                   <block.Render 
                     data={data} 

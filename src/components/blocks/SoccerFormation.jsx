@@ -11,68 +11,101 @@ const FORMATIONS_7V7 = {
   '1-4-1': [1, 4, 1]
 };
 
-// --- MARKER GIOCATORE (CAMPO) ---
+// --- STILI COMUNI ---
+const IMPACT_FONT = { fontFamily: 'Impact, sans-serif' };
+
+// --- SOTTO-COMPONENTI UI ---
+
 const FieldPlayer = ({ number, name, theme }) => (
   <div className="flex flex-col items-center justify-center group relative z-10">
-    {/* Cerchio/Card */}
     <div 
-      className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-2xl border-l-4 shadow-[0_4px_15px_rgba(0,0,0,0.5)] backdrop-blur-md bg-gradient-to-br from-gray-900/90 to-gray-800/60 transition-transform hover:scale-110"
+      className="w-24 h-24 md:w-24 md:h-24 flex items-center justify-center rounded-2xl border-l-4 shadow-[0_8px_30px_rgba(0,0,0,0.6)] backdrop-blur-md bg-gradient-to-br from-gray-900/95 to-gray-800/70 transition-transform hover:scale-110"
       style={{ borderColor: theme?.hex || '#10b981' }} 
     >
-        <span className="text-3xl md:text-4xl font-black italic text-white tracking-tighter" style={{ fontFamily: 'Impact, sans-serif' }}>
+        <span className="text-3xl md:text-4xl font-black italic text-white tracking-tighter" style={IMPACT_FONT}>
             {number}
         </span>
     </div>
     
-    {/* Nome - MODIFICATO PER ESSERE PIÙ GRANDE */}
-    {/* max-w aumentato a 170px per far stare nomi più lunghi */}
-    <div className="mt-2 px-4 py-1.5 bg-black/70 backdrop-blur-sm border border-white/10 rounded text-center max-w-[170px] shadow-sm">
-        {/* Font passato da text-xs (12px) a text-sm (14px) e text-sm (14px) a text-base (16px) */}
-        <span className="text-sm md:text-base font-bold text-white uppercase tracking-wider block truncate leading-tight">
+    <div className="mt-1.5 px-4 py-1 bg-black/80 backdrop-blur-md border border-white/20 rounded-lg text-center max-w-[220px] shadow-xl">
+        <span className="text-sm md:text-base font-black text-white uppercase tracking-wider block truncate leading-tight">
             {name}
         </span>
     </div>
   </div>
 );
 
-// --- MARKER PANCHINA (LISTA) ---
 const BenchPlayer = ({ number, name, theme }) => (
-  <div className="flex items-center gap-3 p-2 border-b border-white/10 last:border-0">
-      <div className="text-xl font-black italic text-white/50 w-6 text-right" style={{ fontFamily: 'Impact, sans-serif' }}>
+  <div 
+    className="flex items-center gap-2.5 py-2.5 px-4 mb-1.5 bg-white/5 border-l-4 shadow-lg relative overflow-hidden group hover:bg-white/10 transition-all"
+    style={{ borderLeftColor: theme?.hex || '#10b981' }}
+  >
+      <div className="text-xl font-black italic text-white/90 w-8 text-right shrink-0 drop-shadow-md" style={IMPACT_FONT}>
         {number}
       </div>
-      {/* Anche qui ho aumentato leggermente il font base */}
-      <div className="text-base font-bold text-white uppercase tracking-wide truncate">
+      <div className="text-base font-black text-white uppercase tracking-tight truncate leading-tight">
         {name}
       </div>
+      {/* Subtle glow effect on hover */}
+      <div className="absolute inset-y-0 left-0 w-1 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
   </div>
 );
 
+const SoccerField = () => (
+    <div className="absolute inset-0 z-0 bg-[#064e3b]">
+        {/* Stripe pattern (Grass cut) */}
+        <div className="absolute inset-0 opacity-20" 
+            style={{ 
+                backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(0,0,0,0.2) 80px, rgba(0,0,0,0.2) 160px)` 
+            }} 
+        />
+        
+        {/* Fine texture for grass realism */}
+        <div className="absolute inset-0 opacity-10"
+            style={{
+                backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)`,
+                backgroundSize: '5px 5px'
+            }}
+        />
+
+        {/* Linee Tattiche */}
+        <div className="absolute inset-4 border-2 border-white/20 rounded-lg" />
+        <div className="absolute top-1/2 left-4 right-4 h-0.5 bg-white/20" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 border-2 border-white/20 rounded-full" />
+        
+        {/* Area di rigore alta-bassa */}
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-1/2 h-24 border-x-2 border-b-2 border-white/10 rounded-b-xl" />
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-1/2 h-24 border-x-2 border-t-2 border-white/10 rounded-t-xl" />
+        
+        {/* Vignetta per profondità */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/40" />
+    </div>
+);
+
+// --- HELPER LOGICA ---
+const parseRoster = (text) => {
+    if (!text) return [];
+    return text.split('\n').map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return null;
+        const firstSpace = trimmed.indexOf(' ');
+        if (firstSpace === -1) return { num: '', name: trimmed };
+        return {
+            num: trimmed.substring(0, firstSpace),
+            name: trimmed.substring(firstSpace + 1)
+        };
+    }).filter(Boolean);
+};
+
 // --- LAYOUT PRINCIPALE ---
 export const SoccerFormation = ({ data, theme, className = "" }) => {
-  const labelCoach = data.labelCoach || "Allenatore";
-  const labelBench = data.labelBench || "Panchina";
+  const { rosterList, module, coach, labelCoach = "Allenatore", labelBench = "Panchina" } = data;
   
-  // 1. Parser
-  const parsePlayer = (line) => {
-      const trimmed = line.trim();
-      if (!trimmed) return null;
-      const firstSpaceIndex = trimmed.indexOf(' ');
-      if (firstSpaceIndex === -1) return { num: '', name: trimmed };
-      return {
-        num: trimmed.substring(0, firstSpaceIndex),
-        name: trimmed.substring(firstSpaceIndex + 1)
-      };
-  };
-
-  const allPlayers = data.rosterList ? data.rosterList.split('\n').map(parsePlayer).filter(Boolean) : [];
-  
-  // 2. Divisione Titolari (7) vs Panchina (Resto)
+  const allPlayers = parseRoster(rosterList);
   const starters = allPlayers.slice(0, 7);
   const bench = allPlayers.slice(7);
 
-  // 3. Logica Modulo
-  const currentModule = data.module || '3-2-1';
+  const currentModule = module || '3-2-1';
   const schema = FORMATIONS_7V7[currentModule] || FORMATIONS_7V7['3-2-1'];
   
   const gk = starters[0]; 
@@ -86,72 +119,75 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
   });
 
   return (
-    <div className={`relative flex flex-col flex-1 overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-white/5 backdrop-blur-md ${className}`}>
+    <div className={`relative flex flex-col h-full overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-white/5 backdrop-blur-md ${className}`}>
         
         {/* HEADER */}
-        <div className="relative z-20 flex items-center justify-between px-6 py-4 bg-black/40 border-b border-white/10 backdrop-blur-md">
-             <div className="flex items-center gap-3">
-                <div className={`px-3 py-1 rounded bg-gradient-to-r ${theme?.primary || 'from-emerald-600 to-green-600'} text-white font-black italic text-xl shadow-lg border border-white/20`}>
-                    {currentModule}
+        <div className="relative z-20 flex items-center justify-between px-6 py-3 bg-black/50 border-b border-white/10 backdrop-blur-md">
+             <div className="flex items-center gap-6">
+                {/* Modulo e Titolari */}
+                <div className="flex items-center gap-3">
+                    <div className={`px-3 py-1 rounded bg-gradient-to-r ${theme?.primary || 'from-emerald-600 to-green-600'} text-white font-black italic text-xl shadow-lg border border-white/20 text-center min-w-[80px]`}>
+                        {currentModule}
+                    </div>
+                    <span className="text-white font-black uppercase tracking-[0.1em] text-base md:text-lg">Titolari</span>
                 </div>
-                <span className="text-white/80 font-bold uppercase tracking-widest text-xs md:text-sm">Titolari</span>
+
+                {/* Separatore Verticale */}
+                <div className="w-px h-8 bg-white/30 hidden md:block"></div>
+
+                {/* Allenatore Spostato qui e affiancato */}
+                <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+                    <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.1em]">{labelCoach}:</span>
+                    <span className="text-lg font-black text-white uppercase tracking-wider leading-none">{coach || '---'}</span>
+                </div>
             </div>
             
+            {/* Titolo Panchina in alto a DX */}
             <div className="flex flex-col items-end">
-                <span className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em] mb-0.5">{labelCoach}</span>
-                <span className="text-lg font-bold text-white uppercase tracking-wider">{data.coach}</span>
+                <span className="text-base md:text-lg font-black text-white uppercase tracking-[0.2em]">{labelBench}</span>
             </div>
         </div>
 
         {/* CORPO: CAMPO + PANCHINA */}
-        <div className="relative z-10 flex-1 flex">
+        <div className="relative z-10 flex-1 flex min-h-0">
             
-            {/* --- COLONNA SX: CAMPO (75%) --- */}
-            <div className="flex-1 relative border-r border-white/10">
-                {/* Sfondo Campo */}
-                <div className="absolute inset-0 z-0 bg-emerald-950/20">
-                    <div className="absolute inset-0 opacity-20" 
-                        style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(255,255,255,0.05) 49px, rgba(255,255,255,0.05) 50px)` }}>
-                    </div>
-                    {/* Linee Tattiche */}
-                    <div className="absolute inset-2 border-2 border-white/20 rounded-lg"></div>
-                    <div className="absolute top-1/2 left-2 right-2 h-0.5 bg-white/20"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white/20 rounded-full"></div>
-                    
-                    {/* Vignetta */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20"></div>
-                </div>
+            {/* --- COLONNA SX: CAMPO (65%) --- */}
+            <div className="w-[65%] relative border-r border-white/20">
+                <SoccerField />
 
                 {/* Griglia Giocatori */}
-                <div className="relative z-10 h-full flex flex-col-reverse justify-between py-10 px-6">
+                <div className="relative z-10 h-full flex flex-col-reverse justify-between py-8 px-8">
                     {/* Portiere */}
-                    <div className="flex justify-center w-full">
-                        {gk ? <FieldPlayer number={gk.num} name={gk.name} theme={theme} /> : <span className="text-xs text-white/20">GK...</span>}
+                    <div className="flex justify-center w-full min-h-[110px] items-center">
+                        {gk ? (
+                            <FieldPlayer number={gk.num} name={gk.name} theme={theme} />
+                        ) : (
+                            <div className="w-16 h-16 rounded-full border-4 border-white/10 flex items-center justify-center text-lg font-black text-white/20 uppercase tracking-tighter" style={IMPACT_FONT}>GK</div>
+                        )}
                     </div>
 
                     {/* Righe Movimento */}
                     {tacticalRows.map((row, idx) => (
-                        <div key={idx} className="flex justify-evenly items-center w-full">
-                            {row.map((p, pIdx) => (
+                        <div key={idx} className="flex justify-evenly items-center w-full min-h-[110px]">
+                            {row.length > 0 && row.map((p, pIdx) => (
                                 <FieldPlayer key={pIdx} number={p.num} name={p.name} theme={theme} />
                             ))}
                         </div>
                     ))}
-                    <div className="h-2"></div>
+                    <div className="h-2" />
                 </div>
             </div>
 
-            {/* --- COLONNA DX: PANCHINA (25%) --- */}
-            <div className="w-1/4 max-w-[250px] bg-black/40 backdrop-blur-xl flex flex-col">
-                <div className="px-4 py-3 bg-white/5 border-b border-white/10">
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-white/60">{labelBench}</span>
-                </div>
-                
-                <div className="flex-1 p-4 space-y-2 overflow-hidden">
-                    {bench.length > 0 ? bench.map((p, idx) => (
-                        <BenchPlayer key={idx} number={p.num} name={p.name} theme={theme} />
-                    )) : (
-                        <div className="text-center text-white/20 text-xs italic mt-10">Nessuna riserva</div>
+            {/* --- COLONNA DX: PANCHINA (35%) --- */}
+            <div className="flex-1 max-w-[400px] bg-black/60 backdrop-blur-2xl flex flex-col">
+                {/* Header rimosso per dare spazio a più giocatori */}
+                <div className="flex-1 p-5 space-y-1 overflow-y-auto">
+                    {bench.length > 0 ? (
+                        bench.map((p, idx) => <BenchPlayer key={idx} number={p.num} name={p.name} theme={theme} />)
+                    ) : (
+                        <div className="text-center text-white/20 text-xs font-black uppercase tracking-widest mt-16 p-6 border border-white/5 rounded-2xl mx-4">
+                            Nessuna<br/>riserva
+                        </div>
                     )}
                 </div>
             </div>
@@ -162,15 +198,26 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
 };
 
 // --- CONTROLS ---
+
+const ControlSection = ({ title, icon: Icon, children, description, className = "not-italic mb-4" }) => (
+    <div className={className}>
+        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+            {Icon && <Icon size={14} className="text-gray-300" />}
+            {title}
+        </h3>
+        {description && (
+            <p className="text-[10px] text-gray-400 mb-3 italic bg-gray-50 p-2 rounded-lg border border-gray-100">
+                {description}
+            </p>
+        )}
+        {children}
+    </div>
+);
+
 export const SoccerFormationControls = ({ data, onChange }) => (
   <div className="py-4 border-b border-gray-100 last:border-0 italic">
      
-     {/* Modulo */}
-     <div className="mb-4 not-italic">
-        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-            <Layout size={14} className="text-gray-300" />
-            Schema Tattico
-        </h3>
+     <ControlSection title="Schema Tattico" icon={Layout}>
         <div className="grid grid-cols-3 gap-2">
             {Object.keys(FORMATIONS_7V7).map(mod => (
                 <button 
@@ -182,37 +229,29 @@ export const SoccerFormationControls = ({ data, onChange }) => (
                 </button>
             ))}
         </div>
-     </div>
+     </ControlSection>
 
-     {/* Textarea */}
-     <div className="not-italic">
-        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-            <Users size={14} className="text-gray-300" />
-            Rosa Convocati
-        </h3>
-        <p className="text-[10px] text-gray-400 mb-3 italic bg-gray-50 p-2 rounded-lg border border-gray-100">
-            I <span className="font-bold text-gray-600">primi 7</span> in lista appariranno in campo come titolari.
-        </p>
+     <ControlSection 
+        title="Rosa Convocati" 
+        icon={Users}
+        description={<>I <span className="font-bold text-gray-600">primi 7</span> in lista appariranno in campo come titolari.</>}
+     >
         <textarea 
             value={data.rosterList || ''} 
             onChange={(e) => onChange('rosterList', e.target.value)} 
             className="w-full p-3 bg-gray-50/50 border rounded-2xl text-xs font-mono h-48 resize-none focus:bg-white focus:border-gray-900 transition-all outline-none leading-relaxed"
             placeholder={"1 Voda\n4 Gentilini\n..."}
         />
-     </div>
+     </ControlSection>
      
-     <div className="mt-4 not-italic">
-         <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-2">
-            <ClipboardList size={14} className="text-gray-300" />
-            Staff
-        </h3>
+     <ControlSection title="Staff" icon={ClipboardList} className="mt-4 not-italic">
         <input 
             type="text" 
-            value={data.coach} 
+            value={data.coach || ''} 
             onChange={(e) => onChange('coach', e.target.value)} 
             className="w-full p-3 bg-gray-50/50 border rounded-xl text-xs transition-all focus:bg-white focus:border-gray-900" 
             placeholder="Mister / Allenatore" 
         />
-     </div>
+     </ControlSection>
   </div>
 );
