@@ -31,7 +31,7 @@ Gestiti dai blocchi `MatchInfo` e `MatchDetails`.
 | :--- | :--- | :--- |
 | `headerTitle` | Titolo principale (es. "MATCH DAY") | `"TITLE"` |
 | `headerValue` | Sottotitolo/Fase (es. "FINALE") | `""` |
-| `championship`| Nome del torneo/campionato | `""` |
+| `championship` | Nome del torneo/campionato | `""` |
 | `date` | Data della partita | `""` |
 | `time` | Orario di inizio | `""` |
 | `building` | Nome dell'impianto | `""` |
@@ -69,7 +69,7 @@ Specifici per il `SoccerResult` e `SoccerFormation`.
 | `awayScore` | Gol squadra ospite | `"0"` |
 | `homeGoals` | Marcatori Casa (`Minuto' Nome` x riga) | `""` |
 | `awayGoals` | Marcatori Ospiti (`Minuto' Nome` x riga) | `""` |
-| `teamFormation`| Elenco convocati (`Numero Nome` x riga) | `""` |
+| `teamFormation` | Elenco convocati (`Numero Nome` x riga) | `""` |
 | `module` | Modulo tattico (es. "3-2-1") | `"3-2-1"` |
 | `mister` | Nome dell'allenatore | `"---"` |
 | `labelGoals` | Etichetta per la sezione Gol | `"Gol"` |
@@ -85,7 +85,7 @@ Parametri per il controllo della tabella classifica.
 | Parametro | Descrizione | Note |
 | :--- | :--- | :--- |
 | `ranking` | Array di dati o Testo Formattato | Manuale o via Sync |
-| `highlightTeam`| Nome squadra da evidenziare | Colore accentato riga |
+| `highlightTeam` | Nome squadra da evidenziare | Colore accentato riga |
 | `rankingSync` | Hook di sincronizzazione | Es. `useCsiRanking` |
 | `season` | Testo stagione (es. "2024/25") | Piedini tabella |
 | `columnsString` | Legenda colonne (es. "V-Vinte...") | Piedini tabella |
@@ -98,7 +98,7 @@ Parametri per il controllo della tabella classifica.
 | `labelDrawn` | Etichetta colonna Pareggiate | `"P"` |
 | `labelLost` | Etichetta colonna Perse | `"S"` |
 | `labelScored` | Etichetta colonna Fatti/Segnati | `"GF" / "PF"` |
-| `labelConceded`| Etichetta colonna Subiti | `"GS" / "PS"` |
+| `labelConceded` | Etichetta colonna Subiti | `"GS" / "PS"` |
 
 ---
 
