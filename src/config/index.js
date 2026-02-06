@@ -22,12 +22,11 @@ const getActiveProfile = () => {
 
 const active = getActiveProfile();
 
-// 3. EXPORTS
-export const { CLUB_INFO, GLOBAL_DEFAULTS, THEMES, SPORT_DEFAULTS = {} } = active.config;
-export const TEMPLATES = active.templates.TEMPLATES || {};
+// 3. EXPORTS FOR APP
+export const { CLUB_INFO, GLOBAL_DEFAULTS, THEMES } = active.config;
 
-// Derived Helpers
-export const TEMPLATES_LIST    = Object.values(TEMPLATES);
-export const TEMPLATE_DEFAULTS = Object.fromEntries(
-  TEMPLATES_LIST.map(t => [t.id, { ...t.defaultData }])
-);
+const REGISTRY = active.templates.TEMPLATES || { map: {}, list: [], defaults: {} };
+
+export const TEMPLATES         = REGISTRY.map;
+export const TEMPLATES_LIST    = REGISTRY.list;
+export const TEMPLATE_DEFAULTS = REGISTRY.defaults;

@@ -26,38 +26,53 @@ export const createSport = (sportId) => (factory, config) =>
 
 /**
  * Second Level: Specializes a sport template for a specific club.
- * Supports multiple layers of overrides (e.g., Sport Defaults + Club Specifics).
+ * Merges multiple layers of configuration (Sport defaults + Club overrides).
  * 
- * @param {Object} template - The sport-specialized template
- * @param {...Object} overridesList - Variable list of override objects (merged in order)
+ * @param {Object} template - The base template from the library
+ * @param {...Object} overrides - One or more override objects to merge
  */
-export const customizeForClub = (template, ...overridesList) => {
+export const customizeForClub = (template, ...overrides) => {
   if (!template) return null;
 
-  // Reduce all overrides onto the accumulator, starting with the template
-  return overridesList.reduce((acc, override) => {
-    if (!override) return acc;
-    const { defaultData, ...rest } = override;
-    
+  return overrides.reduce((acc, curr) => {
+    if (!curr) return acc;
+
+    const { defaultData, ...rest } = curr;
+
     return {
       ...acc,
-      ...rest, // Merge top-level props (theme, name, etc.)
+      ...rest,
+      // Deep merge defaultData to combine schema, sport defaults, and overrides
       defaultData: {
-        ...acc.defaultData,
-        ...(defaultData || {}) // Merge nested defaultData
+        ...(acc.defaultData || {}),
+        ...(defaultData || {})
       }
     };
   }, { ...template });
 };
 
 /**
- * Utility to transform a list of templates into a registry map.
- * Ensures the map keys match the template IDs.
+ * Creates a complete Template Registry from an array of templates.
+ * Returns both the map (by ID) and the default data for state initialization.
  */
-export const buildTemplateRegistry = (templatesArray) => {
-  return Object.fromEntries(
-    templatesArray
-      .filter(Boolean)
-      .map(t => [t.id, t])
-  );
+export const buildRegistry = (templatesArray) => {
+  const list = templatesArray.filter(Boolean);
+  const map = {};
+  const defaults = {};
+
+  list.forEach(template => {
+    if (!template.id) {
+      console.error("Template building error: Missing ID for", template.name);
+      return;
+    }
+    map[template.id] = template;
+    defaults[template.id] = { ...template.defaultData };
+  });
+
+  return { map, list, defaults };
 };
+
+/**
+ * Backwards compatibility alias for buildRegistry
+ */
+export const buildTemplateRegistry = (templatesArray) => buildRegistry(templatesArray).map;

@@ -36,6 +36,7 @@ export const BasketRanking = defineBasket(createRankingTemplate, {
   id: 'ranking',
   name: 'Classifica Basket',
   icon: ListOrdered,
-  options: { showDraws: false, showAverages: true },
+  showDraws: false, 
+  showAverages: true,
   RenderBlock: TeamsRanking
 });

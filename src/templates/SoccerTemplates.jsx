@@ -36,6 +36,7 @@ export const SoccerRanking = defineSoccer(createRankingTemplate, {
   id: 'ranking',
   name: 'Classifica Calcio',
   icon: ListOrdered,
-  options: { showDraws: true, showAverages: false },
+  showDraws: true, 
+  showAverages: false,
   RenderBlock: TeamsRanking
 });

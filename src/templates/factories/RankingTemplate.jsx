@@ -7,8 +7,7 @@ import { parseManualRanking } from '../../utils/rankingUtils';
 import { GLOBAL_DEFAULTS } from '../../config';
 
 export const createRankingTemplate = (config = {}) => {
-  const options = config.options || {};
-  const RenderBlock = config.RenderBlock || TeamsRanking;
+  const { showDraws, showAverages, RenderBlock = TeamsRanking } = config;
   const baseDefaults = {
     ...config.defaultData
   };
@@ -29,9 +28,9 @@ export const createRankingTemplate = (config = {}) => {
                <RenderBlock 
                   data={data} 
                   theme={theme}
-                  showDraws={options.showDraws}
+                  showDraws={showDraws}
                   showStats={data.showStats ?? true}
-                  showAverages={data.showAverages ?? options.showAverages}
+                  showAverages={data.showAverages ?? showAverages}
                />
             </div>
           </div>

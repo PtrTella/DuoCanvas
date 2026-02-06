@@ -9,7 +9,7 @@ import { Trophy } from 'lucide-react';
  */
 export const MatchInfo = ({ data, theme, className = "" }) => {
   // NEW: Flexible title parts
-  const mainTitle = data.headerTitle || "TITOLO";
+  const mainTitle = data.headerTitle || "TITLE";
   const accentTitle = data.headerValue || "";
 
   return (

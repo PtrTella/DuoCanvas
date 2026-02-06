@@ -25,9 +25,9 @@ export const MatchScore = ({ data, theme, className = "", children }) => {
                className="text-[170px] font-black leading-none text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)] flex items-center gap-2"
                style={{ fontFamily: 'Impact, sans-serif' }}
             >
-               <span className="tracking-tighter">{data.homeScore}</span>
+               <span className="tracking-tighter">{data.homeScore || "0"}</span>
                <span className="text-white/20 text-8xl -mt-4">:</span>
-               <span className="tracking-tighter">{data.awayScore}</span>
+               <span className="tracking-tighter">{data.awayScore || "0"}</span>
             </div>
          </div>
          <div className={`mt-5 px-8 py-2 bg-gradient-to-r ${theme?.primary || 'from-emerald-600 to-green-600'} rounded-full text-base font-black uppercase tracking-[0.3em] text-white shadow-xl border border-white/20 backdrop-blur-sm`}>

@@ -18,10 +18,10 @@ export const TEMPLATES = buildTemplateRegistry([
   }),
 
   customizeForClub(BasketRanking, SPORT_DEFAULTS.basket, {
+    showAverages: true,
+    showStats: true,
     defaultData: {
-      headerTitle: "CLASSIFICA",
-      showAverages: true,
-      showStats: true
+      headerTitle: "CLASSIFICA"
     }
   }),
 
