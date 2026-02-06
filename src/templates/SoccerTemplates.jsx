@@ -35,7 +35,8 @@ export const SoccerFormation = defineSportTemplate(createLineupTemplate, 'soccer
   defaultData: {
     headerTitle: "GARA",
     module: "3-2-1",
-    teamFormation: ""
+    teamFormation: "",
+    mister: ""
   }
 });
 

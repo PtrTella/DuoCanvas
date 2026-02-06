@@ -1,25 +1,25 @@
 import { BasketResult, BasketLineup, BasketRanking } from '../../../templates/BasketTemplates';
 import { WeekRecap } from '../../../templates/WeekRecap';
-import { customizeForClub } from '../../../utils/template-builder';
+import { customizeForClub, buildTemplateRegistry } from '../../../utils/template-builder';
 
 // 1. TEMPLATES REGISTRY
-export const TEMPLATES = {
-  basket_result: customizeForClub(BasketResult, {
+export const TEMPLATES = buildTemplateRegistry([
+  customizeForClub(BasketResult, {
     defaultTheme: 'gold' 
   }),
   
-  basket_roster: customizeForClub(BasketLineup, {
+  customizeForClub(BasketLineup, {
     defaultTheme: 'gold'
   }),
 
-  basket_ranking: customizeForClub(BasketRanking, {
+  customizeForClub(BasketRanking, {
     defaultTheme: 'gold',
     defaultData: {
       highlightTeam: "La Volta"
     }
   }),
 
-  week_recap: customizeForClub(WeekRecap, {
+  customizeForClub(WeekRecap, {
     defaultTheme: 'gold',
     defaultData: {
       headerTitle: "VOLTA",
@@ -29,4 +29,4 @@ export const TEMPLATES = {
       ]
     }
   })
-};
+]);

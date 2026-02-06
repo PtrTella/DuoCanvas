@@ -2,11 +2,12 @@
 import { BasketResult, BasketLineup, BasketRanking } from '../../../templates/BasketTemplates';
 import { SoccerResult, SoccerFormation, SoccerRanking } from '../../../templates/SoccerTemplates';
 import { WeekRecap } from '../../../templates/WeekRecap';
-import { customizeForClub } from '../../../utils/template-builder';
+import { customizeForClub, buildTemplateRegistry } from '../../../utils/template-builder';
 
 // 1. TEMPLATES REGISTRY
-export const TEMPLATES = {
-  basket_result: customizeForClub(BasketResult, {
+export const TEMPLATES = buildTemplateRegistry([
+  // --- BASKET ---
+  customizeForClub(BasketResult, {
     defaultTheme: 'orange',
     defaultData: {
       csiTeamId: 32,
@@ -14,11 +15,11 @@ export const TEMPLATES = {
     }
   }),
   
-  basket_roster: customizeForClub(BasketLineup, {
+  customizeForClub(BasketLineup, {
     defaultTheme: 'orange'
   }),
 
-  basket_ranking: customizeForClub(BasketRanking, {
+  customizeForClub(BasketRanking, {
     defaultTheme: 'orange',
     defaultData: {
       highlightTeam: "Duo Ligones",
@@ -30,15 +31,16 @@ export const TEMPLATES = {
     }
   }),
 
-  soccer_result: customizeForClub(SoccerResult, {
+  // --- SOCCER ---
+  customizeForClub(SoccerResult, {
     defaultTheme: 'green'
   }),
 
-  soccer_roster: customizeForClub(SoccerFormation, {
+  customizeForClub(SoccerFormation, {
     defaultTheme: 'green'
   }),
 
-  soccer_ranking: customizeForClub(SoccerRanking, {
+  customizeForClub(SoccerRanking, {
     defaultTheme: 'green',
     defaultData: {
       highlightTeam: "Duo Ligones",
@@ -49,7 +51,8 @@ export const TEMPLATES = {
     }
   }),
 
-  week_recap: customizeForClub(WeekRecap, {
+  // --- GENERIC ---
+  customizeForClub(WeekRecap, {
     defaultTheme: 'purple'
   })
-};
+]);

@@ -2,22 +2,21 @@
 import { BasketResult, BasketLineup, BasketRanking } from '../../../templates/BasketTemplates';
 import { SoccerResult, SoccerFormation, SoccerRanking } from '../../../templates/SoccerTemplates';
 import { WeekRecap } from '../../../templates/WeekRecap';
+import { customizeForClub, buildTemplateRegistry } from '../../../utils/template-builder';
 
 // 1. TEMPLATES REGISTRY
-export const TEMPLATES = {
-  basket_result: { 
-    ...BasketResult,  
+export const TEMPLATES = buildTemplateRegistry([
+  customizeForClub(BasketResult, {
     defaultTheme: 'orange'
-  },
-  basket_roster: { 
-    ...BasketLineup,  
+  }),
+
+  customizeForClub(BasketLineup, {
     defaultTheme: 'orange'
-  },
-  basket_ranking: { 
-    ...BasketRanking, 
+  }),
+
+  customizeForClub(BasketRanking, {
     defaultTheme: 'orange',
     defaultData: {
-      ...BasketRanking.defaultData,
       showAverages: true,
       showStats: true,
       rankingSync: {
@@ -25,28 +24,27 @@ export const TEMPLATES = {
         label: ""
       }
     }
-  },
-  soccer_result: { 
-    ...SoccerResult,  
+  }),
+
+  customizeForClub(SoccerResult, {
     defaultTheme: 'green'
-  },
-  soccer_roster: { 
-    ...SoccerFormation, 
+  }),
+
+  customizeForClub(SoccerFormation, {
     defaultTheme: 'green'
-  },
-  soccer_ranking: { 
-    ...SoccerRanking, 
+  }),
+
+  customizeForClub(SoccerRanking, {
     defaultTheme: 'green',
     defaultData: {
-      ...SoccerRanking.defaultData,
       rankingSync: {
         enabled: false,
         label: ""
       }
     }
-  },
-  week_recap: { 
-    ...WeekRecap,     
+  }),
+
+  customizeForClub(WeekRecap, {
     defaultTheme: 'blue'
-  }
-};
+  })
+]);

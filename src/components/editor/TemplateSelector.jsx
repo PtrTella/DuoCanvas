@@ -17,7 +17,7 @@ const TemplateSelector = ({ activeTemplateId, setActiveTemplateId, isOpen, setIs
       >
         <div className="flex items-center gap-4">
           <div className="p-2.5 bg-gray-900 text-white rounded-xl shadow-lg shadow-gray-200">
-             {activeTemplate && <activeTemplate.icon size={20} />}
+             {activeTemplate?.icon && <activeTemplate.icon size={20} />}
           </div>
           <span className="font-black text-gray-900 text-[15px] uppercase tracking-tight italic">
              {activeTemplate?.name || "Seleziona..."}
@@ -45,7 +45,7 @@ const TemplateSelector = ({ activeTemplateId, setActiveTemplateId, isOpen, setIs
                   className={`w-full flex items-center gap-3 p-3.5 rounded-xl text-left transition-all ${isActive ? 'bg-gray-900 text-white shadow-lg' : 'hover:bg-gray-50 text-gray-600'}`}
                 >
                   <div className={`p-1.5 rounded-lg ${isActive ? 'bg-white/10' : 'bg-gray-100'}`}>
-                    <t.icon size={18} className={isActive ? 'text-white' : 'text-gray-400'}/>
+                    {t.icon && <t.icon size={18} className={isActive ? 'text-white' : 'text-gray-400'}/>}
                   </div>
                   <span className={`text-[13px] uppercase tracking-tight italic ${isActive ? 'font-black' : 'font-bold'}`}>{t.name}</span>
                   {isActive && <Check size={16} className="ml-auto text-white"/>}

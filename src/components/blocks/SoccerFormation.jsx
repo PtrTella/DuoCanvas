@@ -101,7 +101,7 @@ const parseRoster = (text) => {
 
 // --- LAYOUT PRINCIPALE ---
 export const SoccerFormation = ({ data, theme, className = "" }) => {
-  const { teamFormation, module, mister, labelCoach = "Allenatore", labelBench = "Panchina" } = data;
+  const { teamFormation, module, mister, labelMister = "Allenatore", labelBench = "Panchina" } = data;
   
   const allPlayers = parseRoster(teamFormation);
   const starters = allPlayers.slice(0, 7);
@@ -139,7 +139,7 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
 
                 {/* Allenatore Spostato qui e affiancato */}
                 <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
-                    <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.1em]">{labelCoach}:</span>
+                    <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.1em]">{labelMister}:</span>
                     <span className="text-lg font-black text-white uppercase tracking-wider leading-none">{mister || '---'}</span>
                 </div>
             </div>
