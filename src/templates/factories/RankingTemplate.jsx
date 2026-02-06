@@ -6,7 +6,7 @@ import { TeamsRanking, TeamsRankingControls } from '../../components/blocks/Team
 import { parseManualRanking } from '../../utils/rankingUtils';
 import { GLOBAL_DEFAULTS } from '../../config';
 
-export const createRankingTemplate = (sport, config = {}) => {
+export const createRankingTemplate = (config = {}) => {
   const options = config.options || {};
   const RenderBlock = config.RenderBlock || TeamsRanking;
   const baseDefaults = {
@@ -42,9 +42,12 @@ export const createRankingTemplate = (sport, config = {}) => {
     Controls: ({ data, onChange }) => {
       const syncConfig = data.rankingSync || { enabled: false };
       
-      // Use the hook specified in the club config or fallback to sports registry
-      const useRankingHook = syncConfig.customHook || sport.hooks.useRanking;
-      const { classifica: syncData, loading, refresh } = useRankingHook(data.csiGironeId);
+      // Use the hook specified in the club config
+      const useRankingHook = syncConfig.customHook;
+
+      // Se non c'è hook (gestito a livello club), lo stato è vuoto
+      const rankingState = useRankingHook ? useRankingHook(data.csiGironeId) : { classifica: [], loading: false, refresh: () => {} };
+      const { classifica: syncData, loading, refresh } = rankingState;
 
       const handleSync = () => {
         refresh(); // Ricarica dati dal web
@@ -58,7 +61,7 @@ export const createRankingTemplate = (sport, config = {}) => {
         onChange('manualText', val);
         const parsed = parseManualRanking(val, { 
           showDraws: options.showDraws,
-          sport: sport.id
+          sport: config.sportId 
         });
         
         // Extract only the ranking array from the parser results

@@ -4,7 +4,7 @@ import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo'
 import { MatchDetails, MatchDetailsControls } from '../../components/blocks/MatchDetails';
 import { TeamMatchup, TeamMatchupControls } from '../../components/blocks/TeamMatchup';
 
-export const createLineupTemplate = (sport, config = {}) => {
+export const createLineupTemplate = (config = {}) => {
   const block = config.extraBlock;
   const baseDefaults = {
     ...config.defaultData

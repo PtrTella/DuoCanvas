@@ -4,7 +4,7 @@ import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo'
 import { MatchDetails, MatchDetailsControls } from '../../components/blocks/MatchDetails';
 import { MatchScore, MatchScoreControls } from '../../components/blocks/MatchScore';
 
-export const createResultTemplate = (sport, config = {}) => {
+export const createResultTemplate = (config = {}) => {
   const block = config.extraBlock;
   const baseDefaults = {
     ...config.defaultData

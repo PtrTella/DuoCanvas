@@ -22,6 +22,38 @@ Questi parametri sono condivisi tra tutti i template. Se ne cambi uno (es. il lo
 
 ---
 
+## 🏗️ Architettura: Doppia Specializzazione
+
+Il progetto usa un pattern a tre livelli per gestire i template in modo scalabile tra diversi sport e club:
+
+### 1. Factory (`src/templates/factories/`)
+Definisce la **struttura base** (layout split, posizionamento loghi, area scrollabile).
+Esempio: `ResultTemplate.jsx`.
+
+### 2. Sport Specialization (`src/templates/[Sport]Templates.jsx`)
+Applica la logica di uno **sport specifico** caricando i blocchi corretti (es. cronologia gol per il calcio vs MVP per il basket).
+Utilizza `defineSportTemplate` per generare ID e nomi coerenti.
+```javascript
+export const BasketResult = defineSportTemplate(createResultTemplate, BASKET_SPORT, {
+  id: 'result', // Diventa 'basket_result'
+  name: 'Risultato', // Diventa 'Risultato Basket'
+  extraBlock: { Render, Controls },
+  defaultData: { headerTitle: "MATCH DAY" }
+});
+```
+
+### 3. Club Customization (`src/config/clubs/[club]/templates.js`)
+Configura il **branding finale**: colori (temi), ID dei gironi CSI e testi predefiniti.
+Utilizza `customizeForClub`.
+```javascript
+basket_result: customizeForClub(BasketResult, {
+  defaultTheme: 'orange',
+  defaultData: { csiGironeId: "3" }
+})
+```
+
+---
+
 ## 🏗️ Blocchi e Parametri Specifici
 
 ### 1. MatchInfo (Testata superiore)

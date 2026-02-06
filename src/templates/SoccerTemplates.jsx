@@ -5,66 +5,50 @@ import { createRankingTemplate } from './factories/RankingTemplate';
 import { GoalTimeline, GoalTimelineControls } from '../components/blocks/GoalTimeline';
 import { SoccerFormation as FormationBlock, SoccerFormationControls } from '../components/blocks/SoccerFormation';
 import { TeamsRanking } from '../components/blocks/TeamsRanking';
-import { useClassifica } from '../hooks/useCsi';
-// Pure template definition
-
-const SOCCER_SPORT = {
-  id: 'soccer',
-  name: 'Calcio',
-  icon: PartyPopper,
-  hooks: {
-    useRanking: (gironeId) => useClassifica(gironeId || "4") 
-  }
-};
+import { defineSportTemplate } from '../utils/template-builder';
 
 // 1. SOCCER RESULT
-export const SoccerResult = {
-  ...createResultTemplate(SOCCER_SPORT, {
-    extraBlock: {
-      Render: GoalTimeline,
-      Controls: GoalTimelineControls
-    },
-    defaultData: {
-      headerTitle: "MATCH DAY",
-      homeScore: "", 
-      awayScore: ""
-    }
-  }),
-  id: 'soccer_result',
+export const SoccerResult = defineSportTemplate(createResultTemplate, 'soccer', {
+  id: 'result',
   name: 'Risultato Calcio',
-  icon: PartyPopper
-};
+  icon: PartyPopper,
+  extraBlock: {
+    Render: GoalTimeline,
+    Controls: GoalTimelineControls
+  },
+  defaultData: {
+    headerTitle: "MATCH DAY",
+    homeScore: "", 
+    awayScore: ""
+  }
+});
 
 // 2. SOCCER FORMATION
-export const SoccerFormation = {
-  ...createLineupTemplate(SOCCER_SPORT, {
-    extraBlock: {
-      Render: FormationBlock,
-      Controls: SoccerFormationControls
-    },
-    defaultData: {
-      headerTitle: "GARA",
-      module: "3-2-1",
-      teamFormation: ""
-    }
-  }),
-  id: 'soccer_roster',
+export const SoccerFormation = defineSportTemplate(createLineupTemplate, 'soccer', {
+  id: 'roster',
   name: 'Formazione Calcio',
-  icon: Shield
-};
+  icon: Shield,
+  extraBlock: {
+    Render: FormationBlock,
+    Controls: SoccerFormationControls
+  },
+  defaultData: {
+    headerTitle: "GARA",
+    module: "3-2-1",
+    teamFormation: ""
+  }
+});
 
 // 3. SOCCER RANKING
-export const SoccerRanking = {
-  ...createRankingTemplate(SOCCER_SPORT, {
-    options: { showDraws: true, showAverages: false },
-    RenderBlock: TeamsRanking,
-    defaultData: {
-      headerTitle: "CLASSIFICA",
-      season: "",
-      ranking: []
-    }
-  }),
-  id: 'soccer_ranking',
+export const SoccerRanking = defineSportTemplate(createRankingTemplate, 'soccer', {
+  id: 'ranking',
   name: 'Classifica Calcio',
-  icon: ListOrdered
-};
+  icon: ListOrdered,
+  options: { showDraws: true, showAverages: false },
+  RenderBlock: TeamsRanking,
+  defaultData: {
+    headerTitle: "CLASSIFICA",
+    season: "",
+    ranking: []
+  }
+});

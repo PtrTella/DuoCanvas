@@ -2,27 +2,25 @@
 import { BasketResult, BasketLineup, BasketRanking } from '../../../templates/BasketTemplates';
 import { SoccerResult, SoccerFormation, SoccerRanking } from '../../../templates/SoccerTemplates';
 import { WeekRecap } from '../../../templates/WeekRecap';
+import { customizeForClub } from '../../../utils/template-builder';
 
 // 1. TEMPLATES REGISTRY
 export const TEMPLATES = {
-  basket_result: { 
-    ...BasketResult,  
+  basket_result: customizeForClub(BasketResult, {
     defaultTheme: 'orange',
     defaultData: {
-      ...BasketResult.defaultData,
       csiTeamId: 32,
       csiGironeId: "3"
     }
-  },
-  basket_roster: { 
-    ...BasketLineup,  
+  }),
+  
+  basket_roster: customizeForClub(BasketLineup, {
     defaultTheme: 'orange'
-  },
-  basket_ranking: { 
-    ...BasketRanking, 
+  }),
+
+  basket_ranking: customizeForClub(BasketRanking, {
     defaultTheme: 'orange',
     defaultData: {
-      ...BasketRanking.defaultData,
       highlightTeam: "Duo Ligones",
       csiGironeId: "3",
       rankingSync: {
@@ -30,29 +28,28 @@ export const TEMPLATES = {
         label: "CSI Faenza"
       }
     }
-  },
-  soccer_result: { 
-    ...SoccerResult,  
+  }),
+
+  soccer_result: customizeForClub(SoccerResult, {
     defaultTheme: 'green'
-  },
-  soccer_roster: { 
-    ...SoccerFormation, 
+  }),
+
+  soccer_roster: customizeForClub(SoccerFormation, {
     defaultTheme: 'green'
-  },
-  soccer_ranking: { 
-    ...SoccerRanking, 
+  }),
+
+  soccer_ranking: customizeForClub(SoccerRanking, {
     defaultTheme: 'green',
     defaultData: {
-      ...SoccerRanking.defaultData,
       highlightTeam: "Duo Ligones",
       rankingSync: {
         enabled: true,
         label: "CSI Faenza"
       }
     }
-  },
-  week_recap: { 
-    ...WeekRecap,     
+  }),
+
+  week_recap: customizeForClub(WeekRecap, {
     defaultTheme: 'purple'
-  }
+  })
 };
