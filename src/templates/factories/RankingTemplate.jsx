@@ -60,8 +60,7 @@ export const createRankingTemplate = (config = {}) => {
       const handleManualChange = (val) => {
         onChange('manualText', val);
         const parsed = parseManualRanking(val, { 
-          showDraws: options.showDraws,
-          sport: config.sportId 
+          showDraws: options.showDraws
         });
         
         // Extract only the ranking array from the parser results

@@ -6,17 +6,23 @@
  * @param {Object} config - Template specific configuration
  */
 export const defineSportTemplate = (factory, sportId, config) => {
-  const { id: slug, ...rest } = config;
-  
-  // The factory creates the base Render/Controls and merges defaultData
-  const base = factory({ ...rest, sportId });
+  // La factory è agnostica: riceve solo la configurazione funzionale.
+  const base = factory(config); 
   
   return {
-    ...rest,                  // name, icon, extraBlock, etc.
-    ...base,                  // factory's Render, Controls, defaultData
-    id: `${sportId}_${slug}`, // Unique ID: sport_type
+    ...config,                    // name, icon, defaultData, etc.
+    ...base,                      // Render/Controls prodotti dalla factory
+    sport: sportId,               // Salvato come metadato organizzativo
+    id: `${sportId}_${config.id}`, // Namespace unico per evitare collisioni IDs
   };
 };
+
+/**
+ * Creates a specialized version of defineSportTemplate for a single sport.
+ * Useful to avoid repeating 'basket' or 'soccer' in every template definition.
+ */
+export const createSport = (sportId) => (factory, config) => 
+  defineSportTemplate(factory, sportId, config);
 
 /**
  * Second Level: Specializes a sport template for a specific club.
