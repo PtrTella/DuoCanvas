@@ -40,13 +40,12 @@ export const createRankingTemplate = (config = {}) => {
     },
 
     Controls: ({ data, onChange }) => {
-      const syncConfig = data.rankingSync || { enabled: false };
-      
-      // Use the hook specified in the club config
-      const useRankingHook = syncConfig.customHook;
+      // rankingSync now expects just the hook function or null
+      const useRankingHook = data.rankingSync;
+      const hasSync = typeof useRankingHook === 'function';
 
-      // Se non c'è hook (gestito a livello club), lo stato è vuoto
-      const rankingState = useRankingHook ? useRankingHook(data.csiGironeId) : { classifica: [], loading: false, refresh: () => {} };
+      // Eseguiamo l'hook solo se esiste
+      const rankingState = hasSync ? useRankingHook() : { classifica: [], loading: false, refresh: () => {} };
       const { classifica: syncData, loading, refresh } = rankingState;
 
       const handleSync = () => {
@@ -81,7 +80,7 @@ export const createRankingTemplate = (config = {}) => {
 
           {/* Sync / Manual Toggle Block */}
           <div className="py-5 border-b border-gray-100 italic">
-             {syncConfig.enabled ? (
+             {hasSync ? (
                <>
                 <div className="flex items-center justify-between mb-4 not-italic">
                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Origine Dati</span>
@@ -89,7 +88,7 @@ export const createRankingTemplate = (config = {}) => {
                       onClick={() => onChange('isManual', !data.isManual)}
                       className="text-[10px] font-black uppercase text-gray-900 border-b-2 border-gray-900"
                     >
-                      {data.isManual ? `Switch to ${syncConfig.label || 'Sync'}` : 'Switch to Manual'}
+                      {data.isManual ? 'Usa Dati Automatici' : 'Inserimento Manuale'}
                     </button>
                 </div>
 
@@ -100,7 +99,7 @@ export const createRankingTemplate = (config = {}) => {
                       className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center gap-3 text-gray-900 hover:bg-white hover:shadow-md transition-all font-bold text-xs not-italic"
                     >
                       <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-                      {loading ? 'Sincronizzazione...' : `Sincronizza Classifica ${syncConfig.label || ''}`}
+                      {loading ? 'Sincronizzazione...' : 'Sincronizza Classifica'}
                     </button>
                 ) : (
                     <div className="not-italic space-y-2">

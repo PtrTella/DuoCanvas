@@ -3,16 +3,13 @@ import { BasketResult, BasketLineup, BasketRanking } from '../../../templates/Ba
 import { SoccerResult, SoccerFormation, SoccerRanking } from '../../../templates/SoccerTemplates';
 import { WeekRecap } from '../../../templates/WeekRecap';
 import { customizeForClub, buildTemplateRegistry } from '../../../utils/template-builder';
+import { useCsiRanking } from './hooks/useCsiRanking';
 
 // 1. TEMPLATES REGISTRY
 export const TEMPLATES = buildTemplateRegistry([
   // --- BASKET ---
   customizeForClub(BasketResult, {
-    defaultTheme: 'orange',
-    defaultData: {
-      csiTeamId: 32,
-      csiGironeId: "3"
-    }
+    defaultTheme: 'orange'
   }),
   
   customizeForClub(BasketLineup, {
@@ -23,11 +20,7 @@ export const TEMPLATES = buildTemplateRegistry([
     defaultTheme: 'orange',
     defaultData: {
       highlightTeam: "Duo Ligones",
-      csiGironeId: "3",
-      rankingSync: {
-        enabled: true,
-        label: "CSI Faenza"
-      }
+      rankingSync: useCsiRanking
     }
   }),
 
@@ -43,11 +36,7 @@ export const TEMPLATES = buildTemplateRegistry([
   customizeForClub(SoccerRanking, {
     defaultTheme: 'green',
     defaultData: {
-      highlightTeam: "Duo Ligones",
-      rankingSync: {
-        enabled: false,
-        label: "CSI Faenza"
-      }
+      highlightTeam: "Duo Ligones"
     }
   }),
 

@@ -18,11 +18,8 @@ export const TEMPLATES = buildTemplateRegistry([
     defaultTheme: 'orange',
     defaultData: {
       showAverages: true,
-      showStats: true,
-      rankingSync: {
-        enabled: false,
-        label: ""
-      }
+      showStats: true
+      // Niente rankingSync nel generico, solo manuale
     }
   }),
 
