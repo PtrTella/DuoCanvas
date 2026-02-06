@@ -108,7 +108,8 @@ Parametri per il controllo della tabella classifica.
 | :--- | :--- |
 | `weekEvents` | Array di oggetti evento |
 
-#### Struttura Evento:
+### Struttura Evento
+
 - `sport`: Nome sport (es. "Basket")
 - `date`: Testo data (es. "SAB 15 FEB")
 - `time`: Orario (es. "20:30")
