@@ -55,7 +55,7 @@ export const customizeForClub = (template, ...overrides) => {
  * Creates a complete Template Registry from an array of templates.
  * Returns both the map (by ID) and the default data for state initialization.
  */
-export const buildRegistry = (templatesArray) => {
+export const buildTemplateRegistry = (templatesArray) => {
   const list = templatesArray.filter(Boolean);
   const map = {};
   const defaults = {};
@@ -71,8 +71,3 @@ export const buildRegistry = (templatesArray) => {
 
   return { map, list, defaults };
 };
-
-/**
- * Backwards compatibility alias for buildRegistry
- */
-export const buildTemplateRegistry = (templatesArray) => buildRegistry(templatesArray).map;

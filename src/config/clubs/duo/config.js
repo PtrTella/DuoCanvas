@@ -18,8 +18,8 @@ export const SPORT_DEFAULTS = {
     defaultTheme: 'orange',
     defaultData: {
       homeTeam: "Duo Ligones",
-      arena: "Palestra S. Umiltà",
-      arenaAddress: "Via Ugo Foscolo, 15",
+      building: "Palestra S. Umiltà",
+      address: "Via Ugo Foscolo, 15",
       championship: "CSI Faenza"
     }
   },
@@ -27,7 +27,7 @@ export const SPORT_DEFAULTS = {
     defaultTheme: 'green',
     defaultData: {
       homeTeam: "Duo Calcio",
-      arena: "Campo Graziola",
+      building: "Campo Graziola",
       championship: "CSI Calcio a 7"
     }
   }

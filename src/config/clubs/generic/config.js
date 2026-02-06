@@ -19,8 +19,8 @@ export const GLOBAL_DEFAULTS = {
   matchDay: "",
   date: "DD/MM/YYYY",
   time: "HH:MM",
-  arena: "Arena",
-  arenaAddress: "Indirizzo"
+  building: "Arena",
+  address: "Indirizzo"
 };
 
 // Sport-Specific Overrides

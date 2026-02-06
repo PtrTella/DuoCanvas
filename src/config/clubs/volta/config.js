@@ -16,7 +16,7 @@ export const SPORT_DEFAULTS = {
     defaultData: {
       homeTeam: "Playground Volta Dozza",
       championship: "Divisione Regionale 3 FIP",
-      arena: "TOSCA BEACH"
+      building: "TOSCA BEACH"
     }
   }
 };

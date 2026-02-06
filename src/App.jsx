@@ -11,7 +11,7 @@ const App = () => {
   // --- STATI ---
   const firstId = Object.keys(TEMPLATES)[0];
   const [activeTemplateId, setActiveTemplateId] = useState(firstId);
-  const [themeColor, setThemeColor] = useState(TEMPLATES[firstId].defaultTheme);
+  const [themeColor, setThemeColor] = useState(TEMPLATES[firstId]?.defaultTheme || 'orange');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [isTemplateSelectorOpen, setIsTemplateSelectorOpen] = useState(false);
 

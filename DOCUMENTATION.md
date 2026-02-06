@@ -8,6 +8,8 @@ This document provides a deep dive into the architecture, patterns, and developm
 
 DuoCanvas avoids complex conditional rendering by using a **Registry Pattern**. Every graphic is treated as a "Plugin".
 
+> 📘 **Looking for parameters?** See the [Parameters Configuration Guide](src/config/PARAMETERS_GUIDE.md) for a full list of customizable fields for each sport and block.
+
 ### 1. Anatomy of a Template
 
 Each file in `src/templates/` must export a configuration object:
