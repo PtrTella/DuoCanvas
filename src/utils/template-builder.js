@@ -26,40 +26,28 @@ export const createSport = (sportId) => (factory, config) =>
 
 /**
  * Second Level: Specializes a sport template for a specific club.
+ * Supports multiple layers of overrides (e.g., Sport Defaults + Club Specifics).
  * 
  * @param {Object} template - The sport-specialized template
- * @param {Object} overrides - Club overrides (defaultTheme, defaultData, etc.)
+ * @param {...Object} overridesList - Variable list of override objects (merged in order)
  */
-export const customizeForClub = (template, overrides) => {
+export const customizeForClub = (template, ...overridesList) => {
   if (!template) return null;
-  const { defaultData, ...rest } = overrides;
-  
-  return {
-    ...template,
-    ...rest,
-    defaultData: {
-      ...template.defaultData,
-      ...(defaultData || {})
-    }
-  };
-};
 
-/**
- * Configure helper: Merge Template -> Sport Defaults -> Specific Defaults
- * 
- * @param {Object} template - The sport template
- * @param {Object} sportDefaults - General defaults for the sport (e.g. Arena name)
- * @param {Object} specificOverrides - Specific overrides for this template (e.g. Header Title)
- */
-export const configureClubTemplate = (template, sportDefaults, specificOverrides = {}) => {
-  return customizeForClub(template, {
-    ...sportDefaults,
-    ...specificOverrides,
-    defaultData: {
-      ...sportDefaults.defaultData,
-      ...(specificOverrides.defaultData || {})
-    }
-  });
+  // Reduce all overrides onto the accumulator, starting with the template
+  return overridesList.reduce((acc, override) => {
+    if (!override) return acc;
+    const { defaultData, ...rest } = override;
+    
+    return {
+      ...acc,
+      ...rest, // Merge top-level props (theme, name, etc.)
+      defaultData: {
+        ...acc.defaultData,
+        ...(defaultData || {}) // Merge nested defaultData
+      }
+    };
+  }, { ...template });
 };
 
 /**

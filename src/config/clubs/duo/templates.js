@@ -2,7 +2,7 @@
 import { BasketResult, BasketLineup, BasketRanking } from '../../../templates/BasketTemplates';
 import { SoccerResult, SoccerFormation, SoccerRanking } from '../../../templates/SoccerTemplates';
 import { WeekRecap } from '../../../templates/WeekRecap';
-import { customizeForClub, buildTemplateRegistry, configureClubTemplate } from '../../../utils/template-builder';
+import { customizeForClub, buildTemplateRegistry } from '../../../utils/template-builder';
 import { useCsiRanking } from './hooks/useCsiRanking';
 import { SPORT_DEFAULTS } from './config';
 
@@ -10,15 +10,15 @@ import { SPORT_DEFAULTS } from './config';
 export const TEMPLATES = buildTemplateRegistry([
   
   // BASKET
-  configureClubTemplate(BasketResult, SPORT_DEFAULTS.basket, {
+  customizeForClub(BasketResult, SPORT_DEFAULTS.basket, {
     defaultData: { headerTitle: "MATCH DAY" }
   }),
   
-  configureClubTemplate(BasketLineup, SPORT_DEFAULTS.basket, {
+  customizeForClub(BasketLineup, SPORT_DEFAULTS.basket, {
     defaultData: { headerTitle: "GARA" }
   }),
 
-  configureClubTemplate(BasketRanking, SPORT_DEFAULTS.basket, {
+  customizeForClub(BasketRanking, SPORT_DEFAULTS.basket, {
     defaultData: {
       headerTitle: "CLASSIFICA",
       highlightTeam: "Duo Ligones",
@@ -27,18 +27,18 @@ export const TEMPLATES = buildTemplateRegistry([
   }),
 
   // SOCCER
-  configureClubTemplate(SoccerResult, SPORT_DEFAULTS.soccer, {
+  customizeForClub(SoccerResult, SPORT_DEFAULTS.soccer, {
     defaultData: { headerTitle: "MATCH DAY" }
   }),
 
-  configureClubTemplate(SoccerFormation, SPORT_DEFAULTS.soccer, {
+  customizeForClub(SoccerFormation, SPORT_DEFAULTS.soccer, {
     defaultData: { 
       headerTitle: "GARA",
       module: "3-2-1" 
     }
   }),
 
-  configureClubTemplate(SoccerRanking, SPORT_DEFAULTS.soccer, {
+  customizeForClub(SoccerRanking, SPORT_DEFAULTS.soccer, {
     defaultData: {
       headerTitle: "CLASSIFICA",
       highlightTeam: "Duo Ligones"
