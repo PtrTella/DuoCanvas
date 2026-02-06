@@ -27,29 +27,41 @@ Questi parametri sono condivisi tra tutti i template. Se ne cambi uno (es. il lo
 Il progetto usa un pattern a tre livelli per gestire i template in modo scalabile tra diversi sport e club:
 
 ### 1. Factory (`src/templates/factories/`)
+
 Definisce la **struttura base** (layout split, posizionamento loghi, area scrollabile).
 Esempio: `ResultTemplate.jsx`.
 
 ### 2. Sport Specialization (`src/templates/[Sport]Templates.jsx`)
+
 Applica la logica di uno **sport specifico** caricando i blocchi corretti (es. cronologia gol per il calcio vs MVP per il basket).
-Utilizza `defineSportTemplate` per generare ID e nomi coerenti.
+Utilizza l'helper `createSport` per definire il namespace (es. 'basket' o 'soccer') una sola volta.
+
 ```javascript
-export const BasketResult = defineSportTemplate(createResultTemplate, BASKET_SPORT, {
+const defineBasket = createSport('basket');
+
+export const BasketResult = defineBasket(createResultTemplate, {
   id: 'result', // Diventa 'basket_result'
-  name: 'Risultato', // Diventa 'Risultato Basket'
+  name: 'Risultato Basket',
   extraBlock: { Render, Controls },
   defaultData: { headerTitle: "MATCH DAY" }
 });
 ```
 
 ### 3. Club Customization (`src/config/clubs/[club]/templates.js`)
-Configura il **branding finale**: colori (temi), ID dei gironi CSI e testi predefiniti.
-Utilizza `customizeForClub`.
+
+Configura il **branding finale**: colori (temi), testi predefiniti e integrazioni esterne (hook personalizzati).
+Utilizza `customizeForClub` e `buildTemplateRegistry`.
+
 ```javascript
-basket_result: customizeForClub(BasketResult, {
-  defaultTheme: 'orange',
-  defaultData: { csiGironeId: "3" }
-})
+export const TEMPLATES = buildTemplateRegistry([
+  customizeForClub(BasketRanking, {
+    defaultTheme: 'orange',
+    defaultData: { 
+      highlightTeam: "My Team",
+      rankingSync: useMyCustomHook // Passaggio diretto funzione hook
+    }
+  })
+]);
 ```
 
 ---
@@ -97,7 +109,7 @@ Utilizzato in quasi tutti i template per il titolo principale.
 - `isManual`: Boolean. Se `true`, usa il testo manuale invece della sync.
 - `manualText`: Testo grezzo per il parsing manuale (copia-incolla da siti/chat).
 - `highlightTeam`: Nome della squadra da evidenziare con il colore del tema.
-- `csiGironeId`: ID del girone per la sincronizzazione automatica remota.
+- `rankingSync`: (Opzionale) Funzione React Hook personalizzata per il caricamento dati esterno.
 - `showStats`: Mostra/nasconde colonne G, V, P, S.
 - `showAverages`: Mostra/nasconde colonne medie PF/PS (specifico basket).
 
