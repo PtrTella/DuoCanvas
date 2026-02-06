@@ -45,7 +45,7 @@ export const TEMPLATES = buildTemplateRegistry([
     defaultData: {
       highlightTeam: "Duo Ligones",
       rankingSync: {
-        enabled: true,
+        enabled: false,
         label: "CSI Faenza"
       }
     }
