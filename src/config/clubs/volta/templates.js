@@ -5,33 +5,25 @@ import { WeekRecap } from '../../../templates/WeekRecap';
 export const TEMPLATES = {
   basket_result: { 
     ...BasketResult,  
-    defaultTheme: 'gold', 
-    defaultData: {
-      headerTitle: "GIORNATA",
-      homeScore: "", awayScore: ""
-    } 
+    defaultTheme: 'gold' 
   },
   basket_roster: { 
     ...BasketLineup,  
-    defaultTheme: 'gold',
-    defaultData: {
-      headerTitle: "GIORNATA",
-      rosterList: ""
-    }
+    defaultTheme: 'gold'
   },
   basket_ranking: { 
     ...BasketRanking, 
     defaultTheme: 'gold',
     defaultData: {
-      headerTitle: "CLASSIFICA",
-      highlightTeam: "La Volta",
-      ranking: []
+      ...BasketRanking.defaultData,
+      highlightTeam: "La Volta"
     }
   },
   week_recap: { 
     ...WeekRecap,     
     defaultTheme: 'gold',
     defaultData: {
+      ...WeekRecap.defaultData,
       headerTitle: "VOLTA",
       headerValue: "WEEK",
       weekEvents: [

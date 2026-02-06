@@ -9,28 +9,22 @@ export const TEMPLATES = {
     ...BasketResult,  
     defaultTheme: 'orange',
     defaultData: {
-      headerTitle: "GIORNATA",
+      ...BasketResult.defaultData,
       csiTeamId: 32,
-      csiGironeId: "3",
-      homeScore: "", awayScore: ""
+      csiGironeId: "3"
     }
   },
   basket_roster: { 
     ...BasketLineup,  
-    defaultTheme: 'orange',
-    defaultData: {
-      headerTitle: "GARA",
-      rosterList: ""
-    }
+    defaultTheme: 'orange'
   },
   basket_ranking: { 
     ...BasketRanking, 
     defaultTheme: 'orange',
     defaultData: {
-      headerTitle: "CLASSIFICA",
+      ...BasketRanking.defaultData,
       highlightTeam: "Duo Ligones",
       csiGironeId: "3",
-      ranking: [],
       rankingSync: {
         enabled: true,
         label: "CSI Faenza"
@@ -39,28 +33,18 @@ export const TEMPLATES = {
   },
   soccer_result: { 
     ...SoccerResult,  
-    defaultTheme: 'green',
-    defaultData: {
-      headerTitle: "GIORNATA",
-      homeScore: "", awayScore: ""
-    }
+    defaultTheme: 'green'
   },
   soccer_roster: { 
     ...SoccerFormation, 
-    defaultTheme: 'green',
-    defaultData: {
-      headerTitle: "GIORNATA",
-      module: "",
-      rosterList: ""
-    }
+    defaultTheme: 'green'
   },
   soccer_ranking: { 
     ...SoccerRanking, 
     defaultTheme: 'green',
     defaultData: {
-      headerTitle: "CLASSIFICA",
+      ...SoccerRanking.defaultData,
       highlightTeam: "Duo Ligones",
-      ranking: [],
       rankingSync: {
         enabled: true,
         label: "CSI Faenza"
@@ -69,10 +53,6 @@ export const TEMPLATES = {
   },
   week_recap: { 
     ...WeekRecap,     
-    defaultTheme: 'purple',
-    defaultData: {
-      headerTitle: "PROGRAMMA",
-      weekEvents: []
-    }
+    defaultTheme: 'purple'
   }
 };

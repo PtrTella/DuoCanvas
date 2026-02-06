@@ -12,7 +12,6 @@ const SOCCER_SPORT = {
   id: 'soccer',
   name: 'Calcio',
   icon: PartyPopper,
-  defaultTheme: 'green',
   hooks: {
     useRanking: (gironeId) => useClassifica(gironeId || "4") 
   }
@@ -24,12 +23,16 @@ export const SoccerResult = {
     extraBlock: {
       Render: GoalTimeline,
       Controls: GoalTimelineControls
+    },
+    defaultData: {
+      headerTitle: "MATCH DAY",
+      homeScore: "", 
+      awayScore: ""
     }
   }),
   id: 'soccer_result',
   name: 'Risultato Calcio',
-  icon: PartyPopper,
-  defaultTheme: 'green'
+  icon: PartyPopper
 };
 
 // 2. SOCCER FORMATION
@@ -38,22 +41,30 @@ export const SoccerFormation = {
     extraBlock: {
       Render: FormationBlock,
       Controls: SoccerFormationControls
+    },
+    defaultData: {
+      headerTitle: "GARA",
+      module: "3-2-1",
+      rosterList: ""
     }
   }),
   id: 'soccer_roster',
   name: 'Formazione Calcio',
-  icon: Shield,
-  defaultTheme: 'green'
+  icon: Shield
 };
 
 // 3. SOCCER RANKING
 export const SoccerRanking = {
   ...createRankingTemplate(SOCCER_SPORT, {
     options: { showDraws: true, showAverages: false },
-    RenderBlock: TeamsRanking
+    RenderBlock: TeamsRanking,
+    defaultData: {
+      headerTitle: "CLASSIFICA",
+      season: "",
+      ranking: []
+    }
   }),
   id: 'soccer_ranking',
   name: 'Classifica Calcio',
-  icon: ListOrdered,
-  defaultTheme: 'green'
+  icon: ListOrdered
 };

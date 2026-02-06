@@ -8,8 +8,12 @@ import { EventsList, EventsListControls } from '../components/blocks/EventsList'
 export const WeekRecap = {
   id: 'week_recap',
   name: 'Recap Settimana',
-  icon: CalendarRange, // Icona calendario
-  defaultTheme: 'purple', // Purple theme for change
+  icon: CalendarRange,
+  defaultData: {
+    headerTitle: "PROGRAMMA",
+    headerValue: "SETTIMANA",
+    weekEvents: []
+  },
 
   Render: ({ data, theme, cardRef }) => (
     <BaseCard theme={theme} ref={cardRef}>

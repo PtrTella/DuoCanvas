@@ -7,31 +7,17 @@ import { WeekRecap } from '../../../templates/WeekRecap';
 export const TEMPLATES = {
   basket_result: { 
     ...BasketResult,  
-    defaultTheme: 'orange',
-    defaultData: {
-      headerTitle: "GIORNATA",
-      headerValue: "",
-      leagueName: "",
-      homeScore: "", awayScore: ""
-    }
+    defaultTheme: 'orange'
   },
   basket_roster: { 
     ...BasketLineup,  
-    defaultTheme: 'orange',
-    defaultData: {
-      headerTitle: "GARA",
-      headerValue: "",
-      rosterList: "",
-    }
+    defaultTheme: 'orange'
   },
   basket_ranking: { 
     ...BasketRanking, 
     defaultTheme: 'orange',
     defaultData: {
-      headerTitle: "CLASSIFICA",
-      season: "",
-      ranking: [],
-      highlightTeam: "",
+      ...BasketRanking.defaultData,
       showAverages: true,
       showStats: true,
       rankingSync: {
@@ -42,29 +28,17 @@ export const TEMPLATES = {
   },
   soccer_result: { 
     ...SoccerResult,  
-    defaultTheme: 'green',
-    defaultData: {
-      headerTitle: "GIORNATA",
-      homeScore: "", awayScore: ""
-    }
+    defaultTheme: 'green'
   },
   soccer_roster: { 
     ...SoccerFormation, 
-    defaultTheme: 'green',
-    defaultData: {
-      headerTitle: "GIORNATA",
-      module: "",
-      rosterList: ""
-    }
+    defaultTheme: 'green'
   },
   soccer_ranking: { 
     ...SoccerRanking, 
     defaultTheme: 'green',
     defaultData: {
-      headerTitle: "CLASSIFICA",
-      season: "",
-      ranking: [],
-      highlightTeam: "",
+      ...SoccerRanking.defaultData,
       rankingSync: {
         enabled: false,
         label: ""
@@ -73,11 +47,6 @@ export const TEMPLATES = {
   },
   week_recap: { 
     ...WeekRecap,     
-    defaultTheme: 'blue',
-    defaultData: {
-      headerTitle: "PROGRAMMA",
-      headerValue: "",
-      weekEvents: []
-    }
+    defaultTheme: 'blue'
   }
 };

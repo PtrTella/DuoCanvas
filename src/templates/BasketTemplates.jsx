@@ -13,7 +13,6 @@ const BASKET_SPORT = {
   id: 'basket',
   name: 'Basket',
   icon: Trophy,
-  defaultTheme: 'orange',
   hooks: {
     useRanking: (gironeId) => useClassifica(gironeId || "3") 
   }
@@ -25,12 +24,17 @@ export const BasketResult = {
     extraBlock: {
       Render: BasketMatchExtra,
       Controls: BasketMatchExtraControls
+    },
+    defaultData: {
+      headerTitle: "MATCH DAY",
+      headerValue: "",
+      homeScore: "", 
+      awayScore: ""
     }
   }),
   id: 'basket_result',
   name: 'Risultato Basket',
-  icon: Trophy,
-  defaultTheme: 'orange'
+  icon: Trophy
 };
 
 // 2. BASKET LINEUP
@@ -39,22 +43,30 @@ export const BasketLineup = {
     extraBlock: {
       Render: BasketRoster,
       Controls: BasketRosterControls
+    },
+    defaultData: {
+      headerTitle: "GARA",
+      headerValue: "",
+      rosterList: ""
     }
   }),
   id: 'basket_roster',
   name: 'Convocazioni Basket',
-  icon: Users,
-  defaultTheme: 'orange'
+  icon: Users
 };
 
 // 3. BASKET RANKING
 export const BasketRanking = {
   ...createRankingTemplate(BASKET_SPORT, {
     options: { showDraws: false, showAverages: true },
-    RenderBlock: TeamsRanking
+    RenderBlock: TeamsRanking,
+    defaultData: {
+      headerTitle: "CLASSIFICA",
+      season: "",
+      ranking: []
+    }
   }),
   id: 'basket_ranking',
   name: 'Classifica Basket',
-  icon: ListOrdered,
-  defaultTheme: 'orange'
+  icon: ListOrdered
 };
