@@ -2,45 +2,47 @@
 import { BasketResult, BasketLineup, BasketRanking } from '../../../templates/BasketTemplates';
 import { SoccerResult, SoccerFormation, SoccerRanking } from '../../../templates/SoccerTemplates';
 import { WeekRecap } from '../../../templates/WeekRecap';
-import { customizeForClub, buildTemplateRegistry } from '../../../utils/template-builder';
+import { customizeForClub, buildTemplateRegistry, configureClubTemplate } from '../../../utils/template-builder';
+import { SPORT_DEFAULTS } from './config';
 
 // 1. TEMPLATES REGISTRY
 export const TEMPLATES = buildTemplateRegistry([
-  customizeForClub(BasketResult, {
-    defaultTheme: 'orange'
+  
+  // BASKET
+  configureClubTemplate(BasketResult, SPORT_DEFAULTS.basket, {
+    defaultData: { headerTitle: "MATCH DAY" }
   }),
 
-  customizeForClub(BasketLineup, {
-    defaultTheme: 'orange'
+  configureClubTemplate(BasketLineup, SPORT_DEFAULTS.basket, {
+    defaultData: { headerTitle: "GARA" }
   }),
 
-  customizeForClub(BasketRanking, {
-    defaultTheme: 'orange',
+  configureClubTemplate(BasketRanking, SPORT_DEFAULTS.basket, {
     defaultData: {
+      headerTitle: "CLASSIFICA",
       showAverages: true,
       showStats: true
-      // Niente rankingSync nel generico, solo manuale
     }
   }),
 
-  customizeForClub(SoccerResult, {
-    defaultTheme: 'green'
+  // SOCCER
+  configureClubTemplate(SoccerResult, SPORT_DEFAULTS.soccer, {
+    defaultData: { headerTitle: "MATCH DAY" }
   }),
 
-  customizeForClub(SoccerFormation, {
-    defaultTheme: 'green'
+  configureClubTemplate(SoccerFormation, SPORT_DEFAULTS.soccer, {
+    defaultData: { headerTitle: "GARA", module: "3-2-1" }
   }),
 
-  customizeForClub(SoccerRanking, {
-    defaultTheme: 'green',
+  configureClubTemplate(SoccerRanking, SPORT_DEFAULTS.soccer, {
     defaultData: {
-      rankingSync: {
-        enabled: false,
-        label: ""
-      }
+      headerTitle: "CLASSIFICA",
+      highlightTeam: "Squadra Casa",
+      rankingSync: { enabled: false, label: "" }
     }
   }),
 
+  // GENERIC
   customizeForClub(WeekRecap, {
     defaultTheme: 'blue'
   })

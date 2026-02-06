@@ -1,24 +1,28 @@
 import { BasketResult, BasketLineup, BasketRanking } from '../../../templates/BasketTemplates';
 import { WeekRecap } from '../../../templates/WeekRecap';
-import { customizeForClub, buildTemplateRegistry } from '../../../utils/template-builder';
+import { customizeForClub, buildTemplateRegistry, configureClubTemplate } from '../../../utils/template-builder';
+import { SPORT_DEFAULTS } from './config';
 
 // 1. TEMPLATES REGISTRY
 export const TEMPLATES = buildTemplateRegistry([
-  customizeForClub(BasketResult, {
-    defaultTheme: 'gold' 
+  
+  // BASKET
+  configureClubTemplate(BasketResult, SPORT_DEFAULTS.basket, {
+    defaultData: { headerTitle: "MATCH DAY" }
   }),
   
-  customizeForClub(BasketLineup, {
-    defaultTheme: 'gold'
+  configureClubTemplate(BasketLineup, SPORT_DEFAULTS.basket, {
+    defaultData: { headerTitle: "GARA" }
   }),
 
-  customizeForClub(BasketRanking, {
-    defaultTheme: 'gold',
+  configureClubTemplate(BasketRanking, SPORT_DEFAULTS.basket, {
     defaultData: {
+      headerTitle: "CLASSIFICA",
       highlightTeam: "La Volta"
     }
   }),
 
+  // GENERIC
   customizeForClub(WeekRecap, {
     defaultTheme: 'gold',
     defaultData: {

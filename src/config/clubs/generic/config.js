@@ -23,6 +23,18 @@ export const GLOBAL_DEFAULTS = {
   arenaAddress: "Indirizzo"
 };
 
+// Sport-Specific Overrides
+export const SPORT_DEFAULTS = {
+  basket: { 
+    defaultTheme: 'orange',
+    defaultData: { championship: "Campionato Basket" }
+  },
+  soccer: { 
+    defaultTheme: 'green',
+    defaultData: { championship: "Campionato Calcio" } 
+  }
+};
+
 // 3. Visual Themes
 export const THEMES = {
   orange: { hex: "#ea580c", primary: "from-orange-600 to-red-600", bg: "bg-orange-950", accent: "text-orange-400", decoration: "/DuoCanvas/clubs/generic/themes/basketball.png" },

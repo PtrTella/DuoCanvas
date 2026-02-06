@@ -45,6 +45,24 @@ export const customizeForClub = (template, overrides) => {
 };
 
 /**
+ * Configure helper: Merge Template -> Sport Defaults -> Specific Defaults
+ * 
+ * @param {Object} template - The sport template
+ * @param {Object} sportDefaults - General defaults for the sport (e.g. Arena name)
+ * @param {Object} specificOverrides - Specific overrides for this template (e.g. Header Title)
+ */
+export const configureClubTemplate = (template, sportDefaults, specificOverrides = {}) => {
+  return customizeForClub(template, {
+    ...sportDefaults,
+    ...specificOverrides,
+    defaultData: {
+      ...sportDefaults.defaultData,
+      ...(specificOverrides.defaultData || {})
+    }
+  });
+};
+
+/**
  * Utility to transform a list of templates into a registry map.
  * Ensures the map keys match the template IDs.
  */

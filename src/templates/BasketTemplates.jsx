@@ -17,12 +17,6 @@ export const BasketResult = defineBasket(createResultTemplate, {
   extraBlock: {
     Render: BasketMatchExtra,
     Controls: BasketMatchExtraControls
-  },
-  defaultData: {
-    headerTitle: "MATCH DAY",
-    headerValue: "",
-    homeScore: "", 
-    awayScore: ""
   }
 });
 
@@ -34,11 +28,6 @@ export const BasketLineup = defineBasket(createLineupTemplate, {
   extraBlock: {
     Render: BasketRoster,
     Controls: BasketRosterControls
-  },
-  defaultData: {
-    headerTitle: "GARA",
-    headerValue: "",
-    rosterList: ""
   }
 });
 
@@ -48,10 +37,5 @@ export const BasketRanking = defineBasket(createRankingTemplate, {
   name: 'Classifica Basket',
   icon: ListOrdered,
   options: { showDraws: false, showAverages: true },
-  RenderBlock: TeamsRanking,
-  defaultData: {
-    headerTitle: "CLASSIFICA",
-    season: "",
-    ranking: []
-  }
+  RenderBlock: TeamsRanking
 });

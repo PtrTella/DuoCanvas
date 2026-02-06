@@ -13,6 +13,26 @@ export const GLOBAL_DEFAULTS = {
   homeLogo: "/DuoCanvas/clubs/duo/logos/duoligones.png"
 };
 
+export const SPORT_DEFAULTS = {
+  basket: {
+    defaultTheme: 'orange',
+    defaultData: {
+      homeTeam: "Duo Ligones",
+      arena: "Palestra S. Umiltà",
+      arenaAddress: "Via Ugo Foscolo, 15",
+      championship: "CSI Faenza"
+    }
+  },
+  soccer: {
+    defaultTheme: 'green',
+    defaultData: {
+      homeTeam: "Duo Calcio",
+      arena: "Campo Graziola",
+      championship: "CSI Calcio a 7"
+    }
+  }
+};
+
 // Visual Themes
 export const THEMES = {
   orange: { hex: "#ea580c", primary: "from-orange-600 to-red-600", bg: "bg-orange-950", accent: "text-orange-400", bgImage: "/DuoCanvas/clubs/duo/themes/basketTeam.jpeg" },

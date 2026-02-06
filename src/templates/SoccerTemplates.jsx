@@ -17,11 +17,6 @@ export const SoccerResult = defineSoccer(createResultTemplate, {
   extraBlock: {
     Render: GoalTimeline,
     Controls: GoalTimelineControls
-  },
-  defaultData: {
-    headerTitle: "MATCH DAY",
-    homeScore: "", 
-    awayScore: ""
   }
 });
 
@@ -33,12 +28,6 @@ export const SoccerFormation = defineSoccer(createLineupTemplate, {
   extraBlock: {
     Render: FormationBlock,
     Controls: SoccerFormationControls
-  },
-  defaultData: {
-    headerTitle: "GARA",
-    module: "3-2-1",
-    teamFormation: "",
-    mister: ""
   }
 });
 
@@ -48,10 +37,5 @@ export const SoccerRanking = defineSoccer(createRankingTemplate, {
   name: 'Classifica Calcio',
   icon: ListOrdered,
   options: { showDraws: true, showAverages: false },
-  RenderBlock: TeamsRanking,
-  defaultData: {
-    headerTitle: "CLASSIFICA",
-    season: "",
-    ranking: []
-  }
+  RenderBlock: TeamsRanking
 });

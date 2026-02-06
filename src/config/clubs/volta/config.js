@@ -6,9 +6,19 @@ export const CLUB_INFO = {
 
 export const GLOBAL_DEFAULTS = {
   homeTeam: "Playground Volta Dozza",
-  homeLogo: "/DuoCanvas/clubs/volta/logos/volta.png",
-  championship: "Divisione Regionale 3 FIP",
-  arena: "TOSCA BEACH"
+  homeLogo: "/DuoCanvas/clubs/volta/logos/volta.png"
+};
+
+// Sport-Specific Overrides
+export const SPORT_DEFAULTS = {
+  basket: {
+    defaultTheme: 'gold',
+    defaultData: {
+      homeTeam: "Playground Volta Dozza",
+      championship: "Divisione Regionale 3 FIP",
+      arena: "TOSCA BEACH"
+    }
+  }
 };
 
 // Visual Themes

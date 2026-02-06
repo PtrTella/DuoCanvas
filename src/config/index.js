@@ -23,7 +23,7 @@ const getActiveProfile = () => {
 const active = getActiveProfile();
 
 // 3. EXPORTS
-export const { CLUB_INFO, GLOBAL_DEFAULTS, THEMES } = active.config;
+export const { CLUB_INFO, GLOBAL_DEFAULTS, THEMES, SPORT_DEFAULTS = {} } = active.config;
 export const TEMPLATES = active.templates.TEMPLATES || {};
 
 // Derived Helpers
