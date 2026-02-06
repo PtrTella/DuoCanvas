@@ -45,7 +45,7 @@ export const SoccerFormation = {
     defaultData: {
       headerTitle: "GARA",
       module: "3-2-1",
-      rosterList: ""
+      teamFormation: ""
     }
   }),
   id: 'soccer_roster',

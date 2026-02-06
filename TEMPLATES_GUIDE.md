@@ -50,8 +50,8 @@ Utilizzato in quasi tutti i template per il titolo principale.
 ### 5. SoccerFormation (Formazione Calcio)
 
 - `module`: Modulo tattico (es. "3-2-1", "2-3-1", etc.)
-- `rosterList`: Lista giocatori. Formato: `Numero Cognome` (un giocatore per riga). I primi 7 sono titolari.
-- `coach`: Nome dell'allenatore.
+- `teamFormation`: Lista giocatori. Formato: `Numero Cognome` (un giocatore per riga). I primi 7 sono titolari.
+- `mister`: Nome dell'allenatore.
 
 ### 6. BasketRoster (Convocazioni Basket)
 

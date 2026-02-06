@@ -101,9 +101,9 @@ const parseRoster = (text) => {
 
 // --- LAYOUT PRINCIPALE ---
 export const SoccerFormation = ({ data, theme, className = "" }) => {
-  const { rosterList, module, coach, labelCoach = "Allenatore", labelBench = "Panchina" } = data;
+  const { teamFormation, module, mister, labelCoach = "Allenatore", labelBench = "Panchina" } = data;
   
-  const allPlayers = parseRoster(rosterList);
+  const allPlayers = parseRoster(teamFormation);
   const starters = allPlayers.slice(0, 7);
   const bench = allPlayers.slice(7);
 
@@ -140,7 +140,7 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
                 {/* Allenatore Spostato qui e affiancato */}
                 <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
                     <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.1em]">{labelCoach}:</span>
-                    <span className="text-lg font-black text-white uppercase tracking-wider leading-none">{coach || '---'}</span>
+                    <span className="text-lg font-black text-white uppercase tracking-wider leading-none">{mister || '---'}</span>
                 </div>
             </div>
             
@@ -239,8 +239,8 @@ export const SoccerFormationControls = ({ data, onChange }) => (
         description={<>I <span className="font-bold text-gray-600">primi 7</span> in lista appariranno in campo come titolari.</>}
      >
         <textarea 
-            value={data.rosterList || ''} 
-            onChange={(e) => onChange('rosterList', e.target.value)} 
+            value={data.teamFormation || ''} 
+            onChange={(e) => onChange('teamFormation', e.target.value)} 
             className="w-full p-3 bg-gray-50/50 border rounded-2xl text-xs font-mono h-48 resize-none focus:bg-white focus:border-gray-900 transition-all outline-none leading-relaxed"
             placeholder={"1 Voda\n4 Gentilini\n..."}
         />
@@ -249,8 +249,8 @@ export const SoccerFormationControls = ({ data, onChange }) => (
      <ControlSection title="Staff" icon={ClipboardList} className="mt-4 not-italic">
         <input 
             type="text" 
-            value={data.coach || ''} 
-            onChange={(e) => onChange('coach', e.target.value)} 
+            value={data.mister || ''} 
+            onChange={(e) => onChange('mister', e.target.value)} 
             className="w-full p-3 bg-gray-50/50 border rounded-xl text-xs transition-all focus:bg-white focus:border-gray-900" 
             placeholder="Mister / Allenatore" 
         />
