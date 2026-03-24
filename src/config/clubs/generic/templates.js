@@ -10,7 +10,13 @@ export const TEMPLATES = buildTemplateRegistry([
   
   // BASKET
   customizeForClub(BasketResult, SPORT_DEFAULTS.basket, {
-    defaultData: { headerTitle: "MATCH DAY" }
+    defaultData: { 
+      headerTitle: "MATCH DAY",
+      date: "",
+      time: "",
+      building: "",
+      address: ""
+    }
   }),
 
   customizeForClub(BasketLineup, SPORT_DEFAULTS.basket, {
@@ -27,7 +33,13 @@ export const TEMPLATES = buildTemplateRegistry([
 
   // SOCCER
   customizeForClub(SoccerResult, SPORT_DEFAULTS.soccer, {
-    defaultData: { headerTitle: "MATCH DAY" }
+    defaultData: { 
+      headerTitle: "MATCH DAY",
+      date: "",
+      time: "",
+      building: "",
+      address: ""
+    }
   }),
 
   customizeForClub(SoccerFormation, SPORT_DEFAULTS.soccer, {

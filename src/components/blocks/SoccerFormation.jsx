@@ -37,17 +37,21 @@ const FieldPlayer = ({ number, name, theme }) => (
 
 const BenchPlayer = ({ number, name, theme }) => (
   <div 
-    className="flex items-center gap-5 py-3.5 px-5 mb-2.5 bg-[#141414] border-l-[6px] relative overflow-hidden group hover:bg-white/10 transition-all shadow-lg"
+    className="flex items-center gap-6 py-3.5 px-6 mb-2 bg-black/40 backdrop-blur-md border-l-[6px] relative overflow-hidden group hover:bg-white/10 transition-all shadow-2xl rounded-r-2xl border border-white/5"
     style={{ borderLeftColor: theme?.hex || '#10b981' }}
   >
-      <div className="text-2xl font-black italic text-white/90 w-10 text-right shrink-0 drop-shadow-md" style={IMPACT_FONT}>
+      {/* Sottile linea superiore di accento */}
+      <div className={`absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r ${theme?.primary || 'from-emerald-500 to-green-600'} opacity-20`} />
+      
+      <div className="text-3xl font-black italic text-white w-12 text-right shrink-0 drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]" style={IMPACT_FONT}>
         {number}
       </div>
       <div className="flex-1 min-w-0">
-        <span className="block text-2xl font-black text-white uppercase tracking-tight truncate leading-tight">
+        <span className="block text-2xl font-black text-white uppercase tracking-tighter truncate leading-none drop-shadow-lg">
           {name}
         </span>
       </div>
+      
       {/* Subtle glow effect on hover */}
       <div className="absolute inset-y-0 left-0 w-1 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
   </div>
@@ -101,11 +105,12 @@ const parseRoster = (text) => {
 
 // --- LAYOUT PRINCIPALE ---
 export const SoccerFormation = ({ data, theme, className = "" }) => {
-  const { teamFormation, module, mister, labelMister = "Allenatore", labelBench = "Panchina" } = data;
+  const { teamFormation, rosterList, module, mister, labelMister = "Allenatore", labelBench = "Panchina" } = data;
   
-  const allPlayers = parseRoster(teamFormation);
+  const allPlayers = parseRoster(teamFormation || rosterList);
   const starters = allPlayers.slice(0, 7);
-  const bench = allPlayers.slice(7);
+  // Limite massimo di panchinari per evitare overflow (max 7 come nel basket)
+  const bench = allPlayers.slice(7).slice(0, 8);
 
   const currentModule = module || '3-2-1';
   const schema = FORMATIONS_7V7[currentModule] || FORMATIONS_7V7['3-2-1'];

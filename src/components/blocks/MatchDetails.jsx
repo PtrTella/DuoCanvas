@@ -12,19 +12,19 @@ export const MatchDetails = ({ data, theme, className = "" }) => {
 
   // Configurazione icone
   const items = [
-      { icon: Calendar, label: labelDate, value: data.date },
-      { icon: Clock, label: labelTime, value: data.time },
-      { icon: MapPin, label: labelBuilding, value: data.building },
-      { icon: Navigation, label: labelAddress, value: data.address }
+      { icon: Calendar, label: "Data", value: data.date },
+      { icon: Clock, label: "Ora", value: data.time },
+      { icon: MapPin, label: "Arena", value: data.building },
+      { icon: Navigation, label: "Indirizzo", value: data.address }
   ];
 
   return (
-    <div className={`mt-auto pt-4 pb-1 w-full ${className}`}>
+    <div className={`mt-auto pt-4 pb-1 w-full flex items-center justify-center ${className}`}>
         {/* Layout distribuito ma non agli estremi */}
-        <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-evenly gap-x-8 gap-y-3">
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-3">
             {items.map((item, idx) => {
-                // Saltiamo se non c'è valore (es. indirizzo vuoto)
-                if (!item.value) return null;
+                // Saltiamo se non c'è valore
+                if (!item.value || !item.value.trim()) return null;
                 
                 const Icon = item.icon;
                 return (

@@ -27,69 +27,57 @@ export const GoalTimeline = ({ data, theme, className = "" }) => {
   }
 
   return (
-    <div className={`w-full px-5 py-3 rounded-2xl backdrop-blur-md bg-gradient-to-br from-white/15 to-white/5 border-2 border-white/30 shadow-2xl ${className}`}>
-      {/* Header con titolo */}
-      <div className="text-center mb-3 pb-2 border-b border-white/20">
-        <h3 className="text-xs font-black text-white uppercase tracking-widest drop-shadow-lg">{labelGoals}</h3>
-      </div>
+    <div className={`w-full px-12 ${className}`}>
+      <div className="grid grid-cols-2 gap-16 relative">
+        {/* Central Vertical Decorative Line */}
+        <div className="absolute left-1/2 top-2 bottom-2 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent -translate-x-1/2" />
 
-      <div className="grid grid-cols-2 gap-12">
         {/* Gol Casa */}
-        <div className="space-y-2">
-          {homeGoals.length > 0 ? (
-            homeGoals.map((goal, idx) => (
-              <div 
-                key={idx} 
-                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-white/10 to-transparent border border-white/20"
-              >
-                {/* Goal Icon - Target for home */}
-                <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br ${theme.primary} flex items-center justify-center shadow-lg`}>
-                  <Target size={16} className="text-white drop-shadow-lg" />
-                </div>
-                
-                {/* Goal Info - Single Line */}
-                <div className="flex flex-col flex-1 min-w-0">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xs font-extrabold text-yellow-200 drop-shadow-md whitespace-nowrap">{goal.minute}'</span>
-                    <span className="text-xs font-black text-white truncate drop-shadow-lg">{goal.player}</span>
-                  </div>
-                </div>
+        <div className="space-y-6">
+          {homeGoals.length > 0 && homeGoals.map((goal, idx) => (
+            <div 
+              key={idx} 
+              className="flex items-center gap-6"
+            >
+              <div className={`flex items-center justify-center w-14 h-14 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 shadow-xl relative overflow-hidden group`}>
+                <div className={`absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r ${theme.primary} opacity-20`} />
+                <span className={`text-2xl font-black italic ${theme.accent} drop-shadow-md`}>
+                  {goal.minute}
+                  <span className="text-xs ml-0.5">'</span>
+                </span>
               </div>
-            ))
-          ) : (
-            <div className="text-center py-2 px-3 rounded-lg bg-white/5 border border-white/10">
-              <span className="text-xs text-white/40 uppercase font-bold">-</span>
+              <div className="flex flex-col">
+                <span className="text-3xl font-black text-white uppercase tracking-tight drop-shadow-2xl leading-none">
+                  {goal.player}
+                </span>
+                <div className={`h-1.5 w-12 mt-2 rounded-full bg-gradient-to-r ${theme.primary} opacity-40`} />
+              </div>
             </div>
-          )}
+          ))}
         </div>
 
         {/* Gol Ospiti */}
-        <div className="space-y-2">
-          {awayGoals.length > 0 ? (
-            awayGoals.map((goal, idx) => (
-              <div 
-                key={idx} 
-                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-l from-white/10 to-transparent border border-white/20"
-              >
-                {/* Goal Info - Single Line */}
-                <div className="flex flex-col flex-1 min-w-0">
-                  <div className="flex items-baseline gap-2 justify-end">
-                    <span className="text-xs font-black text-white truncate drop-shadow-lg">{goal.player}</span>
-                    <span className="text-xs font-extrabold text-yellow-200 drop-shadow-md whitespace-nowrap">{goal.minute}'</span>
-                  </div>
-                </div>
-
-                {/* Goal Icon - Ball for away */}
-                <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br ${theme.primary} flex items-center justify-center shadow-lg`}>
-                  <Goal size={16} className="text-white drop-shadow-lg" />
-                </div>
+        <div className="space-y-6">
+          {awayGoals.length > 0 && awayGoals.map((goal, idx) => (
+            <div 
+              key={idx} 
+              className="flex items-center justify-end gap-6 text-right"
+            >
+              <div className="flex flex-col items-end">
+                <span className="text-3xl font-black text-white uppercase tracking-tight drop-shadow-2xl leading-none">
+                  {goal.player}
+                </span>
+                <div className={`h-1.5 w-12 mt-2 rounded-full bg-gradient-to-l ${theme.primary} opacity-40`} />
               </div>
-            ))
-          ) : (
-            <div className="text-center py-2 px-3 rounded-lg bg-white/5 border border-white/10">
-              <span className="text-xs text-white/40 uppercase font-bold">-</span>
+              <div className={`flex items-center justify-center w-14 h-14 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 shadow-xl relative overflow-hidden group`}>
+                <div className={`absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r ${theme.primary} opacity-20`} />
+                <span className={`text-2xl font-black italic ${theme.accent} drop-shadow-md`}>
+                  {goal.minute}
+                  <span className="text-xs ml-0.5">'</span>
+                </span>
+              </div>
             </div>
-          )}
+          ))}
         </div>
       </div>
     </div>

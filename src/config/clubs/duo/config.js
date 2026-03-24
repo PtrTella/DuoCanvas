@@ -4,7 +4,8 @@ export const CLUB_INFO = {
   sponsors: [
     '/DuoCanvas/clubs/duo/sponsors/sponsor1.png', 
     '/DuoCanvas/clubs/duo/sponsors/sponsor2.png',
-    '/DuoCanvas/clubs/duo/sponsors/sponsor3.png'
+    '/DuoCanvas/clubs/duo/sponsors/sponsor3.png',
+    '/DuoCanvas/clubs/duo/sponsors/sponsor4.png'
   ]
 };
 
@@ -20,7 +21,8 @@ export const SPORT_DEFAULTS = {
       homeTeam: "Duo Ligones",
       building: "Palestra S. Umiltà",
       address: "Via Ugo Foscolo, 15",
-      championship: "CSI Faenza"
+      championship: "CSI Faenza",
+      rosterList: "1 Martini\n4 Rubbi Alfi\n5 Dino\n6 Ricci Lucchi\n7 Tellarini\n8 Gardenghi\n9 Lambertucci\n10 Pieri\n12 Camaggi\n14 Bonifazio\n15 Cavini\n16 Monti\n18 Tassoni\n20 Gamez\n21 Piani Gentile\n22 Biavati\n25 Ferrante\n27 Lancieri"
     }
   },
   soccer: {
@@ -28,7 +30,8 @@ export const SPORT_DEFAULTS = {
     defaultData: {
       homeTeam: "Duo Calcio",
       building: "Campo Graziola",
-      championship: "CSI Calcio a 7"
+      championship: "CSI Calcio a 7",
+      teamFormation: "1 Voda\n4 Gentilini\n5 Ceroni\n6 Neri\n7 Costa\n8 Mondini\n9 Alpi\n10 Forti\n12 Poli\n15 Sarro A.\n17 Carbone\n20 Collina\n21 Dalle Fabbriche\n22 Tomba\n23 Sarro M."
     }
   }
 };

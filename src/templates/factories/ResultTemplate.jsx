@@ -23,7 +23,9 @@ export const createResultTemplate = (config = {}) => {
 
           <div className="flex-1 flex flex-col items-center justify-start pt-12 w-full">
             <MatchScore data={data} theme={theme} className="mb-4" />
+          </div>
 
+          <div className="w-full mb-8">
             {/* Configured Block */}
             {block?.Render && <block.Render data={data} theme={theme} />}
           </div>
