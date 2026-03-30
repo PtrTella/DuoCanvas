@@ -1,5 +1,7 @@
 import React from 'react';
 import { Calendar, Clock, MapPin, Navigation } from 'lucide-react';
+import ControlSection from '../ui/ControlSection';
+import { Input } from '../ui/EditorFields';
 
 // --- LAYOUT ---
 export const MatchDetails = ({ data, theme, className = "" }) => {
@@ -52,65 +54,44 @@ export const MatchDetails = ({ data, theme, className = "" }) => {
 
 // --- CONTROLS ---
 export const MatchDetailsControls = ({ data, onChange }) => {
-  const inputStyle = "w-full p-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl text-xs font-bold transition-all";
-  const labelStyle = "text-[10px] font-bold text-gray-400 uppercase block mb-1 tracking-tighter ml-1";
-
   return (
-    <div className="py-5 border-b border-gray-100 last:border-0">
-      <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-        <MapPin size={14} className="text-gray-900" />
-        LOGISTICA
-      </h3>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="space-y-1">
-          <label className={labelStyle}>Data</label>
-          <div className="relative group">
-            <Calendar size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gray-900 transition-colors" />
-            <input 
-                type="text" value={data.date} 
-                onChange={(e) => onChange('date', e.target.value)} 
-                className={`${inputStyle} pl-10`} 
-                placeholder="Sabato 15 Feb"
-            />
-          </div>
-        </div>
-        <div className="space-y-1">
-          <label className={labelStyle}>Orario</label>
-          <div className="relative group">
-            <Clock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gray-900 transition-colors" />
-            <input 
-                type="text" value={data.time} 
-                onChange={(e) => onChange('time', e.target.value)} 
-                className={`${inputStyle} pl-10`} 
-                placeholder="20:30"
-            />
-          </div>
-        </div>
-        <div className="space-y-1 col-span-2">
-          <label className={labelStyle}>Impianto</label>
-          <div className="relative group">
-            <MapPin size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gray-900 transition-colors" />
-            <input 
-                type="text" value={data.building} 
-                onChange={(e) => onChange('building', e.target.value)} 
-                className={`${inputStyle} pl-10`} 
-                placeholder="PalaDozza"
-            />
-          </div>
-        </div>
-        <div className="space-y-1 col-span-2">
-          <label className={labelStyle}>Indirizzo</label>
-          <div className="relative group">
-            <Navigation size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-gray-900 transition-colors" />
-            <input 
-                type="text" value={data.address || ''} 
-                onChange={(e) => onChange('address', e.target.value)} 
-                className={`${inputStyle} pl-10`} 
-                placeholder="Via Calori 1, Bologna"
-            />
-          </div>
-        </div>
+    <ControlSection title="Logistica" icon={MapPin}>
+      <div className="flex gap-3 -mt-1">
+        <Input 
+            label="Data"
+            icon={Calendar}
+            value={data.date} 
+            onChange={(e) => onChange('date', e.target.value)} 
+            placeholder="Sabato 15 Feb"
+        />
+        <Input 
+            label="Orario"
+            icon={Clock}
+            value={data.time} 
+            onChange={(e) => onChange('time', e.target.value)} 
+            placeholder="20:30"
+        />
       </div>
-    </div>
+      
+      <div className="pt-2">
+        <Input 
+            label="Impianto"
+            icon={MapPin}
+            value={data.building} 
+            onChange={(e) => onChange('building', e.target.value)} 
+            placeholder="PalaDozza"
+        />
+      </div>
+
+      <div className="pt-2">
+        <Input 
+            label="Indirizzo"
+            icon={Navigation}
+            value={data.address || ''} 
+            onChange={(e) => onChange('address', e.target.value)} 
+            placeholder="Via Calori 1, Bologna"
+        />
+      </div>
+    </ControlSection>
   );
 };

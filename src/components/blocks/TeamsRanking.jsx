@@ -1,55 +1,59 @@
 import React from 'react';
-import { ListOrdered } from 'lucide-react';
+import { ListOrdered, FileText, RefreshCw } from 'lucide-react';
+import ControlSection from '../ui/ControlSection';
+import { Input, Select, TextArea } from '../ui/EditorFields';
+import { parseManualRanking } from '../../utils/rankingUtils';
 
 /**
  * Blocco generico per la classifica.
- * Supporta qualsiasi sport che abbia una lista di squadre con punti/statistiche.
+ * Supporta qualsiasi sport delegando la logica del layout a rankingFormat.
  * 
  * Props:
- * - showDraws: (bool) Mostra colonna pareggi. Default: true
- * - showAverages: (bool) Mostra colonne medie (PF/PS). Default: false
- * - labels: (obj) Sovrascrittura etichette colonne { points, played, won, drawn, lost, scored, conceded }
+ * - rankingFormat: (obj) Configurazione del formato (colonne, labels, etc)
+ * - showDraws: (bool) Override UI per pareggi
+ * - showAverages: (bool) Override UI per medie
+ * - showStats: (bool) Mostra o nasconde le statistiche (G V P S)
  */
 export const TeamsRanking = ({ 
   data, 
   theme, 
   className = "",
-  columnsString = "V • Vittorie  P • Perse  S • Pari",
-  showDraws = true,
-  showAverages = false,
+  rankingFormat,
+  showDraws: propShowDraws,
+  showAverages: propShowAverages,
   showStats = true
 }) => {
-  // Default Labels from data or defaults
-  const L = {
-     points: data.labelPoints || "PT",
-     played: data.labelPlayed || "G",
-     won: data.labelWon || "V",
-     drawn: data.labelDrawn || "P",
-     lost: data.labelLost || "S",
-     scored: data.labelScored || (showAverages ? "PF" : "GF"),
-     conceded: data.labelConceded || (showAverages ? "PS" : "GS")
-  };
-
-  // Determine Grid Columns Logic
-  // Base: Rank(4rem) Team(1fr) Points(5rem)
-
-  // Decide whether to really show extra stats/averages if data is missing or zero
-  const hasAveragesContent = data.ranking?.some(t => {
-      const s = t.avgScored || t.scored;
-      const c = t.avgConceded || t.conceded;
-      return (s !== undefined && s !== 0 && !isNaN(s)) || (c !== undefined && c !== 0 && !isNaN(c));
-  });
-
-  const effectiveShowAverages = showAverages && hasAveragesContent;
-  
-  // Let's build the grid template string dynamically
-  let gridCols = "4rem 1fr 5rem"; // # Team PT
-  if (showStats) {
-      gridCols += " 3rem 3rem"; // G V
-      if (showDraws) gridCols += " 3rem"; // P
-      gridCols += " 3rem"; // S (Lost) is standard
+  if (!rankingFormat) {
+     return <div className="p-4 text-white opacity-50">Ranking Format non definito.</div>;
   }
-  if (effectiveShowAverages) gridCols += " 4rem 4rem"; // PF PS (larger for decimals/hundreds)
+
+  // Derive display flags from format if not overridden
+  const showDraws = propShowDraws ?? rankingFormat.showDraws;
+  const showAverages = propShowAverages ?? rankingFormat.showAverages;
+
+  // Derive Labels directly from the format configuration
+  const L = rankingFormat.columns.reduce((acc, col) => ({ ...acc, [col.key]: col.label }), {});
+
+  // Determine Grid Columns Logic based on format columns
+  // Rank(4rem) + Team(1fr) + Points(5rem) + Stats + Averages
+  let gridCols = "4rem 1fr 5rem"; 
+  
+  if (showStats) {
+      rankingFormat.columns.forEach(col => {
+          if (col.isStat) {
+             if (col.key === 'drawn' && !showDraws) return;
+             gridCols += " 3rem";
+          }
+      });
+  }
+
+  if (showAverages) {
+      rankingFormat.columns.forEach(col => {
+          if (col.isAverage) gridCols += " 4.5rem"; // slightly larger for averages
+      });
+  }
+
+  const columnsString = rankingFormat.columns.map(c => `${c.label} • ${c.key.charAt(0).toUpperCase() + c.key.slice(1)}`).join('  ');
 
   return (
     <div className={`flex flex-col h-full w-full relative ${className}`}>
@@ -64,23 +68,22 @@ export const TeamsRanking = ({
             >
                 <div className="text-center text-lg">#</div>
                 <div className="text-left pl-2 text-lg">Squadra</div>
-                <div className="text-center bg-white/20 rounded shadow-inner text-white text-lg">{L.points}</div>
+                <div className="text-center bg-white/20 rounded shadow-inner text-white text-lg">{L.points || 'PT'}</div>
                 
-                {showStats && (
-                  <>
-                    <div className="text-center opacity-60 text-lg">{L.played}</div>
-                    <div className="text-center opacity-60 text-green-400 text-lg">{L.won}</div>
-                    {showDraws && <div className="text-center opacity-60 text-yellow-400 text-lg">{L.drawn}</div>}
-                    <div className="text-center opacity-60 text-red-400 text-lg">{L.lost}</div>
-                  </>
-                )}
+                {showStats && rankingFormat.columns.filter(c => c.isStat).map(col => {
+                   if (col.key === 'drawn' && !showDraws) return null;
+                   const colorMap = { won: 'text-green-400', drawn: 'text-yellow-400', lost: 'text-red-400' };
+                   return (
+                     <div key={col.key} className={`text-center opacity-60 text-lg ${colorMap[col.key] || ''}`}>{col.label}</div>
+                   );
+                })}
                 
-                {effectiveShowAverages && (
-                <>
-                  <div className="text-center opacity-60 text-cyan-400 text-lg">{L.scored}</div>
-                  <div className="text-center opacity-60 text-orange-400 text-lg">{L.conceded}</div>
-                </>
-                )}
+                {showAverages && rankingFormat.columns.filter(c => c.isAverage).map(col => {
+                   const colorMap = { scored: 'text-cyan-400', conceded: 'text-orange-400' };
+                   return (
+                     <div key={col.key} className={`text-center opacity-60 text-lg ${colorMap[col.key] || ''}`}>{col.label}</div>
+                   );
+                })}
             </div>
           </div>
 
@@ -91,14 +94,6 @@ export const TeamsRanking = ({
               const isHighlighted = data.highlightTeam === team.name;
               const isTop3 = index < 3;
               
-              // Calcolo medie se necessario (solo se giocate > 0)
-              const avgScored = effectiveShowAverages 
-                    ? (team.avgScored !== undefined && team.avgScored !== 0 ? team.avgScored : (team.played > 0 && team.scored !== undefined ? (team.scored / team.played).toFixed(1) : "0.0"))
-                    : "0.0";
-              const avgConceded = effectiveShowAverages 
-                    ? (team.avgConceded !== undefined && team.avgConceded !== 0 ? team.avgConceded : (team.played > 0 && team.conceded !== undefined ? (team.conceded / team.played).toFixed(1) : "0.0"))
-                    : "0.0";
-
               return (
                 <div 
                   key={team.id || index} 
@@ -143,22 +138,21 @@ export const TeamsRanking = ({
                   </div>
 
                   {/* Stats */}
-                  {showStats && (
-                    <>
-                      <div className="text-center font-mono opacity-80 text-xl font-bold">{team.played}</div>
-                      <div className="text-center font-mono opacity-60 text-lg">{team.won}</div>
-                      {showDraws && <div className="text-center font-mono opacity-60 text-lg">{team.drawn}</div>}
-                      <div className="text-center font-mono opacity-60 text-lg">{team.lost}</div>
-                    </>
-                  )}
+                  {showStats && rankingFormat.columns.filter(c => c.isStat).map(col => {
+                     if (col.key === 'drawn' && !showDraws) return null;
+                     return (
+                        <div key={col.key} className="text-center font-mono opacity-80 text-xl font-bold">{team[col.key]}</div>
+                     );
+                  })}
 
                   {/* Averages */}
-                  {effectiveShowAverages && (
-                    <>
-                       <div className="text-center font-mono font-bold text-lg tracking-tight">{avgScored}</div>
-                       <div className="text-center font-mono opacity-80 text-lg tracking-tight">{avgConceded}</div>
-                    </>
-                  )}
+                  {showAverages && rankingFormat.columns.filter(c => c.isAverage).map(col => {
+                     const val = team[col.key] || 0;
+                     const displayVal = typeof val === 'number' && val < 50 ? val.toFixed(1) : val;
+                     return (
+                        <div key={col.key} className="text-center font-mono font-bold text-lg tracking-tight">{displayVal}</div>
+                     );
+                  })}
                 </div>
               );
             })
@@ -167,7 +161,7 @@ export const TeamsRanking = ({
                 <ListOrdered size={64} className="opacity-20" />
                 <div>
                     <p className="text-2xl font-bold">Nessun dato</p>
-                    <p className="text-base">Importa la classifica dai controlli</p>
+                    <p className="text-base">Inserisci i dati dai controlli</p>
                 </div>
             </div>
           )}
@@ -176,10 +170,10 @@ export const TeamsRanking = ({
       
       {/* Footer Legend */}
       <div className="mb-2 px-6 flex justify-between items-center opacity-70 mt-3 text-white">
-         <div className="flex gap-4 text-[11px] uppercase tracking-wider font-bold">
-            {columnsString}
+         <div className="flex gap-4 text-[11px] uppercase tracking-wider font-bold truncate pr-4">
+            {rankingFormat.columnsString || columnsString}
          </div>
-         <div className="text-right">
+         <div className="text-right whitespace-nowrap">
             <p className="font-bold text-xs uppercase tracking-widest text-white/80">{data.season}</p>
          </div>
       </div>
@@ -187,40 +181,92 @@ export const TeamsRanking = ({
   );
 };
 
-// --- Controls Generic ---
-export const TeamsRankingControls = ({ data, onChange }) => {
+// --- TeamsRankingControls ---
+export const TeamsRankingControls = ({ data, onChange, rankingFormat }) => {
+    // rankingSync now expects just the hook function or null
+    const useRankingHook = data.rankingSync;
+    const hasSync = typeof useRankingHook === 'function';
+
+    // Hook execution (condizionale via componente shell o interno)
+    const rankingState = hasSync ? useRankingHook() : { classifica: [], loading: false, refresh: () => {} };
+    const { classifica: syncData, loading, refresh } = rankingState;
+
+    const handleSync = () => {
+      refresh(); // Ricarica dati dal web
+      if (syncData && syncData.length > 0) {
+        onChange('ranking', syncData);
+        onChange('isManual', false);
+      }
+    };
+
+    const handleManualChange = (val) => {
+      onChange('manualText', val);
+      const parsed = parseManualRanking(val, { rankingFormat });
+      
+      // Extract only the ranking array from the parser results
+      onChange('ranking', parsed.ranking);
+      
+      // Auto-update toggles based on detected columns in text
+      onChange('showStats', parsed.hasStats);
+      onChange('showAverages', parsed.hasAverages);
+    };
+
+    const formatLabels = rankingFormat?.columns.map(f => f.label).join(' ') || "";
+    const formatPlaceholders = rankingFormat?.columns.map(f => f.placeholder).join(' ') || "";
+
     return (
-        <div className="py-5 border-b border-gray-100 italic">
-          <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2 not-italic">
-            <ListOrdered size={14} className="text-gray-900" />
-            Parametri Classifica
-          </h3>
-          
-          <div className="grid grid-cols-2 gap-3 not-italic">
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter">Stagione</label>
-              <input 
-                  type="text" 
-                  value={data.season || ''} 
-                  onChange={(e) => onChange('season', e.target.value)} 
-                  className="w-full p-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl text-xs font-bold transition-all" 
-                  placeholder="2025/26"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter">Evidenzia Squadra</label>
-              <select 
-                  className="w-full p-3 text-xs bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-xl font-bold transition-all"
-                  value={data.highlightTeam}
-                  onChange={(e) => onChange('highlightTeam', e.target.value)}
-              >
-                  <option value="">Nessuna</option>
-                  {data.ranking && data.ranking.map((t, i) => (
-                      <option key={t.id || i} value={t.name}>{t.name}</option>
-                  ))}
-              </select>
-            </div>
-          </div>
+        <div className="space-y-4">
+            <ControlSection title="Parametri Classifica" icon={ListOrdered}>
+                <div className="flex gap-3 not-italic -mt-1">
+                    <Input 
+                        label="Stagione"
+                        value={data.season || ''} 
+                        onChange={(e) => onChange('season', e.target.value)} 
+                        placeholder="2025/26"
+                    />
+                    <Select 
+                        label="Evidenzia Squadra"
+                        value={data.highlightTeam}
+                        onChange={(e) => onChange('highlightTeam', e.target.value)}
+                    >
+                        <option value="">Nessuna</option>
+                        {data.ranking && data.ranking.map((t, i) => (
+                            <option key={t.id || i} value={t.name}>{t.name}</option>
+                        ))}
+                    </Select>
+                </div>
+            </ControlSection>
+
+            <ControlSection 
+               title="Importazione Dati" 
+               icon={FileText}
+               extra={hasSync && (
+                   <button 
+                       onClick={handleSync}
+                       disabled={loading}
+                       className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                           loading ? 'bg-white/10 text-white/30 cursor-not-allowed' : 'bg-white/20 text-white hover:bg-white/30 active:scale-95'
+                       }`}
+                   >
+                       <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+                       {loading ? 'Sincronizzazione...' : 'Sincronizza Web'}
+                   </button>
+               )}
+            >
+                <div className="mt-2">
+                    <TextArea 
+                        label={`Classifica Manuale (Nome ${formatLabels})`}
+                        value={data.manualText || ''}
+                        onChange={(e) => handleManualChange(e.target.value)}
+                        placeholder={`Inserisci dati... es: Team ${formatPlaceholders}`}
+                        rows={6}
+                        className="font-mono text-xs leading-relaxed"
+                    />
+                    <p className="text-[10px] opacity-40 mt-2 italic px-1">
+                        Incolla il testo direttamente dal sito dei risultati. Il parser riconoscerà automaticamente le colonne.
+                    </p>
+                </div>
+            </ControlSection>
         </div>
     );
 };

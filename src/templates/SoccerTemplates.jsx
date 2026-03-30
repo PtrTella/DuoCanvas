@@ -4,8 +4,9 @@ import { createLineupTemplate } from './factories/LineupTemplate';
 import { createRankingTemplate } from './factories/RankingTemplate';
 import { GoalTimeline, GoalTimelineControls } from '../components/blocks/GoalTimeline';
 import { SoccerFormation as FormationBlock, SoccerFormationControls } from '../components/blocks/SoccerFormation';
-import { TeamsRanking } from '../components/blocks/TeamsRanking';
+import { TeamsRanking, TeamsRankingControls } from '../components/blocks/TeamsRanking';
 import { createSport } from '../utils/template-builder';
+import { SoccerTemplate } from '../config/sports/SoccerTemplate';
 
 const defineSoccer = createSport('soccer');
 
@@ -36,7 +37,9 @@ export const SoccerRanking = defineSoccer(createRankingTemplate, {
   id: 'ranking',
   name: 'Classifica Calcio',
   icon: ListOrdered,
-  showDraws: true, 
-  showAverages: false,
-  RenderBlock: TeamsRanking
+  rankingFormat: SoccerTemplate.ranking,
+  rankingBlock: {
+    Render: TeamsRanking,
+    Controls: TeamsRankingControls
+  }
 });

@@ -2,6 +2,8 @@ import React from 'react';
 import TeamDisplay from '../ui/TeamDisplay';
 import { Trophy } from 'lucide-react';
 import TeamControls from '../editor/TeamControls';
+import ControlSection from '../ui/ControlSection';
+import { Input } from '../ui/EditorFields';
 
 // --- LAYOUT ---
 export const MatchScore = ({ data, theme, className = "", children }) => {
@@ -60,39 +62,31 @@ export const MatchScoreControls = ({ data, onChange }) => {
   };
 
   return (
-    <div className="space-y-1">
+    <>
       {/* 1. Teams & Logos included here */}
       <TeamControls data={data} onChange={onChange} onSwap={handleScoreSwap} />
 
       {/* 2. Score Specific Controls */}
-      <div className="py-4 border-b border-gray-100 italic">
-        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2 not-italic">
-          <Trophy size={14} className="text-gray-300" />
-          Punteggio Match
-        </h3>
-        <div className="grid grid-cols-2 gap-4 not-italic">
-          <div className="relative">
-            <span className="absolute -top-2 left-3 px-1 bg-white text-[9px] font-bold text-gray-400 uppercase tracking-tighter z-10">Casa</span>
-            <input
-              type="number"
-              value={data.homeScore}
-              onChange={(e) => onChange('homeScore', e.target.value)}
-              className="w-full p-3 text-center text-3xl font-black bg-gray-50 border-2 border-transparent focus:bg-white focus:border-gray-900 rounded-2xl transition-all"
-              placeholder="0"
-            />
-          </div>
-          <div className="relative">
-            <span className="absolute -top-2 left-3 px-1 bg-white text-[9px] font-bold text-gray-400 uppercase tracking-tighter z-10">Ospiti</span>
-            <input
-              type="number"
-              value={data.awayScore}
-              onChange={(e) => onChange('awayScore', e.target.value)}
-              className="w-full p-3 text-center text-3xl font-black bg-gray-50 border-2 border-transparent focus:bg-white focus:border-gray-900 rounded-2xl transition-all"
-              placeholder="0"
-            />
-          </div>
+      <ControlSection title="Punteggio Match" icon={Trophy}>
+        <div className="flex gap-4 not-italic -mt-1">
+          <Input 
+            label="Casa"
+            type="number"
+            value={data.homeScore}
+            onChange={(e) => onChange('homeScore', e.target.value)}
+            className="text-center text-4xl p-4 h-24"
+            placeholder="0"
+          />
+          <Input 
+            label="Ospiti"
+            type="number"
+            value={data.awayScore}
+            onChange={(e) => onChange('awayScore', e.target.value)}
+            className="text-center text-4xl p-4 h-24"
+            placeholder="0"
+          />
         </div>
-      </div>
-    </div>
+      </ControlSection>
+    </>
   );
 };

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Star } from 'lucide-react';
+import { Star, Trophy } from 'lucide-react';
+import ControlSection from '../ui/ControlSection';
+import { Input } from '../ui/EditorFields';
 
 /**
  * BasketMatchExtra - Renders extra info for basket match results.
@@ -104,47 +106,34 @@ export const BasketMatchExtra = ({ data, theme }) => {
 
 export const BasketMatchExtraControls = ({ data, onChange }) => {
   return (
-    <div className="py-4 border-b border-gray-100 italic">
-      <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2 not-italic">
-        <Star size={14} className="text-gray-300" />
-        Dettagli Risultato
-      </h3>
-      
-      <div className="space-y-4 not-italic">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1">
-            <label className="text-[10px] font-bold text-gray-500 uppercase mb-1.5 block">Parziali Casa</label>
-            <input 
-              type="text" 
-              className="w-full p-3 text-xs bg-gray-50 border rounded-xl focus:bg-white focus:border-gray-900 transition-all outline-none font-mono"
-              placeholder="15-20-10-25"
-              value={data.homePartials || ''} 
-              onChange={(e) => onChange('homePartials', e.target.value)}
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="text-[10px] font-bold text-gray-500 uppercase mb-1.5 block">Parziali Ospiti</label>
-            <input 
-              type="text" 
-              className="w-full p-3 text-xs bg-gray-50 border rounded-xl focus:bg-white focus:border-gray-900 transition-all outline-none font-mono"
-              placeholder="12-18-15-20"
-              value={data.awayPartials || ''} 
-              onChange={(e) => onChange('awayPartials', e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="text-[10px] font-bold text-gray-500 uppercase mb-1.5 block">MVP / Top Scorer</label>
-          <input 
-            type="text" 
-            className="w-full p-3 text-xs bg-gray-50 border rounded-xl focus:bg-white focus:border-gray-900 transition-all outline-none"
-            placeholder="Esempio: Tellarini (24 pt)"
-            value={data.topScorer || ''} 
-            onChange={(e) => onChange('topScorer', e.target.value)}
+    <ControlSection title="Dettagli Basket" icon={Star}>
+      <div className="space-y-4 not-italic -mt-1">
+        <div className="flex gap-3">
+          <Input 
+            label="Parziali Casa"
+            placeholder="15-20-10-25"
+            className="font-mono"
+            value={data.homePartials || ''} 
+            onChange={(e) => onChange('homePartials', e.target.value)}
+          />
+          <Input 
+            label="Parziali Ospiti"
+            placeholder="12-18-15-20"
+            className="font-mono text-right"
+            labelClassName="text-right mr-1"
+            value={data.awayPartials || ''} 
+            onChange={(e) => onChange('awayPartials', e.target.value)}
           />
         </div>
+
+        <Input 
+          label="MVP / Top Scorer"
+          icon={Trophy}
+          placeholder="Esempio: Tellarini (24 pt)"
+          value={data.topScorer || ''} 
+          onChange={(e) => onChange('topScorer', e.target.value)}
+        />
       </div>
-    </div>
+    </ControlSection>
   );
 };

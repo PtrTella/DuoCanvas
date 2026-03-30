@@ -1,13 +1,14 @@
 import React from 'react';
-import { RefreshCw } from 'lucide-react';
 import BaseCard from '../../components/ui/BaseCard';
 import { MatchInfo, MatchInfoControls } from '../../components/blocks/MatchInfo';
 import { TeamsRanking, TeamsRankingControls } from '../../components/blocks/TeamsRanking';
-import { parseManualRanking } from '../../utils/rankingUtils';
-import { GLOBAL_DEFAULTS } from '../../config';
 
 export const createRankingTemplate = (config = {}) => {
-  const { showDraws, showAverages, RenderBlock = TeamsRanking } = config;
+  const { 
+    rankingFormat, 
+    rankingBlock = { Render: TeamsRanking, Controls: TeamsRankingControls }
+  } = config;
+  
   const baseDefaults = {
     ...config.defaultData
   };
@@ -15,6 +16,10 @@ export const createRankingTemplate = (config = {}) => {
   return {
     defaultData: baseDefaults,
     Render: ({ data, theme, cardRef }) => {
+      // Specific Template Defaults merged with Sport Defaults
+      const showDraws = data.showDraws ?? rankingFormat?.showDraws ?? true;
+      const showAverages = data.showAverages ?? rankingFormat?.showAverages ?? false;
+
       return (
         <BaseCard theme={theme} ref={cardRef}>
           <div className="flex flex-col h-full w-full relative z-10 gap-2">
@@ -24,14 +29,16 @@ export const createRankingTemplate = (config = {}) => {
               /> 
 
             <div className="flex-1 w-full relative px-6 pb-6 pt-0">
-               {/* Use the Configured Render Block */}
-               <RenderBlock 
-                  data={data} 
-                  theme={theme}
-                  showDraws={showDraws}
-                  showStats={data.showStats ?? true}
-                  showAverages={data.showAverages ?? showAverages}
-               />
+               {rankingBlock?.Render && (
+                 <rankingBlock.Render 
+                    data={data} 
+                    theme={theme}
+                    rankingFormat={rankingFormat}
+                    showDraws={showDraws}
+                    showStats={data.showStats ?? true}
+                    showAverages={showAverages}
+                 />
+               )}
             </div>
           </div>
         </BaseCard>
@@ -39,93 +46,19 @@ export const createRankingTemplate = (config = {}) => {
     },
 
     Controls: ({ data, onChange }) => {
-      // rankingSync now expects just the hook function or null
-      const useRankingHook = data.rankingSync;
-      const hasSync = typeof useRankingHook === 'function';
-
-      // Eseguiamo l'hook solo se esiste
-      const rankingState = hasSync ? useRankingHook() : { classifica: [], loading: false, refresh: () => {} };
-      const { classifica: syncData, loading, refresh } = rankingState;
-
-      const handleSync = () => {
-        refresh(); // Ricarica dati dal web
-        if (syncData && syncData.length > 0) {
-          onChange('ranking', syncData);
-          onChange('isManual', false);
-        }
-      };
-
-      const handleManualChange = (val) => {
-        onChange('manualText', val);
-        const parsed = parseManualRanking(val, { 
-          showDraws: options.showDraws
-        });
-        
-        // Extract only the ranking array from the parser results
-        onChange('ranking', parsed.ranking);
-        
-        // Auto-update toggles based on detected columns in text
-        onChange('showStats', parsed.hasStats);
-        onChange('showAverages', parsed.hasAverages);
-      };
-
       return (
-        <div className="space-y-1 animate-in fade-in">
-          {/* Standardized Header Controls */}
-          <MatchInfoControls data={data} onChange={onChange} />
+        <div className="animate-in fade-in space-y-4">
+           {/* Standardized Header Controls */}
+           <MatchInfoControls data={data} onChange={onChange} />
 
-          {/* Ranking Specific Parameters */}
-          <TeamsRankingControls data={data} onChange={onChange} />
-
-          {/* Sync / Manual Toggle Block */}
-          <div className="py-5 border-b border-gray-100 italic">
-             {hasSync ? (
-               <>
-                <div className="flex items-center justify-between mb-4 not-italic">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Origine Dati</span>
-                    <button 
-                      onClick={() => onChange('isManual', !data.isManual)}
-                      className="text-[10px] font-black uppercase text-gray-900 border-b-2 border-gray-900"
-                    >
-                      {data.isManual ? 'Usa Dati Automatici' : 'Inserimento Manuale'}
-                    </button>
-                </div>
-
-                {!data.isManual ? (
-                    <button 
-                      onClick={handleSync}
-                      disabled={loading}
-                      className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center gap-3 text-gray-900 hover:bg-white hover:shadow-md transition-all font-bold text-xs not-italic"
-                    >
-                      <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-                      {loading ? 'Sincronizzazione...' : 'Sincronizza Classifica'}
-                    </button>
-                ) : (
-                    <div className="not-italic space-y-2">
-                      <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter text-gray-400">Inserimento Manuale (Nome PT G V P S GF GS)</label>
-                      <textarea 
-                          className="w-full h-32 p-4 text-[11px] font-mono bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-2xl transition-all"
-                          placeholder={`${GLOBAL_DEFAULTS.homeTeam} 24 10 8 0 2 34 12...`}
-                          value={data.manualText || ''}
-                          onChange={(e) => handleManualChange(e.target.value)}
-                      />
-                    </div>
-                )}
-               </>
-             ) : (
-               /* Solo Manuale se Sync non abilitato */
-               <div className="not-italic space-y-2">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-4">Dati Classifica</span>
-                  <label className="text-[10px] font-bold text-gray-400 uppercase block ml-1 tracking-tighter text-gray-400">Inserimento Manuale (Nome PT G V P S GF GS)</label>
-                  <textarea 
-                      className="w-full h-32 p-4 text-[11px] font-mono bg-gray-50 border-transparent focus:bg-white focus:border-gray-900 border rounded-2xl transition-all"
-                      placeholder={`${GLOBAL_DEFAULTS.homeTeam} 24 10 8 0 2 34 12...`}
-                      value={data.manualText || ''}
-                      onChange={(e) => handleManualChange(e.target.value)}
-                  />
-               </div>
-             )}
-          </div>
+           {/* Configured Ranking Block Controls */}
+           {rankingBlock?.Controls && (
+             <rankingBlock.Controls 
+                data={data} 
+                onChange={onChange}
+                rankingFormat={rankingFormat}
+              />
+           )}
         </div>
       );
     }

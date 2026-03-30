@@ -1,5 +1,7 @@
 import React from 'react';
-import { Layout, Users, ClipboardList } from 'lucide-react';
+import { Layout, Users, ClipboardList, Info } from 'lucide-react';
+import ControlSection from '../ui/ControlSection';
+import { Input, TextArea, InfoBox } from '../ui/EditorFields';
 
 // --- CONFIGURAZIONE MODULI CALCIO A 7 ---
 const FORMATIONS_7V7 = {
@@ -206,31 +208,16 @@ export const SoccerFormation = ({ data, theme, className = "" }) => {
 
 // --- CONTROLS ---
 
-const ControlSection = ({ title, icon: Icon, children, description, className = "not-italic mb-4" }) => (
-    <div className={className}>
-        <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-            {Icon && <Icon size={14} className="text-gray-300" />}
-            {title}
-        </h3>
-        {description && (
-            <p className="text-[10px] text-gray-400 mb-3 italic bg-gray-50 p-2 rounded-lg border border-gray-100">
-                {description}
-            </p>
-        )}
-        {children}
-    </div>
-);
-
 export const SoccerFormationControls = ({ data, onChange }) => (
-  <div className="py-4 border-b border-gray-100 last:border-0 italic">
+  <div className="space-y-1">
      
      <ControlSection title="Schema Tattico" icon={Layout}>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-2 -mt-1">
             {Object.keys(FORMATIONS_7V7).map(mod => (
                 <button 
                     key={mod}
                     onClick={() => onChange('module', mod)}
-                    className={`p-2 text-xs font-bold rounded-xl border-2 transition-all ${data.module === mod ? 'bg-gray-900 text-white border-gray-900 shadow-lg scale-105' : 'bg-white text-gray-500 border-gray-100 hover:border-gray-200'}`}
+                    className={`h-11 text-sm font-black rounded-xl border-2 transition-all ${data.module === mod ? 'bg-gray-950 text-white border-gray-950 shadow-lg scale-105' : 'bg-gray-50 text-gray-400 border-transparent hover:border-gray-200'}`}
                 >
                     {mod}
                 </button>
@@ -238,26 +225,23 @@ export const SoccerFormationControls = ({ data, onChange }) => (
         </div>
      </ControlSection>
 
-     <ControlSection 
-        title="Rosa Convocati" 
-        icon={Users}
-        description={<>I <span className="font-bold text-gray-600">primi 7</span> in lista appariranno in campo come titolari.</>}
-     >
-        <textarea 
+     <ControlSection title="Rosa Convocati" icon={Users}>
+        <InfoBox icon={Info}>
+          I <span className="font-bold uppercase tracking-wider">primi 7</span> in lista appariranno in campo come titolari.
+        </InfoBox>
+        <TextArea 
             value={data.teamFormation || ''} 
             onChange={(e) => onChange('teamFormation', e.target.value)} 
-            className="w-full p-3 bg-gray-50/50 border rounded-2xl text-xs font-mono h-48 resize-none focus:bg-white focus:border-gray-900 transition-all outline-none leading-relaxed"
             placeholder={"1 Voda\n4 Gentilini\n..."}
         />
      </ControlSection>
      
-     <ControlSection title="Staff" icon={ClipboardList} className="mt-4 not-italic">
-        <input 
-            type="text" 
+     <ControlSection title="Staff Tecnico" icon={ClipboardList}>
+        <Input 
+            label="Allenatore / Mister"
             value={data.mister || ''} 
             onChange={(e) => onChange('mister', e.target.value)} 
-            className="w-full p-3 bg-gray-50/50 border rounded-xl text-xs transition-all focus:bg-white focus:border-gray-900" 
-            placeholder="Mister / Allenatore" 
+            placeholder="Nome dell'allenatore" 
         />
      </ControlSection>
   </div>

@@ -4,8 +4,9 @@ import { createLineupTemplate } from './factories/LineupTemplate';
 import { createRankingTemplate } from './factories/RankingTemplate';
 import { BasketRoster, BasketRosterControls } from '../components/blocks/BasketRoster';
 import { BasketMatchExtra, BasketMatchExtraControls } from '../components/blocks/BasketMatchExtra';
-import { TeamsRanking } from '../components/blocks/TeamsRanking';
+import { TeamsRanking, TeamsRankingControls } from '../components/blocks/TeamsRanking';
 import { createSport } from '../utils/template-builder';
+import { BasketTemplate } from '../config/sports/BasketTemplate';
 
 const defineBasket = createSport('basket');
 
@@ -36,7 +37,9 @@ export const BasketRanking = defineBasket(createRankingTemplate, {
   id: 'ranking',
   name: 'Classifica Basket',
   icon: ListOrdered,
-  showDraws: false, 
-  showAverages: true,
-  RenderBlock: TeamsRanking
+  rankingFormat: BasketTemplate.ranking,
+  rankingBlock: {
+    Render: TeamsRanking,
+    Controls: TeamsRankingControls
+  }
 });

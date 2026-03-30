@@ -5,9 +5,11 @@
  * - Basket (Usually no draws): Name Pts G V S [AvgPF AvgPS]
  * - Soccer/Standard (With draws): Name Pts G V N P [GF GS]
  */
-export const parseManualRanking = (text, options = { showDraws: false }) => {
+export const parseManualRanking = (text, options = {}) => {
     if (!text) return { ranking: [], hasStats: false, hasAverages: false };
 
+    const { rankingFormat } = options;
+    const columns = rankingFormat?.columns || [];
     const lines = text.split('\n').filter(l => l.trim().length > 0);
     let hasStatsFound = false;
     let hasAveragesFound = false;
@@ -21,7 +23,7 @@ export const parseManualRanking = (text, options = { showDraws: false }) => {
         while (i >= 0) {
             const num = parseFloat(parts[i]);
             if (!isNaN(num)) {
-                numbers.unshift(num);
+                numbers.unshift(num); // unshift builds array from left to right: [Pt, G, V...]
                 i--;
             } else {
                 break; 
@@ -29,7 +31,6 @@ export const parseManualRanking = (text, options = { showDraws: false }) => {
         }
         
         let name = parts.slice(0, i + 1).join(' ');
-        // Remove leading rank if present (e.g. "1. TEAM" or "1 TEAM")
         name = name.replace(/^(\d+)[.)]?\s*/, '');
 
         let stats = {
@@ -37,50 +38,20 @@ export const parseManualRanking = (text, options = { showDraws: false }) => {
             scored: 0, conceded: 0, avgScored: 0, avgConceded: 0
         };
         
-        const n = numbers.length;
-        
-        if (options.showDraws) {
-            // Format: Pt G V N P ...
-            if (n >= 7) {
-                stats.points = numbers[n-7];
-                stats.played = numbers[n-6];
-                stats.won = numbers[n-5];
-                stats.drawn = numbers[n-4];
-                stats.lost = numbers[n-3];
-                stats.avgScored = numbers[n-2];   // GF
-                stats.avgConceded = numbers[n-1]; // GS
-                hasStatsFound = true;
-                hasAveragesFound = true;
-            } else if (n >= 5) {
-                stats.points = numbers[n-5];
-                stats.played = numbers[n-4];
-                stats.won = numbers[n-3];
-                stats.drawn = numbers[n-2];
-                stats.lost = numbers[n-1];
-                hasStatsFound = true;
-            } else if (n >= 1) {
-                stats.points = numbers[n-1];
-            }
-        } else {
-            // Format: Pt G V P ... (No Draws)
-            if (n >= 6) {
-                stats.points = numbers[n-6];
-                stats.played = numbers[n-5];
-                stats.won = numbers[n-4];
-                stats.lost = numbers[n-3];
-                stats.avgScored = numbers[n-2];
-                stats.avgConceded = numbers[n-1];
-                hasStatsFound = true;
-                hasAveragesFound = true;
-            } else if (n >= 4) {
-                stats.points = numbers[n-4];
-                stats.played = numbers[n-3];
-                stats.won = numbers[n-2];
-                stats.lost = numbers[n-1];
-                hasStatsFound = true;
-            } else if (n >= 1) {
-                stats.points = numbers[n-1];
-            }
+        // Map numbers sequentially according to the defined format
+        for (let j = 0; j < columns.length; j++) {
+            if (numbers.length === 0) break;
+            
+            const num = numbers.shift(); // take number from left (e.g. Pt -> G -> V)
+            const field = columns[j];
+            
+            stats[field.key] = num;
+            
+            if (field.key === 'scored') stats.avgScored = num;
+            if (field.key === 'conceded') stats.avgConceded = num;
+            
+            if (field.isStat) hasStatsFound = true;
+            if (field.isAverage) hasAveragesFound = true;
         }
         
         return {
